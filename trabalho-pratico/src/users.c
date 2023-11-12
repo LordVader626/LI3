@@ -3,6 +3,7 @@
 #include <glib.h>
 
 #include "../inc/users.h"
+#include "../inc/parser.h"
 
 /*
 * Struct user

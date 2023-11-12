@@ -7,6 +7,7 @@
 #include "../inc/flights.h"
 #include "../inc/passengers.h"
 #include "../inc/reservations.h"
+#include "../inc/parser.h"
 
 
 int main(int argc, char **argv){
@@ -21,7 +22,17 @@ int main(int argc, char **argv){
         char *files_path = strdup(argv[1]);
         char *data_input = strdup(argv[2]);
 
-        //files parsing
+        GHashTable *users = parse_files_users(files_path);
+        GArray *passengers = parse_files_passengers(files_path);
+
+        //printUserByID(users, "DGarcia429");
+        //printPassanger(passengers);
+
+        free(files_path);
+        free(data_input);
+
+        g_hash_table_destroy(users);
+        g_array_free(passengers, TRUE);
 
     }
     return 0;

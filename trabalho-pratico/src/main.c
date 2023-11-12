@@ -23,17 +23,22 @@ int main(int argc, char **argv){
         char *data_input = strdup(argv[2]);
 
         GHashTable *users = parse_files_users(files_path);
+        GHashTable *flights = parse_files_flights(files_path);
         GArray *passengers = parse_files_passengers(files_path);
+        GHashTable *reservations = parse_files_reservations(files_path);
 
         //printUserByID(users, "DGarcia429");
+        //printFlightrByID(flights, "100");
         //printPassanger(passengers);
+        //printReservationByID(reservations, "Book0000020828");//Book0000024352
 
         free(files_path);
         free(data_input);
 
         g_hash_table_destroy(users);
+        g_hash_table_destroy(flights);
+        g_hash_table_destroy(reservations);
         g_array_free(passengers, TRUE);
-
     }
     return 0;
 }

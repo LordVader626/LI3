@@ -1,10 +1,11 @@
-CFLAGS=-Wall -Iinclude
+CC=gcc
 
-#exemplo
-programa-principal: src/programa-principal.o
-	gcc $(LDFLAGS) src/programa-principal.o -o programa-principal
+CFLAGS=-Wall -Iinclude `pkg-config --cflags glib-2.0`
 
-src/programa-principal.o: src/programa-principal.c
+LDFLAGS=`pkg-config --libs glib-2.0` -lm
+
+main-program: src/main.o src/users.o src/flights.o src/passengers.o src/reservations.o
+	$(CC) $^ $(LDFLAGS) -o main-program
 
 clean:
-	rm -f programa-principal programa-testes src/*.o
+	rm -f main-program src/main.o src/users.o src/flights.o src/passengers.o src/reservations.o

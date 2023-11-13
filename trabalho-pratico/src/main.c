@@ -8,6 +8,8 @@
 #include "../inc/passengers.h"
 #include "../inc/reservations.h"
 #include "../inc/parser.h"
+#include "../inc/handle.h"
+#include "../inc/stats.h"
 
 
 int main(int argc, char **argv){
@@ -24,13 +26,16 @@ int main(int argc, char **argv){
 
         GHashTable *users = parse_files_users(files_path);
         GHashTable *flights = parse_files_flights(files_path);
-        GArray *passengers = parse_files_passengers(files_path);
-        GHashTable *reservations = parse_files_reservations(files_path);
+        STATS *stats = create_stats();
+        GArray *passengers = parse_files_passengers(files_path,stats,users,flights);
+        GHashTable *reservations = parse_files_reservations(files_path, stats, users);
 
         //printUserByID(users, "DGarcia429");
         //printFlightrByID(flights, "100");
         //printPassanger(passengers);
         //printReservationByID(reservations, "Book0000020828");//Book0000024352
+
+        handle(data_input, users, flights, passengers, reservations,stats);
 
         free(files_path);
         free(data_input);
@@ -39,6 +44,8 @@ int main(int argc, char **argv){
         g_hash_table_destroy(flights);
         g_hash_table_destroy(reservations);
         g_array_free(passengers, TRUE);
+        destroy_stats(stats);
+
     }
     return 0;
 }

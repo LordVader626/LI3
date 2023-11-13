@@ -4,7 +4,7 @@
 #include "../inc/flights.h"
 
 struct flight {
-    int id;
+    char *id;
     char *airline;
     char *plane_model;
     int total_seats;
@@ -23,7 +23,7 @@ FLIGHT *new_Flight(char *line){
 
     FLIGHT *f = malloc(sizeof(FLIGHT));
     
-    f->id = atoi(strsep(&line, ";"));
+    f->id = strdup(strsep(&line, ";"));
     f->airline = strdup(strsep(&line, ";"));
     f->plane_model = strdup(strsep(&line, ";"));
     f->total_seats = atoi(strsep(&line, ";"));
@@ -42,9 +42,10 @@ FLIGHT *new_Flight(char *line){
 
 
 char *getID_flight(FLIGHT *f){
-    char *str = malloc(10); //cada id é uma string de 10 caracteres
-    sprintf(str, "%d", f->id);
-    return strdup(str);
+    /*char *str_id = malloc(11);
+    sprintf(str_id, "%012d", f->id);
+    return str_id;*/
+    return strdup(f->id);
 }
 
 char *getAirline(FLIGHT *f) {
@@ -55,10 +56,8 @@ char *getPlaneModel(FLIGHT *f){
     return strdup(f->plane_model);
 }
 
-char *getTotalSeats(FLIGHT *f){
-    char *str = malloc(3);
-    sprintf(str, "%d", f->total_seats);
-    return strdup(str);
+int getTotalSeats(FLIGHT *f){
+    return (f->total_seats);
 }
 
 char *getFlightOrigin(FLIGHT *f){

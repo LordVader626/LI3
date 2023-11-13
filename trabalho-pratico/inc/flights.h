@@ -8,7 +8,7 @@ FLIGHT *new_Flight(char *line);
 char *getID_flight(FLIGHT *f);
 char *getAirline(FLIGHT *f);
 char *getPlaneModel(FLIGHT *f);
-char *getTotalSeats(FLIGHT *f);
+int getTotalSeats(FLIGHT *f);
 char *getFlightOrigin(FLIGHT *f);
 char *getFlightDestination(FLIGHT *f);
 char *getScheduleDepartureDate(FLIGHT *f);

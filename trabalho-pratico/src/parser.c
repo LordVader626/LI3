@@ -8,6 +8,10 @@
 #include "../inc/flights.h"
 #include "../inc/passengers.h"
 #include "../inc/reservations.h"
+#include "../inc/validation.h"
+#include "../inc/stats.h"
+#include "../inc/user_stat.h"
+#include "../inc/flight_stats.h"
 
 GHashTable *parse_files_flights(char *path){
 
@@ -61,7 +65,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
 
     if (file == NULL) {
         printf("Unable to open the file.\n");
-        return NULL;
+        return NULL;  // Return NULL to indicate an error
     }
 
     getline(&line, &len, file);
@@ -71,6 +75,9 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
         PASSENGER *passenger = create_Passenger(line);
 
         g_array_append_val(passengers, passenger);
+
+        create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
+        create_flight_stat(passenger, get_flight_stats(stats), flights);
     }
 
     free(line);
@@ -80,7 +87,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     return passengers;
 }
 
-GHashTable* parse_files_reservations(char *path) {
+GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users) {
 
     char *line = NULL;
     size_t len = 0;
@@ -102,6 +109,8 @@ GHashTable* parse_files_reservations(char *path) {
         RESERVATION *reservation = create_Reservation(line);
 
         g_hash_table_insert(reservations, getID_reservation(reservation), reservation);
+
+        create_user_stat_reservations(reservation, get_user_stats(stats), users);
     }
 
     free(line);
@@ -128,6 +137,7 @@ GHashTable *parse_files_users(char *path){
 
     if (file == NULL) {
         printf("Unable to open the file.\n");
+         // Exit with an error code
     }
 
     //skip ao cabeçalho
@@ -153,6 +163,7 @@ void printReservationByID(GHashTable *reservations, char *id) {
         printf("Reservation ID: %s\n", getID_reservation(res));
         printf("Name: %s\n", getHotelName_reservation(res));
         printf("Stars: %d\n", getHotelStars_reservation(res));
+        // Adicione mais campos conforme necessário
     } else {
         printf("Reservation with ID %s not found.\n", id);
     }
@@ -166,6 +177,7 @@ void printUserByID(GHashTable *users, char *id) {
         printf("Name: %s\n", getName(user));
         printf("Email: %s\n", getEmail(user));
         printf("Phone Number: %s\n", getPhoneNumber(user));
+        // Adicione mais campos conforme necessário
     } else {
         printf("User with ID %s not found.\n", id);
     }
@@ -189,6 +201,7 @@ void printFlightrByID(GHashTable *flights, char *id) {
         printf("Flight ID: %s\n", getID_flight(flight));
         printf("Origin: %s\n", getFlightOrigin(flight));
         printf("Destination: %s\n", getFlightDestination(flight));
+        // Adicione mais campos conforme necessário
     } else {
         printf("Flight with ID %s not found. \n", id);
     }

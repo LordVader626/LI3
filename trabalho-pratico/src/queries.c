@@ -15,6 +15,8 @@
 #include "../inc/stats.h"
 #include "../inc/user_stat.h"
 #include "../inc/flight_stats.h"
+#include "../inc/hotel_stats.h"
+
 
 
 void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats,GHashTable *flight_stats){
@@ -53,7 +55,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
             fprintf(file,"end_date: %s\n",endDate);
             fprintf(file,"includes_breakfast: %s\n",incBreakfast);
             fprintf(file,"nights: %d\n",nights);
-            fprintf(file,"total_price: %.3f\n",totalPrice);
+            fprintf(file,"total_price: %.3f\n\n",totalPrice);
             
             printf("Reservation id %s from query 1 printed\n", idHotel);
         }
@@ -101,7 +103,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
                 fprintf(file,"passaporte: %s\n",passport);
                 fprintf(file,"número_voos: %d\n",numVoos);
                 fprintf(file,"número_reservas: %d\n",numReservas);
-                fprintf(file,"total_gasto: %.3f\n",totalGasto);
+                fprintf(file,"total_gasto: %.3f\n\n",totalGasto);
             } else fprintf(file,"%s;%s;%d;%s;%s;%d;%d;%.3f\n",name,sex,idade,country_code,passport,numVoos,numReservas,totalGasto);
 
             free(account_status);
@@ -140,8 +142,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
             fprintf(file,"partida_est: %s\n",partida_est);
             fprintf(file,"chegada_est: %s\n",chegada_est);
             fprintf(file,"número_passageiros: %d\n",numero_passageiros);
-            fprintf(file,"tempo_atraso: %d\n",tempo_atraso);
-            
+            fprintf(file,"tempo_atraso: %d\n\n",tempo_atraso);
             printf("Flight from query 1 printed\n");
         }
         else {
@@ -203,7 +204,7 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
                     fprintf(file, "id: %s\n", getID_flight(flight));
                     char *data = getScheduleDepartureDate(flight);
                     removeHMS(data);
-                    fprintf(file, "date: %s\n", data);
+                    fprintf(file, "date: %s\n\n", data);
                     free(data);
                     current = g_list_next(current);
                     i++;
@@ -227,7 +228,7 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
                     RESERVATION *reserva = (RESERVATION*)current->data;
                     fprintf(file, "--- %d ---\n", i);
                     fprintf(file, "id: %s\n", getID_reservation(reserva));
-                    fprintf(file, "date: %s\n", getBeginDate_reservation(reserva));
+                    fprintf(file, "date: %s\n\n", getBeginDate_reservation(reserva));
                     current = g_list_next(current);
                     i++;
                 }
@@ -239,5 +240,28 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
     free(type);
     free(aux);
     free(accountStatus);
+    fclose(file);
+}
+
+void query3(GHashTable *reservations,char* linha, int f,char *path, GHashTable *hotel_stats){
+
+    FILE *file = fopen(path, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,linha);
+
+    double avgscore = get_hotel_stat_avgscore(hstat);
+
+    if(f == 1){
+        fprintf(file,"--- 1 ---\n");
+        fprintf(file,"rating: %.3f\n",avgscore);
+    }
+    else {
+        fprintf(file,"%.3f\n",avgscore);
+        printf("Rating from Hotel  from query 3 printed\n");
+    }
     fclose(file);
 }

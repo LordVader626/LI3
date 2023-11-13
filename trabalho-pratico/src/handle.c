@@ -36,13 +36,13 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
                     if (strcmp(query, "2F") == 0) query2(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats));                        
                     else query2 (reservations, users, flights,passengers,line, 0, path, get_user_stats(stats));   
                     break;
-               /*case 3:
+               case 3:
                     if (strcmp(query, "3F") == 0) query3(reservations,line, 1, path, get_hotel_stats(stats));                        
                     else query3(reservations,line, 0, path, get_hotel_stats(stats));
                     break;
                case 4:
-                    if (strcmp(query, "4F")) query4(catalogo,line, 1);                        
-                    else query4 (catalogo, 0);
+               /*     if (strcmp(query, "4F") == 0) query4(line, 1, path, get_hotel_stats(stats));                        
+                    else query4(line, 0, path, get_hotel_stats(stats));
                     break;
                case 5:
                     if (strcmp(query, "5F")) query5(catalogo,line, 1);                        

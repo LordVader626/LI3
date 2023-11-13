@@ -13,6 +13,7 @@
 #include "../inc/handle.h"
 #include "../inc/utils.h"
 #include "../inc/stats.h"
+#include "../inc/user_stat.h"
 #include "../inc/flight_stats.h"
 
 
@@ -21,5 +22,4 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
 }
 
 void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats){
-
 }

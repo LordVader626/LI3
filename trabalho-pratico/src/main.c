@@ -10,6 +10,7 @@
 #include "../inc/parser.h"
 #include "../inc/handle.h"
 #include "../inc/stats.h"
+#include "../inc/user_stat.h"
 
 
 int main(int argc, char **argv){

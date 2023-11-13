@@ -12,7 +12,6 @@
 #include "../inc/user_stat.h"
 #include "../inc/flight_stats.h"
 
-
 GHashTable *parse_files_flights(char *path){
 
     // ou usar func em utils
@@ -111,7 +110,6 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users)
         g_hash_table_insert(reservations, getID_reservation(reservation), reservation);
 
         create_user_stat_reservations(reservation, get_user_stats(stats), users);
-        create_hotel_stats(reservation, get_hotel_stats(stats));
     }
 
     free(line);

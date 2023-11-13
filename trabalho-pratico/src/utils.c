@@ -28,6 +28,7 @@ int get_Nights (RESERVATION *res) {
     
     int noites = atoi(strsep(&enddate,"/n")) - atoi(strsep(&begindate,"/n"));
 
+
     free(begindate);
     free(enddate);
     return noites;

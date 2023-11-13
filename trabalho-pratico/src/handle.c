@@ -36,9 +36,9 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
                     if (strcmp(query, "2F") == 0) query2(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats));                        
                     else query2 (reservations, users, flights,passengers,line, 0, path, get_user_stats(stats));   
                     break;
-             /*  case 3:
-                    if (strcmp(query, "3F")) query3(catalogo,line, 1);                        
-                    else query3(catalogo, 0);
+               /*case 3:
+                    if (strcmp(query, "3F") == 0) query3(reservations,line, 1, path, get_hotel_stats(stats));                        
+                    else query3(reservations,line, 0, path, get_hotel_stats(stats));
                     break;
                case 4:
                     if (strcmp(query, "4F")) query4(catalogo,line, 1);                        

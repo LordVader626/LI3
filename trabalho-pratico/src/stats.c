@@ -23,6 +23,7 @@ GHashTable *get_flight_stats(STATS *s)
     return s->flight_stats;
 }
 
+
 STATS *create_stats()
 {
     STATS *s = malloc(sizeof(STATS));
@@ -32,7 +33,6 @@ STATS *create_stats()
     
     s->user_stats = user_stats;
     s->flight_stats = flight_stats;
-    
 
     return s;
 }

@@ -41,10 +41,10 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
                     else query3(reservations,line, 0, path, get_hotel_stats(stats));
                     break;
                case 4:
-               /*     if (strcmp(query, "4F") == 0) query4(line, 1, path, get_hotel_stats(stats));                        
+                    if (strcmp(query, "4F") == 0) query4(line, 1, path, get_hotel_stats(stats));                        
                     else query4(line, 0, path, get_hotel_stats(stats));
                     break;
-               case 5:
+               /*case 5:
                     if (strcmp(query, "5F")) query5(catalogo,line, 1);                        
                     else query5 (catalogo, 0);
                     break;

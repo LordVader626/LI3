@@ -103,9 +103,6 @@ void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *
 			user_stat->idade = get_Idade(u);
             user_stat->numReservas = 0;
 			user_stat->numVoos = 1;
-			//user_stat->listaVoos = g_array_new(FALSE, TRUE, sizeof(FLIGHT *));
-            //g_array_append_val(user_stat->listaVoos,f);
-			//user_stat->listaReservas = g_array_new(FALSE, TRUE, sizeof(PASSENGER *));
 			user_stat->listaReservas = NULL;
 			user_stat->listaVoos = g_list_append(NULL, f);
 			user_stat->total_gasto = 0;
@@ -143,14 +140,14 @@ void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHash
             user_stat->numReservas = 1;
             user_stat->numVoos = 0;
             user_stat->listaVoos = NULL;
-            user_stat->listaReservas = g_list_append(NULL, r); // Initialize the list correctly
+            user_stat->listaReservas = g_list_append(NULL, r);
             user_stat->total_gasto = getPrecoTotalReserva(r);
             g_hash_table_insert(user_stats, user_stat->username, user_stat);
         }
         else
         {
             ustat->numReservas += 1;
-            ustat->listaReservas = g_list_append(ustat->listaReservas, r); // Append to the existing list
+            ustat->listaReservas = g_list_append(ustat->listaReservas, r);
             ustat->total_gasto += getPrecoTotalReserva(r);
             free(username);
         }

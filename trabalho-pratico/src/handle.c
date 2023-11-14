@@ -8,7 +8,7 @@
 #include "../inc/stats.h"
 
 
-void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *passengers, GHashTable *reservations, STATS *stats) {
+void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *passengers, GHashTable *reservations, STATS *stats, GHashTable *invalid_users) {
      char *line = NULL;
      size_t len;
      ssize_t read;
@@ -19,22 +19,24 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
      if(!file){
           perror("Erro ao abrir input");
      }
-
+     int x = 0;
      for (i = 1; (read = getline(&line, &len, file))!=-1; i++){
           line[read-1] = '\0';
           char *query = strdup(strsep(&line, " "));;
           char *path = malloc(50);
 
           sprintf(path, "Resultados/command%d_output.txt\n", i);          
-
+          x++;
           switch( query[0]-'0'){ 
+          //switch(sscanf(query, "%d", &queryN)){
                case 1:
+                    if(strcmp(query, "10") == 0|| strcmp(query, "10F") == 0) break;
                     if (strcmp(query, "1F") == 0) query1(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats));                        
                     else query1 (reservations, users, flights, passengers, line, 0, path, get_user_stats(stats));
                     break;
                case 2:
-                    if (strcmp(query, "2F") == 0) query2(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats));                        
-                    else query2 (reservations, users, flights,passengers,line, 0, path, get_user_stats(stats));   
+                    if (strcmp(query, "2F") == 0) query2(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats), invalid_users);                        
+                    else query2 (reservations, users, flights,passengers,line, 0, path, get_user_stats(stats), invalid_users);   
                     break;
                case 3:
                     if (strcmp(query, "3F") == 0) query3(reservations,line, 1, path, get_hotel_stats(stats));                        
@@ -69,7 +71,9 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
                     else query10(catalogo, 0);
                     break;
                     */
-               }
+          
+          }
+          printf("Query number: %d\n", x);
           free(path);
      }   
     int fclose(FILE* file);

@@ -36,9 +36,6 @@ int main(int argc, char **argv){
         GArray *passengers = parse_files_passengers(files_path,stats,users,flights,invalid_users,invalid_flights);
         GHashTable *reservations = parse_files_reservations(files_path, stats, users, invalid_users);
 
-        g_hash_table_destroy(invalid_flights);
-        g_hash_table_destroy(invalid_users);
-
         //printUserByID(users, "DGarcia429");
         //printFlightrByID(flights, "100");
         //printPassanger(passengers);
@@ -46,7 +43,11 @@ int main(int argc, char **argv){
 
         //validade_files(users);//, flights, reservations, get_flight_stats(stats));
 
-        handle(data_input, users, flights, passengers, reservations, stats);
+        handle(data_input, users, flights, passengers, reservations, stats, invalid_users);
+
+        g_hash_table_destroy(invalid_flights);
+        g_hash_table_destroy(invalid_users);
+
 
         free(files_path);
         free(data_input);

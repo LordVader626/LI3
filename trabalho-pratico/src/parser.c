@@ -48,7 +48,6 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
         if (flight_validation_1phase(flight) == 0){
 
             g_hash_table_insert(flights, getID_flight(flight), flight);
-
         }
         else {
             g_hash_table_insert(invalid_flights, getID_flight(flight), "INVALIDO");
@@ -97,9 +96,9 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
 
         PASSENGER *passenger = create_Passenger(line);
         char *user_id = getID_passenger(passenger);
+
         char *flight_id = get_FlightID_passenger(passenger);
         if(g_hash_table_lookup(invalid_users, user_id) == NULL && g_hash_table_lookup(invalid_flights, flight_id) == NULL){
-
             g_array_append_val(passengers, passenger);
 
             create_user_stat_flights(passenger, get_user_stats(stats), users, flights);

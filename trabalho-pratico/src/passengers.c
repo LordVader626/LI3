@@ -24,3 +24,9 @@ char *get_FlightID_passenger(PASSENGER *p){
 char *getID_passenger(PASSENGER *p){
     return strdup(p->user_id);
 }
+
+void kill_Passenger(PASSENGER *p){
+    free(p->flight_id);
+    free(p->user_id);
+    free(p);
+}

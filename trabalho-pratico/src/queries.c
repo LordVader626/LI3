@@ -19,7 +19,7 @@
 
 
 
-void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats,GHashTable *flight_stats){
+void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats){
     char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -39,7 +39,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
 
         char *idHotel = getHotelID_reservation(res);
         char *hotelName = getHotelName_reservation(res);
-        int hotelStars = getHotelStars_reservation(res);
+        double hotelStars = getHotelStars_reservation(res);
         char *beginDate = getBeginDate_reservation(res);
         char *endDate = getEndDate_reservation(res);
         char *incBreakfast = getIncludesBreakfast_reservation(res);
@@ -50,7 +50,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
             fprintf(file,"--- 1 ---\n");
             fprintf(file,"hotel_id: %s\n",idHotel);
             fprintf(file,"hotel_name: %s\n",hotelName);
-            fprintf(file,"hotel_stars: %d\n",hotelStars);
+            fprintf(file,"hotel_stars: %d\n",(int) hotelStars);
             fprintf(file,"begin_date: %s\n",beginDate);
             fprintf(file,"end_date: %s\n",endDate);
             fprintf(file,"includes_breakfast: %s\n",incBreakfast);
@@ -60,7 +60,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
             printf("Reservation id %s from query 1 printed\n", idHotel);
         }
         else {
-            fprintf(file,"%s;%s;%d;%s;%s;%s;%d;%.3f\n",idHotel,hotelName, hotelStars, beginDate, endDate, incBreakfast, nights, totalPrice);
+            fprintf(file,"%s;%s;%d;%s;%s;%s;%d;%.3f\n",idHotel,hotelName, (int) hotelStars, beginDate, endDate, incBreakfast, nights, totalPrice);
             printf("Reservation id %s from query 1 printed\n", idHotel);
         }
         free(idHotel);
@@ -122,7 +122,6 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
             return;
         }
         
-        FLIGHT_STAT *fs = g_hash_table_lookup(flight_stats,linha);
 
         char *companhia = getAirline(flight);
         char *aviao = getPlaneModel(flight);
@@ -130,7 +129,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         char *destino = getFlightDestination(flight);
         char *partida_est = getScheduleDepartureDate(flight);
         char *chegada_est = getScheduleArrivalDate(flight);
-        int numero_passageiros = get_flight_stat_nPassageiros(fs);
+        int numero_passageiros = passageirosPorVoo(linha ,passengers);
         int tempo_atraso = get_tempo_atraso(flight);
 
         if(f == 1){
@@ -279,25 +278,49 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
     if (f == 0) {
         while (sortedList != NULL){
             RESERVATION *reserva = (RESERVATION*)sortedList->data;
-            fprintf(file, "%s;%s;%s;%s;%d;%.3f\n", getID_reservation(reserva), getBeginDate_reservation(reserva), getEndDate_reservation(reserva), 
-            getUserID_reservartion(reserva), getRating_reservation(reserva), get_Total_Price(reserva));
+            char *idReserva = getID_reservation(reserva);
+            char *beginDate = getBeginDate_reservation(reserva);
+            char *endDate = getEndDate_reservation(reserva);
+            char *user_id = getUserID_reservartion(reserva);
+            double rating = getRating_reservation(reserva);
+            double total_price = get_Total_Price(reserva);
+
+            fprintf(file, "%s;%s;%s;%s;%d;%.3f\n", idReserva, beginDate, endDate, user_id, (int)rating, total_price);
             sortedList = g_list_next(sortedList);
+
+            free(idReserva);
+            free(beginDate);
+            free(endDate);
+            free(user_id);
             }
         printf("Reservation dates from Hotel\n");
     } else {
         guint i = 1;
         while (sortedList != NULL) {
             RESERVATION *reserva = (RESERVATION*)sortedList->data;
+            char *idReserva = getID_reservation(reserva);
+            char *beginDate = getBeginDate_reservation(reserva);
+            char *endDate = getEndDate_reservation(reserva);
+            char *user_id = getUserID_reservartion(reserva);
+            double rating = getRating_reservation(reserva);
+            double total_price = get_Total_Price(reserva);
+
             fprintf(file, "--- %d ---\n", i);
-            fprintf(file, "id: %s\n", getID_reservation(reserva));
-            fprintf(file, "begin_date: %s\n", getBeginDate_reservation(reserva));
-            fprintf(file, "end_date: %s\n", getEndDate_reservation(reserva));
-            fprintf(file, "user_id: %s\n", getUserID_reservartion(reserva));
-            fprintf(file, "rating: %d\n", getRating_reservation(reserva));
-            fprintf(file, "total_price: %.3f\n\n", get_Total_Price(reserva));
+            fprintf(file, "id: %s\n", idReserva);
+            fprintf(file, "begin_date: %s\n", beginDate);
+            fprintf(file, "end_date: %s\n", endDate);
+            fprintf(file, "user_id: %s\n", user_id);
+            fprintf(file, "rating: %d\n", (int)rating);
+            fprintf(file, "total_price: %.3f\n\n", total_price);
             sortedList = g_list_next(sortedList);
             i++;
+
+            free(idReserva);
+            free(beginDate);
+            free(endDate);
+            free(user_id);
         }
         printf("Reservation dates from hotel\n");
     }
+    fclose(file);
 }

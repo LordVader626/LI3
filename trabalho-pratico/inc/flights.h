@@ -5,6 +5,8 @@ typedef struct flight FLIGHT;
 
 FLIGHT *new_Flight(char *line);
 
+void kill_flight(FLIGHT *f);
+
 char *getID_flight(FLIGHT *f);
 char *getAirline(FLIGHT *f);
 char *getPlaneModel(FLIGHT *f);

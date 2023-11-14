@@ -40,7 +40,6 @@ GList *get_hotel_stat_reservasHotel(HOTEL_STAT *h)
 }
 
 
-
 void create_hotel_stats(RESERVATION *r, GHashTable *hotel_stats)
 {
 	char *hotelID = getHotelID_reservation(r);	

@@ -8,17 +8,19 @@
 #include "../inc/flights.h"
 #include "../inc/passengers.h"
 #include "../inc/reservations.h"
+#include "../inc/validation.h"
 #include "../inc/stats.h"
 #include "../inc/user_stat.h"
 #include "../inc/flight_stats.h"
 #include "../inc/hotel_stats.h"
 
-GHashTable *parse_files_flights(char *path){
+GHashTable *parse_files_flights(char *path, STATS *stats){
 
     // ou usar func em utils
     char *path_flights = malloc(sizeof(char) * 70);
     strcpy(path_flights, path);
     strcat(path_flights, "/flights.csv");
+
 
     char *line = NULL;
     size_t len = 0;
@@ -37,12 +39,10 @@ GHashTable *parse_files_flights(char *path){
     while ((getline(&line, &len, file)) != -1){
         FLIGHT *flight = new_Flight(line);
 
-            /*  Falta adicionar a validação do utilizador, 
-            se for validado vai ser dado insert,
-            caso contrario kill_user()*/
-
         g_hash_table_insert(flights, getID_flight(flight), flight);
+        create_airport_stat_flight(flight, get_airport_stats(stats));
     }
+    printf("Flight Validation and Parsing SuccessFull\n");
 
     fclose(file);
     free(line);
@@ -73,13 +73,15 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     while ((getline(&line, &len, file)) != -1) {
 
         PASSENGER *passenger = create_Passenger(line);
+    
 
-        g_array_append_val(passengers, passenger);
+            g_array_append_val(passengers, passenger);
 
-        create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
-        create_flight_stat(passenger, get_flight_stats(stats), flights);
+            create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
+            create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
     }
 
+    printf("Passenger Validation and Parsing Successfull\n");
     free(line);
     free(path_passengers);
     fclose(file);
@@ -103,17 +105,19 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users)
     if (file == NULL) {
         printf("Unable to open the file.\n");
     }
+
     getline(&line, &len, file);
 
     while ((getline(&line, &len, file)) != -1){
         RESERVATION *reservation = create_Reservation(line);
 
         g_hash_table_insert(reservations, getID_reservation(reservation), reservation);
-
         create_user_stat_reservations(reservation, get_user_stats(stats), users);
         create_hotel_stats(reservation, get_hotel_stats(stats));
     }
 
+    
+    printf("Reservation validition and Parsing Sucessfull\n");
     free(line);
     free(path_reservations);
     fclose(file);
@@ -138,7 +142,7 @@ GHashTable *parse_files_users(char *path){
 
     if (file == NULL) {
         printf("Unable to open the file.\n");
-         // Exit with an error code
+         // Exit
     }
 
     //skip ao cabeçalho
@@ -147,16 +151,19 @@ GHashTable *parse_files_users(char *path){
     while ((getline(&line, &len, file)) != -1){
             
         USER *user = create_User(line);
-        g_hash_table_insert(users, getID(user), user);
-    }
 
-    fclose(file); 
+        g_hash_table_insert(users, getID(user), user);
+
+    }
+    printf("User Validation and Parsing Sucessfull\n");
+
+    fclose(file);
     free(line);
     free(path_users);
-
     return users;
 }
 
+/*
 void printReservationByID(GHashTable *reservations, char *id) {
     RESERVATION *res = g_hash_table_lookup(reservations, id);//Book0000020828
 
@@ -206,4 +213,4 @@ void printFlightrByID(GHashTable *flights, char *id) {
     } else {
         printf("Flight with ID %s not found. \n", id);
     }
-}
+}*/

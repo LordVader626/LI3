@@ -11,6 +11,7 @@
 #include "../inc/handle.h"
 #include "../inc/stats.h"
 #include "../inc/user_stat.h"
+#include "../inc/validation.h"
 
 
 int main(int argc, char **argv){
@@ -25,18 +26,24 @@ int main(int argc, char **argv){
         char *files_path = strdup(argv[1]);
         char *data_input = strdup(argv[2]);
 
-        GHashTable *users = parse_files_users(files_path);
-        GHashTable *flights = parse_files_flights(files_path);
         STATS *stats = create_stats();
+
+        GHashTable *users = parse_files_users(files_path);
+        GHashTable *flights = parse_files_flights(files_path, stats);
         GArray *passengers = parse_files_passengers(files_path,stats,users,flights);
         GHashTable *reservations = parse_files_reservations(files_path, stats, users);
+
+        g_hash_table_destroy(invalid_flights);
+        g_hash_table_destroy(invalid_users);
 
         //printUserByID(users, "DGarcia429");
         //printFlightrByID(flights, "100");
         //printPassanger(passengers);
         //printReservationByID(reservations, "Book0000020828");//Book0000024352
 
-        handle(data_input, users, flights, passengers, reservations,stats);
+        //validade_files(users);//, flights, reservations, get_flight_stats(stats));
+
+        handle(data_input, users, flights, passengers, reservations, stats);
 
         free(files_path);
         free(data_input);

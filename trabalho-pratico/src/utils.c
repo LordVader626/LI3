@@ -35,10 +35,11 @@ int get_Nights (RESERVATION *res) {
 }
 
 double get_Total_Price(RESERVATION *res){
-    int preco = getPricePerNight_reservation(res);
+    double preco = getPricePerNight_reservation(res);
     int noites = get_Nights(res);
-    int imposto = getCityTax_reservation(res);
-    return preco*noites+((preco*noites)/100)*imposto;
+    double imposto = getCityTax_reservation(res);
+    double total = preco*noites+((preco*noites)/100)*imposto;
+    return total;
 }
 int getNumVoos(char*username,GArray *passengers){
     int total = 0;
@@ -69,14 +70,15 @@ int get_Idade (USER *user) {
 double getPrecoTotalReserva(RESERVATION *res) {
     char *begindate = strdup(getBeginDate_reservation(res));
     char *enddate = strdup(getEndDate_reservation(res));
-    int preco = getPricePerNight_reservation(res);
-
+    double preco = getPricePerNight_reservation(res);
+    
     char *aux = strsep(&enddate, "/");
     aux = strsep(&begindate, "/");
     aux = strsep(&enddate, "/");
     aux = strsep(&begindate, "/");
 
-    double total = (atoi(strsep(&enddate, "\n")) - atoi(strsep(&begindate, "\n"))) * preco;
+    double total = (strtod(strsep(&enddate, "\n"),NULL) - strtod(strsep(&begindate, "\n"),NULL)) * preco;
+   
     
     free(begindate);
     free(enddate);

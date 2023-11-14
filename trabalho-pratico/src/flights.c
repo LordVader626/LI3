@@ -40,6 +40,22 @@ FLIGHT *new_Flight(char *line){
     return f;
 }
 
+void kill_flight(FLIGHT *f){
+    free(f->id);
+    free(f->airline);
+    free(f->plane_model);
+    free(f->origin);
+    free(f->destination);
+    free(f->schedule_departure_date);
+    free(f->schedule_arrival_date);
+    free(f->real_departure_date);
+    free(f->real_arrival_date);
+    free(f->pilot);
+    free(f->copilot);
+    free(f->notes);
+    free(f);
+}
+
 
 char *getID_flight(FLIGHT *f){
     /*char *str_id = malloc(11);

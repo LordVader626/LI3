@@ -8,15 +8,15 @@ struct reservation{
     char *user_id;
     char *hotel_id;
     char *hotel_name;
-    int hotel_stars;
-    int city_tax;
+    double hotel_stars;
+    double city_tax;
     char *adress;
     char *begin_date;
     char *end_date;
-    int price_per_night;
+    double price_per_night;
     char *includes_breakfast; //usar bool lib ou 1 = TRUE && 0 = FALSE
     char *room_details;
-    int rating;
+    double rating;
     char *comment;
 };
 
@@ -28,17 +28,31 @@ RESERVATION*create_Reservation(char *line){
     r->user_id = strdup(strsep(&line, ";"));
     r->hotel_id = strdup(strsep(&line, ";"));
     r->hotel_name = strdup(strsep(&line, ";"));
-    r->hotel_stars = atoi(strsep(&line, ";"));
-    r->city_tax = atoi(strsep(&line, ";"));
+    r->hotel_stars = strtod(strsep(&line, ";"), NULL);
+    r->city_tax = strtod(strsep(&line, ";"), NULL);
     r->adress = strdup(strsep(&line, ";"));
     r->begin_date = strdup(strsep(&line, ";"));
     r->end_date = strdup(strsep(&line, ";"));
-    r->price_per_night = atoi(strsep(&line, ";"));
+    r->price_per_night = strtod(strsep(&line, ";"), NULL);
     r->includes_breakfast = strdup(strsep(&line, ";"));
     r->room_details = strdup(strsep(&line, ";"));
-    r->rating = atoi(strsep(&line, ";"));
+    r->rating = strtod(strsep(&line, ";"), NULL);
     r->comment = strdup(strsep(&line, "\n"));
     return r;
+}
+
+void kill_reservation(RESERVATION *r){
+    free(r->id);
+    free(r->user_id);
+    free(r->hotel_id);
+    free(r->hotel_name);
+    free(r->adress);
+    free(r->begin_date);
+    free(r->end_date);
+    free(r->includes_breakfast);
+    free(r->room_details);
+    free(r->comment);
+    free(r);
 }
 
 char *getID_reservation(RESERVATION *r){
@@ -57,11 +71,11 @@ char *getHotelName_reservation(RESERVATION *r) {
     return strdup(r->hotel_name);
 }
 
-int getHotelStars_reservation(RESERVATION *r) {
+double getHotelStars_reservation(RESERVATION *r) {
     return r->hotel_stars;
 }
 
-int getCityTax_reservation(RESERVATION *r) {
+double getCityTax_reservation(RESERVATION *r) {
     return r->city_tax;
 }
 
@@ -77,7 +91,7 @@ char *getEndDate_reservation(RESERVATION *r) {
     return strdup(r->end_date);
 }
 
-int getPricePerNight_reservation(RESERVATION *r) {
+double getPricePerNight_reservation(RESERVATION *r) {
     return r->price_per_night;
 }
 
@@ -89,7 +103,7 @@ char *getRoomDetails_reservation(RESERVATION *r) {
     return strdup(r->room_details);
 }
 
-int getRating_reservation(RESERVATION *r) {
+double getRating_reservation(RESERVATION *r) {
     return r->rating;
 }
 

@@ -12,6 +12,5 @@ void print_stats(STATS *s);
 void removeHMS(char *inputString);
 gint compare_flights(gconstpointer a, gconstpointer b);
 gint compare_reservations(gconstpointer a, gconstpointer b);
-int get_tempo_atraso(FLIGHT *flight);
 
 #endif

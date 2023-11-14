@@ -2,7 +2,7 @@
 #define parser_h
 #include "../inc/stats.h"
 
-GHashTable *parse_files_flights(char *path);
+GHashTable *parse_files_flights(char *path, STATS *stats);
 GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHashTable *flights);
 GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users);
 GHashTable *parse_files_users(char *path);

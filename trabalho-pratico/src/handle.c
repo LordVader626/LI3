@@ -29,8 +29,8 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
 
           switch( query[0]-'0'){ 
                case 1:
-                    if (strcmp(query, "1F") == 0) query1(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats), get_flight_stats(stats));                        
-                    else query1 (reservations, users, flights, passengers, line, 0, path, get_user_stats(stats), get_flight_stats(stats));
+                    if (strcmp(query, "1F") == 0) query1(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats));                        
+                    else query1 (reservations, users, flights, passengers, line, 0, path, get_user_stats(stats));
                     break;
                case 2:
                     if (strcmp(query, "2F") == 0) query2(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats));                        

@@ -40,14 +40,12 @@ USER *create_User(char *line){
     u->account_creation = strdup(strsep(&line, ";"));
     u->pay_method = strdup(strsep(&line, ";"));
     u->account_status = strdup(strsep(&line, "\n"));
-    
+
     return u;
 }
 
 // vai apagar utilizador se tiver campo invalido
-/*void kill_user(){
-    USER *u;
-
+void kill_user(USER *u){
     free(u->id);
     free(u->name);
     free(u->email);
@@ -61,7 +59,7 @@ USER *create_User(char *line){
     free(u->pay_method);
     free(u->account_status);
     free(u);
-}*/
+}
 
 char *getID(USER *u){
     return strdup(u->id);

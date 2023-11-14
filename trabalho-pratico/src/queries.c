@@ -16,6 +16,7 @@
 #include "../inc/user_stat.h"
 #include "../inc/flight_stats.h"
 #include "../inc/hotel_stats.h"
+#include "../inc/validation.h"
 
 
 
@@ -169,12 +170,11 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
     char *type = malloc(15); 
 
     sscanf(aux, "%s %s", id, type);
+    printf("%s\n", id);
 
-    if (g_hash_table_lookup(invalid_users, id) == NULL) {
+    if (g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL) {
 
         USER *u = g_hash_table_lookup(users, id);
-
-        printf("%s\n", getID(u));
 
         char *accountStatus = getAccountStatus(u);
 
@@ -236,11 +236,11 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
                     printf("Reservation dates from user %s printed\n", get_user_stat_username(userStat));
                 }
             }
-        else printf("NOT DONE\n");
-        free(accountStatus);
+            else printf("NOT DONE\n");
+            free(accountStatus);
         }
     }
-    else printf("User not active\n");
+    printf("%s\n", id);
     free(type);
     free(id);
     free(aux);

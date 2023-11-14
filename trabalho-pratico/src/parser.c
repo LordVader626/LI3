@@ -13,6 +13,7 @@
 #include "../inc/user_stat.h"
 #include "../inc/flight_stats.h"
 #include "../inc/hotel_stats.h"
+#include "../inc/airport_stats.h"
 
 GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_flights){
 
@@ -48,6 +49,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
         if (flight_validation_1phase(flight) == 0){
 
             g_hash_table_insert(flights, getID_flight(flight), flight);
+            create_airport_stat_flight(flight, get_airport_stats(stats));            
         }
         else {
             g_hash_table_insert(invalid_flights, getID_flight(flight), "INVALIDO");
@@ -102,6 +104,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
             g_array_append_val(passengers, passenger);
 
             create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
+            create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
         }
         else{
             fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));

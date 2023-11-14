@@ -13,7 +13,6 @@
 #include "../inc/user_stat.h"
 #include "../inc/validation.h"
 
-
 int main(int argc, char **argv){
     /*Modo batch em que primeiro Input = o caminho para a pasta onde estão os cheiros de entrada 
     segundo input = caminho para um ficheiro de texto que contém uma lista de comandos (queries) a serem executados*/

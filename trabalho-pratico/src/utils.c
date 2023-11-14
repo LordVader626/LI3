@@ -195,3 +195,25 @@ gint compare_reservations(gconstpointer a, gconstpointer b) {
 
     return result;
 }
+
+char *get_Ano_Voo(FLIGHT *f){
+    char *data_est = getScheduleDepartureDate(f);
+    char *ano = strdup(strsep(&data_est,"/"));
+    return ano;
+}
+void addAtraso(int *arr, int at, int n)
+{
+    int i; 
+    for (i = n - 1; (i >= 0 && arr[i] > at); i--) 
+        arr[i + 1] = arr[i]; 
+  
+    arr[i + 1] = at; 
+}
+int passageirosPorVoo(char * idflight , GArray *passengers){
+    int n = 0;
+    for(guint i = 0; i < passengers->len ;i++) {
+        PASSENGER *p = g_array_index(passengers,PASSENGER*,i);
+       if (strcmp(get_FlightID_passenger(p),idflight)==0) n++;
+    }
+    return n;
+}

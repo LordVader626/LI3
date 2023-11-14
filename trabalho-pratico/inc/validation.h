@@ -8,6 +8,8 @@
 #include "../inc/users.h"
 
 int user_validation(USER *u);
+int flight_validation_1phase(FLIGHT *f);
+int reservation_validation(RESERVATION *r);
 void validade_files(GHashTable *users);//, GHashTable *flights, GHashTable *reservations, GHashTable *flight_stats);
 
 #endif

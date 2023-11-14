@@ -26,12 +26,15 @@ int main(int argc, char **argv){
         char *files_path = strdup(argv[1]);
         char *data_input = strdup(argv[2]);
 
+        GHashTable *invalid_users = g_hash_table_new(g_str_hash, g_str_equal);
+        GHashTable *invalid_flights = g_hash_table_new(g_str_hash, g_str_equal);
+
         STATS *stats = create_stats();
 
-        GHashTable *users = parse_files_users(files_path);
-        GHashTable *flights = parse_files_flights(files_path, stats);
-        GArray *passengers = parse_files_passengers(files_path,stats,users,flights);
-        GHashTable *reservations = parse_files_reservations(files_path, stats, users);
+        GHashTable *users = parse_files_users(files_path, invalid_users);
+        GHashTable *flights = parse_files_flights(files_path, stats, invalid_flights);
+        GArray *passengers = parse_files_passengers(files_path,stats,users,flights,invalid_users,invalid_flights);
+        GHashTable *reservations = parse_files_reservations(files_path, stats, users, invalid_users);
 
         g_hash_table_destroy(invalid_flights);
         g_hash_table_destroy(invalid_users);

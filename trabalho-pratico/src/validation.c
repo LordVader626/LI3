@@ -127,3 +127,190 @@ cleanup:
 
     return valido;
 }
+
+int flight_validation_1phase(FLIGHT *f){
+    //total seats nao pode ser menos que passageiros (countar todos os passageiros com getFlightID e verificar)
+    int valido = 0;
+
+    int year, month, day, hour, minute, second;
+
+    char *id_flight = getID_flight(f);
+    char *airline = getAirline(f);
+    char *plane_model = getPlaneModel(f);
+    char *pilot = getPilot(f);
+    char *copilot = getCopilot(f);
+    int totalSeats = getTotalSeats(f);
+    char *flightOrigin = getFlightOrigin(f);
+    char *flightDestination = getFlightDestination(f);
+    char *schDepDate = getScheduleDepartureDate(f);
+    char *schArrDate = getScheduleArrivalDate(f);
+    char *realDepDate = getRealDepartureDate(f);
+    char *realArrDate = getRealArrivalDate(f);
+
+    //id airlaine plane_model pilot copilot > 0
+    if (strlen(id_flight) < 1) {valido = 1;goto cleanup;}
+    if (strlen(airline) < 1) {valido = 1;goto cleanup;}
+    if (strlen(plane_model) < 1) {valido = 1;goto cleanup;}
+    if (strlen(pilot) < 1) {valido = 1;goto cleanup;}
+    if (strlen(copilot) < 1) {valido = 1;goto cleanup;}
+
+    if ((totalSeats) == 0) {valido = 1;goto cleanup;}
+
+    //aeroportos 3LETRAS
+    if (strlen(flightOrigin) != 3) {valido = 1;goto cleanup;}
+    if (strlen(flightDestination) != 3) {valido = 1;goto cleanup;}
+
+    //4 dates with yyyy/mm/dd and hours/minutes/sec hours 0, 23 min 0,59 sec 0,59
+    if(strlen(schDepDate) != 19) {valido = 1;goto cleanup;}
+    else if (sscanf(schDepDate, "%d/%d/%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) {valido = 1;goto cleanup;}
+    else if (!(year >= 0 && year <= 9999) || !(month >= 0 && month <= 12) || !(day >= 0 && day <= 31) || 
+            !(hour >= 0 && hour <=23) || !(minute >= 0 && minute <= 59) || !(second >= 0 && second <= 59)) {valido = 1;goto cleanup;}
+
+    if(strlen(schArrDate) != 19) {valido = 1;goto cleanup;}
+    else if (sscanf(schArrDate, "%d/%d/%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) {valido = 1;goto cleanup;}
+    else if (!(year >= 0 && year <= 9999) || !(month >= 0 && month <= 12) || !(day >= 0 && day <= 31) || 
+            !(hour >= 0 && hour <=23) || !(minute >= 0 && minute <= 59) || !(second >= 0 && second <= 59)) {valido = 1;goto cleanup;}
+
+    if(strlen(realDepDate) != 19) {valido = 1;goto cleanup;}
+    else if (sscanf(realDepDate, "%d/%d/%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) {valido = 1;goto cleanup;}
+    else if (!(year >= 0 && year <= 9999) || !(month >= 0 && month <= 12) || !(day >= 0 && day <= 31) || 
+            !(hour >= 0 && hour <=23) || !(minute >= 0 && minute <= 59) || !(second >= 0 && second <= 59)) {valido = 1;goto cleanup;}
+
+    if (strlen(realArrDate) != 19) {valido = 1;goto cleanup;}
+    else if (sscanf(realArrDate, "%d/%d/%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) {valido = 1;goto cleanup;}
+    else if (!(year >= 0 && year <= 9999) || !(month >= 0 && month <= 12) || !(day >= 0 && day <= 31) || 
+            !(hour >= 0 && hour <=23) || !(minute >= 0 && minute <= 59) || !(second >= 0 && second <= 59)) {valido = 1;goto cleanup;} 
+    
+    if(compareDates(schDepDate, schArrDate) == 0) {valido = 1;goto cleanup;}
+    if(compareDates(realDepDate, realArrDate) == 0) {valido = 1;goto cleanup;}
+
+cleanup:
+    free(id_flight);
+    free(airline);
+    free(plane_model);
+    free(pilot);
+    free(copilot);
+    free(flightOrigin);
+    free(flightDestination);
+    free(schDepDate);
+    free(schArrDate);
+    free(realDepDate);
+    free(realArrDate);
+
+    return valido;
+}
+
+int reservation_validation(RESERVATION *r){
+    int valido = 0;
+    double hotel_stars, city_tax, price_per_night, rating;
+
+    int beginYear, beginMonth, beginDay;
+    int endYear, endMonth, endDay;
+    //id, user_id, hotel_id, hotel_name, addres > 1
+
+    char *idReservation = getID_reservation(r);;
+    char *userID = getUserID_reservartion(r);
+    char *hotelID = getHotelID_reservation(r);
+    char *hotelName = getHotelName_reservation(r);
+    char *address = getAddress_reservation(r);
+    char *breakfast = getIncludesBreakfast_reservation(r);
+    char *beginDate = getBeginDate_reservation(r);
+    char *endDate = getEndDate_reservation(r);
+    
+    if (strlen(idReservation) < 1) {valido = 1; goto cleanup;}
+    if (strlen(userID) < 1) {valido = 1; goto cleanup;}
+    if (strlen(hotelID) < 1) {valido = 1; goto cleanup;}
+    if (strlen(hotelName) < 1) {valido = 1; goto cleanup;}
+    if (strlen(address) < 1) {valido = 1; goto cleanup;}
+
+    hotel_stars = getHotelStars_reservation(r);
+    if (hotel_stars < 0 || hotel_stars > 5 || hotel_stars != round(hotel_stars)) {valido = 1; goto cleanup;};
+
+    city_tax = getCityTax_reservation(r);
+    
+    if (city_tax <= 0 || city_tax != round(city_tax)) {
+        valido = 1;
+        goto cleanup;
+    }  
+
+    price_per_night = getPricePerNight_reservation(r);
+    if (price_per_night <= 0 || price_per_night != round(price_per_night)) {valido = 1; goto cleanup;}
+
+    rating = getRating_reservation(r);
+    if (rating < 0 || rating > 5 || rating != round(rating)) {valido = 1; goto cleanup;}
+
+    if (beginDate[4] < '/' || beginDate[7] > '/') {
+        valido = 1;
+        goto cleanup;
+    }
+
+    if (endDate[4] < '/' || endDate[7] > '/') {
+        valido = 1;
+        goto cleanup;
+    }
+    
+    // Para valores falsos, “f ”, “false”, “0”, e “” (string vazia); Para valores verdadeiros, “t”, “true”, e “1”.
+    if (!(strcasecmp(breakfast, "f") == 0 || strcasecmp(breakfast, "false") == 0 || strcmp(breakfast, "") == 0 || strcmp(breakfast, "0") == 0 ||
+        strcasecmp(breakfast, "t") == 0 || strcasecmp(breakfast, "true") == 0 || strcasecmp(breakfast, "1") == 0)) {
+        valido = 1;
+        goto cleanup;
+    }
+
+    if(strlen(beginDate) != 10) {valido = 1;goto cleanup;}
+    else if (sscanf(beginDate, "%d/%d/%d", &beginYear, &beginMonth, &beginDay) != 3) {valido = 1;goto cleanup;}
+    else if (!(beginYear >= 0 && beginYear <= 9999) || !(beginMonth >= 0 && beginMonth <= 12) || !(beginDay >= 0 && beginDay <= 31)) {valido = 1;goto cleanup;}
+
+    if(strlen(endDate) != 10) {valido = 1;goto cleanup;}
+    else if (sscanf(endDate, "%d/%d/%d", &endYear, &endMonth, &endDay) != 3) {valido = 1;goto cleanup;}
+    else if (!(endYear >= 0 && endYear <= 9999) || !(endMonth >= 0 && endMonth <= 12) || !(endDay >= 0 && endDay <= 31)) {valido = 1;goto cleanup;}
+
+    if(compareDatesSimple(beginDate, endDate) == 0) {valido = 1;goto cleanup;}
+    
+cleanup:
+    free(idReservation);
+    free(userID);
+    free(hotelID);
+    free(hotelName);
+    free(address);
+    free(breakfast);
+    free(beginDate);
+    free(endDate);
+
+    return valido;
+}
+
+/*void validade_files(GHashTable *users){//, GHashTable *flights, GHashTable *reservations, GHashTable *flight_stats){
+    GArray *invalid_users = g_array_new(FALSE, TRUE, sizeof(USER*));
+    GArray *invalid_flights = g_array_new(FALSE, TRUE, sizeof(FLIGHT*));
+    GArray *invalid_reservations = g_array_new(FALSE, TRUE, sizeof(RESERVATION*));
+
+    GHashTableIter i_users;
+    gpointer key_users, value_users;
+    g_hash_table_iter_init(&i_users, users);
+    while (g_hash_table_iter_next(&i_users, &key_users, &value_users)) {
+        USER *user = (USER*)value_users;
+        if (user_validation(user) == 1) {
+            g_array_append_val(invalid_users, user);
+        }
+    }
+
+    GHashTableIter i_flights;
+    gpointer key_flights, value_flights;
+    g_hash_table_iter_init(&i_flights, flights);
+    while (g_hash_table_iter_next(&i_flights, &key_flights, &value_flights)) {
+        FLIGHT *flight = (FLIGHT*)value_flights;
+        if (flight_validation(flight, g_hash_table_lookup(flight_stats, getID_flight(flight))) == 1) {
+            g_array_append_val(invalid_flights, flight);
+        }
+    }
+
+    GHashTableIter iter_reservations;
+    gpointer key_reservations, value_reservations;
+    g_hash_table_iter_init(&iter_reservations, reservations);
+    while (g_hash_table_iter_next(&iter_reservations, &key_reservations, &value_reservations)){
+        RESERVATION *reservation = (RESERVATION*)value_reservations;
+        if (reservation_validation(reservation) == 1) {
+            g_array_append_val(invalid_reservations, reservation);
+        }
+    }
+}*/

@@ -12,7 +12,6 @@ struct stats
     GHashTable *user_stats;
     GHashTable *flight_stats;
     GHashTable *hotel_stats;
-    GHashTable *airport_stats;
 
 };
 
@@ -29,10 +28,6 @@ GHashTable *get_hotel_stats(STATS *s)
 {
     return s->hotel_stats;
 }
-GHashTable *get_airport_stats(STATS *s)
-{
-    return s->airport_stats;
-}
 
 STATS *create_stats()
 {
@@ -41,12 +36,10 @@ STATS *create_stats()
     GHashTable *user_stats = g_hash_table_new(g_str_hash, g_str_equal);
     GHashTable *flight_stats = g_hash_table_new(g_str_hash, g_str_equal);
     GHashTable *hotel_stats = g_hash_table_new(g_str_hash, g_str_equal);
-    GHashTable *airport_stats = g_hash_table_new(g_str_hash, g_str_equal);
     
     s->user_stats = user_stats;
     s->flight_stats = flight_stats;
     s->hotel_stats = hotel_stats;
-    s->airport_stats = airport_stats;
 
     return s;
 }

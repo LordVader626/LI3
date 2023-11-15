@@ -15,6 +15,24 @@ struct a_stat{
     //mediana = atrasosVoos[(n+1)/2];
 };
 
+void kill_airportStat(void *airportStat){
+    AIRPORT_STAT *as = airportStat;
+
+    free(as->airportid);
+    
+    g_array_free(as->atrasosVoos, TRUE);
+
+    /*while (as->listaVoos != NULL) {
+        FLIGHT *flight = (FLIGHT *)as->listaVoos->data;
+
+        kill_flight(flight);
+
+        as->listaVoos = g_list_delete_link(as->listaVoos, as->listaVoos);
+    }*/
+
+    free(as);
+}
+
 // FUNÇÕES GET
 
 char *get_airport_stat_id(AIRPORT_STAT *a)
@@ -42,7 +60,7 @@ GList *get_airport_stat_listaVoos(AIRPORT_STAT *a)
 void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
     char *flightID = getID_flight(f);
     char *airportID = getFlightOrigin(f);
-    int ano = atoi(get_Ano_Voo(f));
+    int ano = get_Ano_Voo(f);
     int atraso = get_tempo_atraso(f);
     
     AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats, airportID);
@@ -65,7 +83,6 @@ void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
         astat->listaVoos = g_list_append(astat->listaVoos, f);
         free(airportID);
     }
-
     free(flightID);
 }
 
@@ -73,14 +90,12 @@ void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats,GHash
     char *flightID = get_FlightID_passenger(p);
     FLIGHT *f = g_hash_table_lookup(flights,flightID);
     char *airportID = getFlightOrigin(f);
-    int ano = atoi(get_Ano_Voo(f));
+    int ano = get_Ano_Voo(f);
 
     AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats, airportID);
-
         
     astat->nPassageirosAno[2023 - ano] += 1;
-        
+    
     free(airportID);
     free(flightID);
-
 }

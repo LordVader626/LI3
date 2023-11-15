@@ -18,6 +18,9 @@ GList *get_airport_stat_listaVoos(AIRPORT_STAT *a);
 
 
 void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) ;
-void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats,GHashTable *flights) ;
+void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats,GHashTable *flights);
+
+void kill_airportStat(void *airportStat);
+
 
 #endif

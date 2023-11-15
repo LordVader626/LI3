@@ -18,6 +18,14 @@ struct stat{
 	double total_gasto;
 };
 
+void kill_userStat(void *userStat){
+	USER_STAT *us = userStat;
+	free(us->username);
+	free(us->nome);
+	free(us->gender);
+	free(us);
+}
+
 // FUNÇÕES GET
 
 char *get_user_stat_username(USER_STAT *s)
@@ -63,21 +71,6 @@ double get_user_stat_totalGasto(USER_STAT *s)
 {
 	return s->total_gasto;
 }
-
-/*
-void destroy_user_stat(void *v)
-{
-	USER_STAT *s = v;
-
-	free(s->username);
-	free(s->user_name);
-	free(s->gender);
-	free(s->most_recent_trip);
-	free(s);
-}
-*/
-
-
 
 void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *users, GHashTable *flights)
 {
@@ -141,14 +134,14 @@ void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHash
             user_stat->numVoos = 0;
             user_stat->listaVoos = NULL;
             user_stat->listaReservas = g_list_append(NULL, r);
-            user_stat->total_gasto = getPrecoTotalReserva(r);
+            user_stat->total_gasto = get_Total_Price(r);
             g_hash_table_insert(user_stats, user_stat->username, user_stat);
         }
         else
         {
             ustat->numReservas += 1;
             ustat->listaReservas = g_list_append(ustat->listaReservas, r);
-            ustat->total_gasto += getPrecoTotalReserva(r);
+            ustat->total_gasto += get_Total_Price(r);
             free(username);
         }
     }

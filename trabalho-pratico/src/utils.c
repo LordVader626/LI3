@@ -18,16 +18,22 @@
 #define TODAY "2023/10/01"
 
 int get_Nights (RESERVATION *res) {
-    char *begindate = strdup(getBeginDate_reservation(res));
-    char *enddate = strdup(getEndDate_reservation(res));
+    char *begindate = getBeginDate_reservation(res);
+    char *enddate = getEndDate_reservation(res);
 
-    char *aux = strsep(&enddate, "/");
+    int year1,month1,day1, year2,month2,day2;
+
+    sscanf(enddate,"%d/%d/%d", &year2, &month2, &day2);
+    sscanf(begindate, "%d/%d/%d", &year1, &month1, &day1);
+
+    /*char *aux = strsep(&enddate, "/");
     aux = strsep(&begindate, "/");
     aux = strsep(&enddate, "/");
-    aux = strsep(&begindate, "/");
+    aux = strsep(&begindate, "/");*/
     
-    int noites = atoi(strsep(&enddate,"/n")) - atoi(strsep(&begindate,"/n"));
+    //int noites = atoi(strsep(&enddate,"/n")) - atoi(strsep(&begindate,"/n"));
 
+    int noites = day2 - day1;
 
     free(begindate);
     free(enddate);
@@ -47,7 +53,9 @@ int getNumVoos(char*username,GArray *passengers){
     guint i;
     for (i = 0; i < passengers->len; i++) {
         p = g_array_index(passengers, PASSENGER*, i);
-        if (strcmp(getID_passenger(p),username) == 0) total++;
+        char* id_Passenger = getID_passenger(p);
+        if (strcmp(id_Passenger,username) == 0) total++;
+        free(id_Passenger);
     }
         free(p);
 
@@ -56,39 +64,23 @@ int getNumVoos(char*username,GArray *passengers){
 
 int get_Idade (USER *user) {
     char * birthdate = getBirthDate(user);
-    int ano = atoi(strsep(&birthdate,"/"));
-    int mes = atoi(strsep(&birthdate,"/"));
-    int dia = atoi(strsep(&birthdate,"\n"));
 
-    int idade ;
+    int idade, ano, mes, dia;
+    
+    sscanf(birthdate, "%d/%d/%d", &ano, &mes, &dia);
+    
     if (mes<10) idade = 2023 - ano;
     else if (mes== 10 && dia >= 1) idade = 2023-ano;
     else idade = 2023-ano-1;
+
+    free(birthdate);
+
     return idade;
 }
-
-double getPrecoTotalReserva(RESERVATION *res) {
-    char *begindate = strdup(getBeginDate_reservation(res));
-    char *enddate = strdup(getEndDate_reservation(res));
-    double preco = getPricePerNight_reservation(res);
-    
-    char *aux = strsep(&enddate, "/");
-    aux = strsep(&begindate, "/");
-    aux = strsep(&enddate, "/");
-    aux = strsep(&begindate, "/");
-
-    double total = (strtod(strsep(&enddate, "\n"),NULL) - strtod(strsep(&begindate, "\n"),NULL)) * preco;
-   
-    
-    free(begindate);
-    free(enddate);
-
-    return total;
-}
-
+/*
 int get_tempo_atraso(FLIGHT *flight){
-    char * tp_est = strdup(getScheduleDepartureDate(flight));
-    char * tp_rl = strdup(getRealDepartureDate(flight));
+    char *tp_est = getScheduleDepartureDate(flight);
+    char *tp_rl = getRealDepartureDate(flight);
 
     char * aux = strsep(&tp_est, " ");
     aux = strsep(&tp_rl, " ");
@@ -104,6 +96,25 @@ int get_tempo_atraso(FLIGHT *flight){
 
     free(tp_est);
     free(tp_rl);
+    return total;
+}*/
+
+int get_tempo_atraso(FLIGHT *flight) {
+    char *tp_est = getScheduleDepartureDate(flight);
+    char *tp_rl = getRealDepartureDate(flight);
+
+    int horaEST, minutoEST, secEST;
+    int horaRL, minutoRL, secRL;
+
+    sscanf(tp_est, "%*d/%*d/%*d %d:%d:%d", &horaEST, &minutoEST, &secEST);
+
+    sscanf(tp_rl, "%*d/%*d/%*d %d:%d:%d", &horaRL, &minutoRL, &secRL);
+
+    int total = (horaRL - horaEST) * 3600 + (minutoRL - minutoEST) * 60 + (secRL - secEST);
+
+    free(tp_est);
+    free(tp_rl);
+
     return total;
 }
 
@@ -146,8 +157,14 @@ gint compare_flights(gconstpointer a, gconstpointer b) {
         return day2 - day1;
     }
 
-    gint result = atoi(getID_flight(f1)) - atoi(getID_flight(f2));
+    char *id_flight1 = getID_flight(f1);
+    char *id_flight2 = getID_flight(f2);
 
+
+    gint result = atoi(id_flight1) - atoi(id_flight2);
+
+    free(id_flight1);
+    free(id_flight2);
     free(date1);
     free(date2);
 
@@ -173,16 +190,22 @@ gint compare_reservations(gconstpointer a, gconstpointer b) {
     sscanf(date2, "%d/%d/%d", &year2, &month2, &day2);
 
     if (year1 != year2) {
+        free(id1);
+        free(id2);
         free(date1);
         free(date2);
         return year2 - year1;
     }
     if (month1 != month2) {
+        free(id1);
+        free(id2);
         free(date1);
         free(date2);
         return month2 - month1;
     }
     if (day1 != day2) {
+        free(id1);
+        free(id2);
         free(date1);
         free(date2);
         return day2 - day1;
@@ -190,17 +213,24 @@ gint compare_reservations(gconstpointer a, gconstpointer b) {
 
     gint result = atoi(noBook1) - atoi(noBook2);
 
+    free(id1);
+    free(id2);
     free(date1);
     free(date2);
 
     return result;
 }
 
-char *get_Ano_Voo(FLIGHT *f){
+int get_Ano_Voo(FLIGHT *f){
     char *data_est = getScheduleDepartureDate(f);
-    char *ano = strdup(strsep(&data_est,"/"));
+    int ano;
+
+    sscanf(data_est, "%d/%*d/%*d %*d:%*d:%*d", &ano);
+
+    free(data_est);
     return ano;
 }
+
 void addAtraso(int *arr, int at, int n)
 {
     int i; 
@@ -209,11 +239,13 @@ void addAtraso(int *arr, int at, int n)
   
     arr[i + 1] = at; 
 }
-int passageirosPorVoo(char * idflight , GArray *passengers){
+int passageirosPorVoo(char *idflight , GArray *passengers){
     int n = 0;
     for(guint i = 0; i < passengers->len ;i++) {
         PASSENGER *p = g_array_index(passengers,PASSENGER*,i);
-       if (strcmp(get_FlightID_passenger(p),idflight)==0) n++;
+        char *id_flight = get_FlightID_passenger(p);
+        if (strcmp(id_flight,idflight)==0) n++;
+        free(id_flight);
     }
     return n;
 }

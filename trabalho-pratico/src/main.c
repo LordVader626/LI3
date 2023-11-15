@@ -58,5 +58,6 @@ int main(int argc, char **argv){
         destroy_stats(stats);
 
     }
+    printf("EXECUTION FINISHED\n");
     return 0;
 }

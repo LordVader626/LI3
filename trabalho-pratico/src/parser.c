@@ -11,7 +11,6 @@
 #include "../inc/validation.h"
 #include "../inc/stats.h"
 #include "../inc/user_stat.h"
-#include "../inc/flight_stats.h"
 #include "../inc/hotel_stats.h"
 #include "../inc/airport_stats.h"
 
@@ -28,7 +27,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     char *line = NULL;
     size_t len = 0;
 
-    GHashTable *flights = g_hash_table_new(g_str_hash, g_str_equal);
+    GHashTable *flights = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_flight);
 
     FILE *file = fopen(path_flights, "r");
     FILE *file_errors = fopen(path_flights_errors, "w");
@@ -47,16 +46,45 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
         FLIGHT *flight = new_Flight(line);
 
         if (flight_validation_1phase(flight) == 0){
+            char *flightID = getID_flight(flight);
 
-            g_hash_table_insert(flights, getID_flight(flight), flight);
-            create_airport_stat_flight(flight, get_airport_stats(stats));            
+            g_hash_table_insert(flights, flightID, flight);
+            create_airport_stat_flight(flight, get_airport_stats(stats));          
         }
         else {
-            g_hash_table_insert(invalid_flights, getID_flight(flight), "INVALIDO");
-            fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",getID_flight(flight), getAirline(flight), getPlaneModel(flight), getTotalSeats(flight), getFlightOrigin(flight),
-                getFlightDestination(flight), getScheduleDepartureDate(flight), getScheduleArrivalDate(flight), getRealDepartureDate(flight), getRealArrivalDate(flight),
-                getPilot(flight), getCopilot(flight), getNotes(flight));
+            char *flightID = getID_flight(flight);
+
+            g_hash_table_insert(invalid_flights, flightID, "INVALIDO");
+
+            char *airline = getAirline(flight);
+            char *planeModel = getPlaneModel(flight);
+            char *flightOrigin = getFlightOrigin(flight);
+            char *flightDestination = getFlightDestination(flight);
+            char *notrealDeparture = getScheduleDepartureDate(flight);
+            char *notrealArrival = getScheduleArrivalDate(flight);
+            char *realDeparture = getRealDepartureDate(flight);
+            char *realArrival = getRealArrivalDate(flight);
+            char *pilot = getPilot(flight);
+            char *copilot = getCopilot(flight);
+            char *notes = getNotes(flight);
+
+            fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flightID, airline, planeModel, getTotalSeats(flight), flightOrigin,
+                    flightDestination, notrealDeparture, notrealArrival, realDeparture, realArrival, pilot, copilot, notes);
+
             kill_flight(flight);
+
+            free(flightID);
+            free(airline);
+            free(planeModel);
+            free(flightOrigin);
+            free(flightDestination);
+            free(notrealDeparture);
+            free(notrealArrival);
+            free(realArrival);
+            free(realDeparture);
+            free(pilot);
+            free(copilot);
+            free(notes);
         }
     }
     printf("Flight Validation and Parsing SuccessFull\n");
@@ -102,12 +130,11 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
         char *flight_id = get_FlightID_passenger(passenger);
         if(g_hash_table_lookup(invalid_users, user_id) == NULL && g_hash_table_lookup(invalid_flights, flight_id) == NULL){
             g_array_append_val(passengers, passenger);
-
             create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
-            create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
         }
         else{
-            fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));
+
+            fprintf(file_errors, "%s;%s\n", flight_id, user_id);
             kill_Passenger(passenger);
         }
         free(user_id);
@@ -118,6 +145,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     free(path_passengers);
     free(path_passengers_errors);
     fclose(file);
+    fclose(file_errors);
 
     return passengers;
 }
@@ -127,7 +155,7 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     char *line = NULL;
     size_t len = 0;
 
-    GHashTable *reservations = g_hash_table_new(g_str_hash, g_str_equal);
+    GHashTable *reservations = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_reservation);
     
     char *path_reservations = malloc(sizeof(char) * 70);
     strcpy(path_reservations, path);
@@ -190,7 +218,7 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
 
     //GHashTable *users = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
 
-    GHashTable *users = g_hash_table_new(g_str_hash, g_str_equal);
+    GHashTable *users = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
 
     FILE *file = fopen(path_users, "r");
     FILE *file_error = fopen(path_user_erros, "w");
@@ -213,11 +241,36 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
             g_hash_table_insert(users, getID(user), user);
         }
         else {
+            char *idUser = getID(user);
+            char *Name = getName(user);
+            char *email = getEmail(user);
+            char *phoneNumber = getPhoneNumber(user);
+            char *birthDate = getBirthDate(user);
+            char *sex = getSex(user);
+            char *passport = getPassport(user);
+            char *countryCode = getCountryCode(user);
+            char *address = getAddress(user);
+            char *accountCreation = getAccountCreation(user);
+            char *paymethod = getPayMethod(user);
+            char *accountStatus = getAccountStatus(user); 
+
             g_hash_table_insert(invalid_users, getID(user), "invalid");
-            fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", getID(user), getName(user), getEmail(user), getPhoneNumber(user), getBirthDate(user), getSex(user), getPassport(user),
-            getCountryCode(user), getAddress(user), getAccountCreation(user), getPayMethod(user), getAccountStatus(user));
+            fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", idUser, Name, email, phoneNumber, birthDate, sex, passport, countryCode, address, accountCreation, paymethod, accountStatus);
 
             kill_user(user);
+
+            free(idUser);
+            free(Name);
+            free(email);
+            free(phoneNumber);
+            free(birthDate);
+            free(sex);
+            free(passport);
+            free(countryCode);
+            free(address);
+            free(accountCreation);
+            free(paymethod);
+            free(accountStatus);
         }
     }
     printf("User Validation and Parsing Sucessfull\n");

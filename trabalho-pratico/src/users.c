@@ -45,7 +45,9 @@ USER *create_User(char *line){
 }
 
 // vai apagar utilizador se tiver campo invalido
-void kill_user(USER *u){
+void kill_user(void *user){
+    USER *u = user;
+
     free(u->id);
     free(u->name);
     free(u->email);

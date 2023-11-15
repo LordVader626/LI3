@@ -12,7 +12,7 @@ GHashTable *get_airport_stats(STATS *s);
 
 STATS *create_stats();
 
-void destroy_stats(STATS *s);
+void destroy_stats(void *stats);
 //void print_stats(STATS *s);
 
 #endif

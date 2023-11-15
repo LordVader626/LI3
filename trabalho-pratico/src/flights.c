@@ -40,7 +40,9 @@ FLIGHT *new_Flight(char *line){
     return f;
 }
 
-void kill_flight(FLIGHT *f){
+void kill_flight(void *flight){
+    FLIGHT *f = flight;
+
     free(f->id);
     free(f->airline);
     free(f->plane_model);

@@ -4,7 +4,7 @@
 typedef struct reservation RESERVATION;
 
 RESERVATION *create_Reservation(char *line);
-void kill_reservation(RESERVATION *r);
+void kill_reservation(void *reservation);
 
 char *getID_reservation(RESERVATION *r);
 char *getUserID_reservartion(RESERVATION *r);

@@ -41,7 +41,9 @@ RESERVATION*create_Reservation(char *line){
     return r;
 }
 
-void kill_reservation(RESERVATION *r){
+void kill_reservation(void *reservation){
+    RESERVATION *r = reservation;
+
     free(r->id);
     free(r->user_id);
     free(r->hotel_id);

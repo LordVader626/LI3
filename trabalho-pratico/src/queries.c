@@ -14,7 +14,6 @@
 #include "../inc/utils.h"
 #include "../inc/stats.h"
 #include "../inc/user_stat.h"
-#include "../inc/flight_stats.h"
 #include "../inc/hotel_stats.h"
 #include "../inc/validation.h"
 
@@ -30,7 +29,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
     
     if(strncmp(aux, "Book", 4) == 0) {
         //  ./main-program /home/rui/Desktop/dataset/data_clean /home/rui/Desktop/dataset/inputTest.txt
-        RESERVATION* res = g_hash_table_lookup(reservations,linha);
+        RESERVATION* res = g_hash_table_lookup(reservations,aux);
 
         if (res == NULL) {
             printf("Reservation not found in hash table\n");
@@ -69,8 +68,8 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         free(endDate);
         free(incBreakfast);
     }
-    else if (isalpha(linha[0])!=0) {
-        USER* user = g_hash_table_lookup(users,linha);
+    else if (isalpha(aux[0])!=0) {
+        USER* user = g_hash_table_lookup(users,aux);
         
         if (user == NULL) {
             printf("User not found in hash table\n");
@@ -106,22 +105,21 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
                 fprintf(file,"total_gasto: %.3f\n\n",totalGasto);
             } else fprintf(file,"%s;%s;%d;%s;%s;%d;%d;%.3f\n",name,sex,idade,country_code,passport,numVoos,numReservas,totalGasto);
 
-            free(account_status);
             free(idUser);
             free(name);
             free(sex);
             free(passport);
             free(country_code); 
         }
+        free(account_status);
     } 
-      else {
-        FLIGHT* flight = g_hash_table_lookup(flights,linha);
+    else {
+        FLIGHT* flight = g_hash_table_lookup(flights,aux);
 
         if (flight == NULL) {
             printf("Flight not found in hash table\n");
             return;
         }
-        
 
         char *companhia = getAirline(flight);
         char *aviao = getPlaneModel(flight);
@@ -129,7 +127,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         char *destino = getFlightDestination(flight);
         char *partida_est = getScheduleDepartureDate(flight);
         char *chegada_est = getScheduleArrivalDate(flight);
-        int numero_passageiros = passageirosPorVoo(linha ,passengers);
+        int numero_passageiros = passageirosPorVoo(aux ,passengers);
         int tempo_atraso = get_tempo_atraso(flight);
 
         if(f == 1){
@@ -154,9 +152,9 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         free(destino);
         free(partida_est);
         free(chegada_est);
-
     }
     fclose(file);
+    free(aux);
 }
 
 void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats, GHashTable *invalid_users){
@@ -166,96 +164,116 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         perror("Error opening file");
         return;
     }
-    char *id = malloc(15);
-    char *type = malloc(15); 
+    char *id = malloc(20);
+    char *type = malloc(15);
 
-    sscanf(aux, "%s %s", id, type);
-    printf("%s\n", id);
+    if (sscanf(aux, "%20s %14s", id, type) == 2) {
+        if (strcmp(type, "flights") == 0 && g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL) {
+            USER *u = g_hash_table_lookup(users, id);
 
-    if (g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL) {
+            char *accountStatus = getAccountStatus(u);
 
-        USER *u = g_hash_table_lookup(users, id);
+            if(strcasecmp(accountStatus, "active") == 0){
+                USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
+                GList *listaVoos = get_user_stat_listaVoos(userStat);
 
-        char *accountStatus = getAccountStatus(u);
-
-        if(strcasecmp(accountStatus, "active") == 0){
-            USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
-            GList *listaVoos = get_user_stat_listaVoos(userStat);
-            GList *listaReservas = get_user_stat_listaReservas(userStat);
-                
-            if (strcmp(type, "flights") == 0){
                 listaVoos = g_list_sort(listaVoos, compare_flights);
                 GList *current = listaVoos;
                 if (f == 0) {
                     while (current != NULL) {
                         FLIGHT *flight = (FLIGHT*)current->data;
                         char *data = getScheduleDepartureDate(flight);
+                        char *id_flight = getID_flight(flight);
                         removeHMS(data);
-                        fprintf(file, "%s;%s\n", getID_flight(flight), data);
+                        fprintf(file, "%s;%s\n", id_flight, data);
                         free(data);
+                        free(id_flight);
                         current = g_list_next(current);
                     }
-                    printf("Flight dates from user %s printed\n", get_user_stat_username(userStat));
+                    printf("Flight dates printed\n");
                 }
                 else {
                     guint i = 1;
                     while (current != NULL) {
                         FLIGHT *flight = (FLIGHT*)current->data;
+                        char *id_flight = getID_flight(flight);
                         fprintf(file, "--- %d ---\n", i);
-                        fprintf(file, "id: %s\n", getID_flight(flight));
+                        fprintf(file, "id: %s\n", id);
                         char *data = getScheduleDepartureDate(flight);
                         removeHMS(data);
                         fprintf(file, "date: %s\n\n", data);
                         free(data);
+                        free(id_flight);
                         current = g_list_next(current);
                         i++;
                     }
-                    printf("Flight dates from user %s printed\n", get_user_stat_username(userStat));
+                    printf("Flight dates printed\n");
                 }
+            free(accountStatus);
             }
-            else if (strcmp(type, "reservations") == 0) {
+        }
+        
+        else if (strcmp(type, "reservations") == 0 && g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL){
+            USER *u = g_hash_table_lookup(users, id);
+            char *accountStatus = getAccountStatus(u);
+
+            if(strcasecmp(accountStatus, "active") == 0){
+                USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
+                GList *listaReservas = get_user_stat_listaReservas(userStat);
+
                 GList *current = listaReservas;
                 listaReservas = g_list_sort(listaReservas, compare_reservations);
                 if (f == 0) {
                     while (current != NULL){
                         RESERVATION *reserva = (RESERVATION*)current->data;
-                        fprintf(file, "%s;%s\n", getID_reservation(reserva), getBeginDate_reservation(reserva));
+                        char *idReserva = getID_reservation(reserva);
+                        char *beginDate = getBeginDate_reservation(reserva);
+                        fprintf(file, "%s;%s\n", idReserva, beginDate);
+
+                        free(idReserva);
+                        free(beginDate);
                         current = g_list_next(current);
                     }
-                    printf("Reservation dates from user %s printed\n", get_user_stat_username(userStat));
+                    printf("Reservation dates printed\n");
                 } else {
                     guint i = 1;
                     while (current != NULL) {
                         RESERVATION *reserva = (RESERVATION*)current->data;
+                        char *idReserva = getID_reservation(reserva);
+                        char *beginDate = getBeginDate_reservation(reserva);
                         fprintf(file, "--- %d ---\n", i);
-                        fprintf(file, "id: %s\n", getID_reservation(reserva));
-                        fprintf(file, "date: %s\n\n", getBeginDate_reservation(reserva));
+                        fprintf(file, "id: %s\n", idReserva);
+                        fprintf(file, "date: %s\n\n", beginDate);
+
+                        free(idReserva);
+                        free(beginDate);
                         current = g_list_next(current);
                         i++;
                     }
-                    printf("Reservation dates from user %s printed\n", get_user_stat_username(userStat));
+                    printf("Reservation dates from user printed\n");
                 }
             }
-            else printf("NOT DONE\n");
             free(accountStatus);
         }
+    } 
+    else if (sscanf(aux, "%20s", id) == 1) {
+        printf("IN PROGRESS\n");
     }
-    printf("%s\n", id);
-    free(type);
-    free(id);
     free(aux);
+    free(id);
+    free(type);
     fclose(file);
 }
 
 void query3(GHashTable *reservations,char* linha, int f,char *path, GHashTable *hotel_stats){
-
+    char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
         perror("Error opening file");
         return;
     }
 
-    HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,linha);
+    HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
 
     double avgscore = get_hotel_stat_avgscore(hstat);
 
@@ -268,16 +286,18 @@ void query3(GHashTable *reservations,char* linha, int f,char *path, GHashTable *
         printf("Rating from Hotel  from query 3 printed\n");
     }
     fclose(file);
+    free(aux);
 }
 
 void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
+    char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
         perror("Error opening file");
         return;
     }
 
-    HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,linha);
+    HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
 
     GList *sortedList = g_list_sort(get_hotel_stat_reservasHotel(hstat), compare_reservations);
     if (f == 0) {
@@ -328,4 +348,5 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
         printf("Reservation dates from hotel\n");
     }
     fclose(file);
+    free(aux);
 }

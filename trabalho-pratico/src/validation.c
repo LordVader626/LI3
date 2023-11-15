@@ -8,7 +8,6 @@
 #include "../inc/users.h"
 #include "../inc/flights.h"
 #include "../inc/reservations.h"
-#include "../inc/flight_stats.h"
 
 int contemNArroba(const char *str) {
     int i = 0;

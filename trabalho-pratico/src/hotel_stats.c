@@ -14,6 +14,22 @@ struct h_stat{
     GList *reservasHotel;
 };
 
+void kill_hotelStat(void *hotelStat){
+	HOTEL_STAT *hs = hotelStat;
+	
+	free(hs->hotelid);
+
+	/*while(hs->reservasHotel != NULL){
+		RESERVATION *reserva = (RESERVATION *)hs->reservasHotel->data;
+
+		kill_reservation(reserva);
+
+		hs->reservasHotel = g_list_delete_link(hs->reservasHotel,hs->reservasHotel);
+	}*/
+
+	free(hs);
+}
+
 // FUNÇÕES GET
 
 char *get_hotel_stat_id(HOTEL_STAT *h)

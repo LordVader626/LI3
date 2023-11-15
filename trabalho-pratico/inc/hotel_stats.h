@@ -18,5 +18,6 @@ double get_hotel_stat_avgscore(HOTEL_STAT *h);
 
 
 void create_hotel_stats(RESERVATION *r, GHashTable *hotel_stats);
+void kill_hotelStat(void *hotelStat);
 
 #endif

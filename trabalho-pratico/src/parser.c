@@ -49,7 +49,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
             char *flightID = getID_flight(flight);
 
             g_hash_table_insert(flights, flightID, flight);
-            create_airport_stat_flight(flight, get_airport_stats(stats));          
+            //create_airport_stat_flight(flight, get_airport_stats(stats));          
         }
         else {
             char *flightID = getID_flight(flight);

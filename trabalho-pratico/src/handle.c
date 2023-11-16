@@ -23,10 +23,9 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
           char *line = strdup(copy);
           line[read-1] = '\0';
           char *query = strdup(strsep(&line, " "));
-          if(line != NULL) printf("%s\n", line);
           char *path = malloc(100);
 
-          sprintf(path, "trabalho-pratico/Resultados/command%d_output.txt\n", i);        
+          sprintf(path, "Resultados/command%d_output.txt\n", i);        
           x++;
           switch( query[0]-'0'){ 
                case 1:

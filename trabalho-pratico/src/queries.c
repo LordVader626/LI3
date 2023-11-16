@@ -96,8 +96,6 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
                 numReservas = get_user_stat_numReservas(us);
                 totalGasto = get_user_stat_totalGasto(us);
             }
-
-            printf("%d\n", numVoos);
             
             char *name = getName(user);
             char *sex = getSex(user);

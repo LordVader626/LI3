@@ -22,7 +22,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     strcpy(path_flights, path);
     strcat(path_flights, "/flights.csv");
     strcpy(path_flights_errors, path);
-    strcat(path_flights_errors, "/flight_errors_test.csv");
+    strcat(path_flights_errors, "/flight_errors.csv");
 
     char *line = NULL;
     size_t len = 0;
@@ -103,7 +103,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     strcat(path_passengers, "/passengers.csv");
     char *path_passengers_errors = malloc(sizeof(char) * 70);
     strcpy(path_passengers_errors,path);
-    strcat(path_passengers_errors, "/passengers_error_test.csv");
+    strcat(path_passengers_errors, "/passengers_errors.csv");
 
     char *line = NULL;
     size_t len = 0;
@@ -140,6 +140,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
         }
         free(user_id);
         free(flight_id);
+
     }
     printf("Passenger Validation and Parsing Successfull\n");
     free(line);
@@ -163,7 +164,7 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     strcat(path_reservations, "/reservations.csv");
     char *path_reservations_erros = malloc(sizeof(char) * 70);
     strcpy(path_reservations_erros, path);
-    strcat(path_reservations_erros, "/reservations_error_test.csv");
+    strcat(path_reservations_erros, "/reservations_errors.csv");
 
     FILE *file = fopen(path_reservations, "r");
     FILE *file_errors = fopen(path_reservations_erros, "w");
@@ -232,7 +233,7 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
     strcat(path_users, "/users.csv");
     char *path_user_erros = malloc(sizeof(char) * 70);
     strcpy(path_user_erros, path);
-    strcat(path_user_erros, "/user_error_test.csv");
+    strcat(path_user_erros, "/user_errors.csv");
 
     char *line = NULL;
     size_t len = 0;
@@ -242,12 +243,13 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
     FILE *file = fopen(path_users, "r");
     FILE *file_error = fopen(path_user_erros, "w");
 
-    fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
-
     if (file == NULL || file_error == NULL) {
         printf("Unable to open the file.\n");
          // Exit
     }
+
+
+    fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
 
     //skip ao cabeçalho
     getline(&line, &len, file);

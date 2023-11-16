@@ -46,10 +46,9 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
         FLIGHT *flight = new_Flight(line);
 
         if (flight_validation_1phase(flight) == 0){
-            char *flightID = getID_flight(flight);
 
-            g_hash_table_insert(flights, flightID, flight);
-            //create_airport_stat_flight(flight, get_airport_stats(stats));          
+            g_hash_table_insert(flights, getID_flight(flight), flight);
+            create_airport_stat_flight(flight, get_airport_stats(stats));          
         }
         else {
             char *flightID = getID_flight(flight);
@@ -93,6 +92,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     fclose(file_errors);
     free(line);
     free(path_flights);
+    free(path_flights_errors);
 
     return flights;
 }
@@ -128,13 +128,14 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
         char *user_id = getID_passenger(passenger);
 
         char *flight_id = get_FlightID_passenger(passenger);
-        if(g_hash_table_lookup(invalid_users, user_id) == NULL && g_hash_table_lookup(invalid_flights, flight_id) == NULL){
+        if(!(g_hash_table_contains(invalid_users, user_id)) && (!g_hash_table_contains(invalid_flights, flight_id))){
             g_array_append_val(passengers, passenger);
+
             create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
+            //create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
         }
         else{
-
-            fprintf(file_errors, "%s;%s\n", flight_id, user_id);
+            fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));
             kill_Passenger(passenger);
         }
         free(user_id);
@@ -144,8 +145,8 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     free(line);
     free(path_passengers);
     free(path_passengers_errors);
-    fclose(file);
     fclose(file_errors);
+    fclose(file);
 
     return passengers;
 }
@@ -179,17 +180,37 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
         RESERVATION *reservation = create_Reservation(line);
         char *userID = getUserID_reservartion(reservation);
 
-        if (g_hash_table_lookup(invalid_users, userID) == NULL && reservation_validation(reservation) == 0){
+        if (!(g_hash_table_contains(invalid_users, userID)) && reservation_validation(reservation) == 0){
             g_hash_table_insert(reservations, getID_reservation(reservation), reservation);
             create_user_stat_reservations(reservation, get_user_stats(stats), users);
             create_hotel_stats(reservation, get_hotel_stats(stats));
         }
         else {
-            //falta remover os 0 dos doubles ao dar print
-            fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", getID_reservation(reservation), getUserID_reservartion(reservation), getHotelID_reservation(reservation), 
-            getHotelName_reservation(reservation), getHotelStars_reservation(reservation), getCityTax_reservation(reservation), getAddress_reservation(reservation), 
-            getBeginDate_reservation(reservation), getEndDate_reservation(reservation), getPricePerNight_reservation(reservation), getIncludesBreakfast_reservation(reservation), 
-            getRoomDetails_reservation(reservation), getRating_reservation(reservation), getComment_reservation(reservation));
+            char *reservationID = getID_reservation(reservation);
+            char *userID = getUserID_reservartion(reservation);
+            char *hotelID = getHotelID_reservation(reservation);
+            char *hotelName = getHotelName_reservation(reservation);
+            char *address = getAddress_reservation(reservation);
+            char *beginDate = getBeginDate_reservation(reservation);
+            char *endDate = getEndDate_reservation(reservation);
+            char *incBreakfast = getIncludesBreakfast_reservation(reservation);
+            char *roomDetails = getRoomDetails_reservation(reservation);
+            char *comment = getComment_reservation(reservation);
+        
+            fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", reservationID, userID, hotelID, hotelName, getHotelStars_reservation(reservation), getCityTax_reservation(reservation), 
+            address, beginDate, endDate, getPricePerNight_reservation(reservation), incBreakfast, roomDetails, getRating_reservation(reservation), comment);
+
+            free(reservationID);
+            free(userID);
+            free(hotelID);
+            free(hotelName);
+            free(address);
+            free(beginDate);
+            free(endDate);
+            free(incBreakfast);
+            free(roomDetails);
+            free(comment);
+
             kill_reservation(reservation);
         }
         free(userID);
@@ -215,8 +236,6 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
 
     char *line = NULL;
     size_t len = 0;
-
-    //GHashTable *users = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
 
     GHashTable *users = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
 

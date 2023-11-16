@@ -21,7 +21,6 @@ int contemNArroba(const char *str) {
 }
 
 int dataFormatoCorreto(char *str) {
-    int i = 0;
     while (*str) {
         if (*str == '|') {
             return 0;

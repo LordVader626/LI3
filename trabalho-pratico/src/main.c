@@ -54,7 +54,7 @@ int main(int argc, char **argv){
         g_hash_table_destroy(users);
         g_hash_table_destroy(flights);
         g_hash_table_destroy(reservations);
-        g_array_free(passengers, TRUE);
+        freeGArray(passengers);
         destroy_stats(stats);
 
     }

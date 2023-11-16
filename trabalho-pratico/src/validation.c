@@ -75,8 +75,7 @@ int compareDatesSimple(char *date1, char *date2) {
     int year2, month2, day2;
     sscanf(date1, "%d/%d/%d", &year1, &month1, &day1);
     sscanf(date2, "%d/%d/%d", &year2, &month2, &day2);
-    //2023/12/31
-    //2024/01/2
+
     if((year1 > year2 || (year1 == year2 && month1 > month2)) || (year1 == year2 && month1 == month2 && day1 > day2 )) return 0;
     return 1;
 }
@@ -141,8 +140,10 @@ cleanup:
     free(phone_number);
     free(sex);
     free(passport);
+    free(address);
     free(pay_method);
     free(country_code);
+    free(account_creation);
     free(account_status);
     free(birth_date);
     free(email);
@@ -260,6 +261,8 @@ int reservation_validation(RESERVATION *r){
 
     rating = getRating_reservation(r);
     if (rating < 0 || rating > 5 || rating != round(rating)) {valido = 1; goto cleanup;}
+
+    if (strlen(beginDate) < 4) {valido = 1; goto cleanup;}
 
     if (beginDate[4] < '/' || beginDate[7] > '/') {
         valido = 1;

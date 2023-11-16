@@ -72,7 +72,6 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
 
             kill_flight(flight);
 
-            free(flightID);
             free(airline);
             free(planeModel);
             free(flightOrigin);
@@ -128,7 +127,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
         char *user_id = getID_passenger(passenger);
 
         char *flight_id = get_FlightID_passenger(passenger);
-        if(!(g_hash_table_contains(invalid_users, user_id)) && (!g_hash_table_contains(invalid_flights, flight_id))){
+        if((g_hash_table_contains(invalid_users, user_id) == FALSE) && (!g_hash_table_contains(invalid_flights, flight_id))){
             g_array_append_val(passengers, passenger);
 
             create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
@@ -274,12 +273,11 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
             char *paymethod = getPayMethod(user);
             char *accountStatus = getAccountStatus(user); 
 
-            //g_hash_table_insert(invalid_users, getID(user), "invalid");
+            g_hash_table_insert(invalid_users, getID(user), "invalid");
             //fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", idUser, Name, email, phoneNumber, birthDate, sex, passport, countryCode, address, accountCreation, paymethod, accountStatus);
 
             kill_user(user);
 
-            free(idUser);
             free(Name);
             free(email);
             free(phoneNumber);
@@ -294,7 +292,6 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
         }
     }
     printf("User Validation and Parsing Sucessfull\n");
-
     fclose(file);
     //fclose(file_error); 
     free(line);

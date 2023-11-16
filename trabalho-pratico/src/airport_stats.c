@@ -69,7 +69,8 @@ void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
         airport_stat->nVoos = 1;
         airport_stat->listaVoos = g_list_append(NULL, f);
 
-        g_hash_table_insert(airport_stats, strdup(airportID), airport_stat);
+        //g_hash_table_insert(airport_stats, strdup(airportID), airport_stat);
+        g_hash_table_insert(airport_stats, airportID, airport_stat);
     } else {
         
         astat->atrasosVoos = g_array_append_val(astat->atrasosVoos,atraso);

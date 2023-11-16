@@ -26,7 +26,7 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
           if(line != NULL) printf("%s\n", line);
           char *path = malloc(100);
 
-          sprintf(path, "Resultados/command%d_output.txt\n", i);          
+          sprintf(path, "trabalho-pratico/Resultados/command%d_output.txt\n", i);        
           x++;
           switch( query[0]-'0'){ 
                case 1:

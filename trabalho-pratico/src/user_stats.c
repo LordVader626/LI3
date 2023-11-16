@@ -23,6 +23,10 @@ void kill_userStat(void *userStat){
 	free(us->username);
 	free(us->nome);
 	free(us->gender);
+
+	g_list_free(us->listaVoos);
+	g_list_free(us->listaReservas);
+
 	free(us);
 }
 

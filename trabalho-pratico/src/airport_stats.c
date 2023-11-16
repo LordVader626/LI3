@@ -22,13 +22,7 @@ void kill_airportStat(void *airportStat){
     
     g_array_free(as->atrasosVoos, TRUE);
 
-    /*while (as->listaVoos != NULL) {
-        FLIGHT *flight = (FLIGHT *)as->listaVoos->data;
-
-        kill_flight(flight);
-
-        as->listaVoos = g_list_delete_link(as->listaVoos, as->listaVoos);
-    }*/
+    g_list_free(as->listaVoos);
 
     free(as);
 }

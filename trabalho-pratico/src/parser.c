@@ -22,7 +22,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     strcpy(path_flights, path);
     strcat(path_flights, "/flights.csv");
     strcpy(path_flights_errors, path);
-    strcat(path_flights_errors, "/flight_errors.csv");
+    strcat(path_flights_errors, "/flights_errors.csv");
 
     char *line = NULL;
     size_t len = 0;
@@ -30,14 +30,14 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     GHashTable *flights = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_flight);
 
     FILE *file = fopen(path_flights, "r");
-    FILE *file_errors = fopen(path_flights_errors, "w");
+    //FILE *file_errors = fopen(path_flights_errors, "w");
 
-    if (file == NULL || file_errors == NULL) {
+    if (file == NULL /*|| file_errors == NULL*/) {
         printf("Unable to open the file.\n");
     }
 
     //escreve o cabeçalho no ficheiro dos erros
-    fprintf(file_errors, "id;airline;plane_model;total_seats;origin;destination;schedule_departure_date;schedule_arrival_date;real_departure_date;real_arrival_date;pilot;copilot;notes\n");
+    //fprintf(file_errors, "id;airline;plane_model;total_seats;origin;destination;schedule_departure_date;schedule_arrival_date;real_departure_date;real_arrival_date;pilot;copilot;notes\n");
 
     //skip ao cabeçalho
     getline(&line, &len, file);
@@ -67,8 +67,8 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
             char *copilot = getCopilot(flight);
             char *notes = getNotes(flight);
 
-            fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flightID, airline, planeModel, getTotalSeats(flight), flightOrigin,
-                    flightDestination, notrealDeparture, notrealArrival, realDeparture, realArrival, pilot, copilot, notes);
+            //fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flightID, airline, planeModel, getTotalSeats(flight), flightOrigin,
+            //        flightDestination, notrealDeparture, notrealArrival, realDeparture, realArrival, pilot, copilot, notes);
 
             kill_flight(flight);
 
@@ -89,7 +89,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     printf("Flight Validation and Parsing SuccessFull\n");
 
     fclose(file);
-    fclose(file_errors);
+    //fclose(file_errors);
     free(line);
     free(path_flights);
     free(path_flights_errors);
@@ -111,9 +111,9 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     GArray *passengers = g_array_new(FALSE, TRUE, sizeof(PASSENGER *));
 
     FILE *file = fopen(path_passengers, "r");
-    FILE *file_errors = fopen(path_passengers_errors, "w");
+    ///FILE *file_errors = fopen(path_passengers_errors, "w");
 
-    fprintf(file_errors, "flight_id;user_id\n");
+    //fprintf(file_errors, "flight_id;user_id\n");
 
     if (file == NULL) {
         printf("Unable to open the file.\n");
@@ -135,18 +135,17 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
             //create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
         }
         else{
-            fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));
+            //fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));
             kill_Passenger(passenger);
         }
         free(user_id);
         free(flight_id);
-
     }
     printf("Passenger Validation and Parsing Successfull\n");
     free(line);
     free(path_passengers);
     free(path_passengers_errors);
-    fclose(file_errors);
+    //fclose(file_errors);
     fclose(file);
 
     return passengers;
@@ -167,13 +166,13 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     strcat(path_reservations_erros, "/reservations_errors.csv");
 
     FILE *file = fopen(path_reservations, "r");
-    FILE *file_errors = fopen(path_reservations_erros, "w");
+    //FILE *file_errors = fopen(path_reservations_erros, "w");
 
-    if (file == NULL || file_errors == NULL) {
+    if (file == NULL /*|| file_errors == NULL*/) {
         printf("Unable to open the file.\n");
     }
 
-    fprintf(file_errors, "id;user_id;hotel_id;hotel_name;hotel_stars;city_tax;address;begin_date;end_date;price_per_night;includes_breakfast;room_details;rating;comment\n");
+    //fprintf(file_errors, "id;user_id;hotel_id;hotel_name;hotel_stars;city_tax;address;begin_date;end_date;price_per_night;includes_breakfast;room_details;rating;comment\n");
 
     getline(&line, &len, file);
 
@@ -198,8 +197,8 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
             char *roomDetails = getRoomDetails_reservation(reservation);
             char *comment = getComment_reservation(reservation);
         
-            fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", reservationID, userID, hotelID, hotelName, getHotelStars_reservation(reservation), getCityTax_reservation(reservation), 
-            address, beginDate, endDate, getPricePerNight_reservation(reservation), incBreakfast, roomDetails, getRating_reservation(reservation), comment);
+            //fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", reservationID, userID, hotelID, hotelName, getHotelStars_reservation(reservation), getCityTax_reservation(reservation), 
+            //address, beginDate, endDate, getPricePerNight_reservation(reservation), incBreakfast, roomDetails, getRating_reservation(reservation), comment);
 
             free(reservationID);
             free(userID);
@@ -221,7 +220,7 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     free(path_reservations);
     free(path_reservations_erros);
     fclose(file);
-    fclose(file_errors);
+    //fclose(file_errors);
     return reservations;
 }
 
@@ -233,7 +232,7 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
     strcat(path_users, "/users.csv");
     char *path_user_erros = malloc(sizeof(char) * 70);
     strcpy(path_user_erros, path);
-    strcat(path_user_erros, "/user_errors.csv");
+    strcat(path_user_erros, "/users_errors.csv");
 
     char *line = NULL;
     size_t len = 0;
@@ -241,15 +240,15 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
     GHashTable *users = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
 
     FILE *file = fopen(path_users, "r");
-    FILE *file_error = fopen(path_user_erros, "w");
+    //FILE *file_error = fopen(path_user_erros, "w");
 
-    if (file == NULL || file_error == NULL) {
+    if (file == NULL /*|| file_error == NULL*/) {
         printf("Unable to open the file.\n");
          // Exit
     }
 
 
-    fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
+    //fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
 
     //skip ao cabeçalho
     getline(&line, &len, file);
@@ -275,8 +274,8 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
             char *paymethod = getPayMethod(user);
             char *accountStatus = getAccountStatus(user); 
 
-            g_hash_table_insert(invalid_users, getID(user), "invalid");
-            fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", idUser, Name, email, phoneNumber, birthDate, sex, passport, countryCode, address, accountCreation, paymethod, accountStatus);
+            //g_hash_table_insert(invalid_users, getID(user), "invalid");
+            //fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", idUser, Name, email, phoneNumber, birthDate, sex, passport, countryCode, address, accountCreation, paymethod, accountStatus);
 
             kill_user(user);
 
@@ -297,7 +296,7 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
     printf("User Validation and Parsing Sucessfull\n");
 
     fclose(file);
-    fclose(file_error); 
+    //fclose(file_error); 
     free(line);
     free(path_users);
     free(path_user_erros);

@@ -19,13 +19,7 @@ void kill_hotelStat(void *hotelStat){
 	
 	free(hs->hotelid);
 
-	/*while(hs->reservasHotel != NULL){
-		RESERVATION *reserva = (RESERVATION *)hs->reservasHotel->data;
-
-		kill_reservation(reserva);
-
-		hs->reservasHotel = g_list_delete_link(hs->reservasHotel,hs->reservasHotel);
-	}*/
+	g_list_free(hs->reservasHotel);	
 
 	free(hs);
 }

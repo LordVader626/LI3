@@ -85,6 +85,7 @@ void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats,GHash
     char *flightID = get_FlightID_passenger(p);
     FLIGHT *f = g_hash_table_lookup(flights,flightID); 
     char *airportID = getFlightOrigin(f);
+    
     int ano = get_Ano_Voo(f);
     AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats, airportID);
 

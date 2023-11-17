@@ -20,5 +20,6 @@ void insertion_Sort(int arr[], int n, int value);
 int compare_dates(char * data1 , char * data2);
 gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata);
 gint compareMediana(gconstpointer a, gconstpointer b);
+gint compare_flightswithHours(gconstpointer a, gconstpointer b);
 
 #endif

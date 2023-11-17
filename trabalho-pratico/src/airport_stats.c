@@ -57,18 +57,13 @@ void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
     char *airportID = getFlightOrigin(f);
     int atraso = get_tempo_atraso(f);
     
-    char *temp = malloc(12);
-
-    for (int i = 0; i < 3; i ++){
-        temp[i] = toupper(airportID[i]);
-    }
     
     AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats, airportID);
     
     if (astat == NULL) {
         AIRPORT_STAT *airport_stat = malloc(sizeof(AIRPORT_STAT));
         
-        airport_stat->airportid = temp;
+        airport_stat->airportid = airportID;
         for(int i = 0; i<3;i++) airport_stat->nPassageirosAno[i] = 0;
         airport_stat->atrasosVoos = (int *)malloc(200 * sizeof(int));
         airport_stat->atrasosVoos[0] = atraso;

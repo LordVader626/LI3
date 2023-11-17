@@ -176,6 +176,13 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
 
         if (flight_validation_1phase(flight) == 0){
 
+            
+        
+            int i;
+            for (i = 0; i < 3 && flight->origin[i] != '\0'; i ++){
+                flight->origin[i] = toupper(flight->origin[i]);
+            }
+
             g_hash_table_insert(flights, flight->id, flight);
             create_airport_stat_flight(flight, get_airport_stats(stats));          
         }

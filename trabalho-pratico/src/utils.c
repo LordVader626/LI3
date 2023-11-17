@@ -323,19 +323,19 @@ gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata)
     char *id2 = get_airport_stat_id(astat2);
 
     if (id1[0] != id2[0]) {
-        gint bool = id2[0] - id1[0];
+        gint bool = id1[0] - id2[0];
         free(id1);
         free(id2);
         return bool;
     }
     if (id1[1] != id2[1]) {
-        gint bool = id2[1] - id1[1];
+        gint bool = id1[1] - id2[1];
         free(id1);
         free(id2);
         return bool;
     }
     if (id1[2] != id2[2]) {
-        gint bool = id2[2] - id1[2];
+        gint bool = id1[2] - id2[2];
         free(id1);
         free(id2);
         return bool;

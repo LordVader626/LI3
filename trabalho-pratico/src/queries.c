@@ -341,6 +341,7 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
 
         if (f == 0) {
             while (sortedList != NULL){
+                //int i = 0;
                 RESERVATION *reserva = (RESERVATION*)sortedList->data;
                 char *idReserva = getID_reservation(reserva);
                 char *beginDate = getBeginDate_reservation(reserva);
@@ -350,8 +351,12 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
                 double total_price = get_Total_Price(reserva);
 
                 fprintf(file, "%s;%s;%s;%s;%d;%.3f\n", idReserva, beginDate, endDate, user_id, (int)rating, total_price);
+                
+                GList *nodeToFree = sortedList;
+
                 sortedList = g_list_next(sortedList);
 
+                g_list_free_1(nodeToFree);
                 free(idReserva);
                 free(beginDate);
                 free(endDate);
@@ -377,9 +382,12 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
                 fprintf(file, "user_id: %s\n", user_id);
                 fprintf(file, "rating: %d\n", (int)rating);
                 fprintf(file, "total_price: %.3f\n", total_price);
+
+                GList *nodeToFree = sortedList;
                 sortedList = g_list_next(sortedList);
                 i++;
 
+                g_list_free1(nodeToFree);
                 free(idReserva);
                 free(beginDate);
                 free(endDate);
@@ -398,6 +406,7 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
     FILE *file = fopen(path, "w");
     if (file == NULL) {
         perror("Error opening file");
+        fclose(file);
         return;
     }
 
@@ -411,24 +420,23 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
 
     AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats,airportID);
 
-
     GList * listaAuxiliar = g_list_sort(get_airport_stat_listaVoos(astat), compare_flightswithHours);
-    
-
 
     GList * listaVoosOrd = NULL;
     
     while (listaAuxiliar != NULL && listaAuxiliar->data != NULL) {
-
-        FLIGHT *fl = malloc(sizeof(FLIGHT*));
-        fl = (FLIGHT*) listaAuxiliar->data;
+        FLIGHT *fl = (FLIGHT*) listaAuxiliar->data;
         char *dataF = getScheduleDepartureDate(fl);
         if (compare_dates(dataF,begindate) != 1 && compare_dates(dataF,enddate) != -1) { 
             listaVoosOrd = g_list_append(listaVoosOrd,fl);
-            }
-            listaAuxiliar = g_list_next(listaAuxiliar);
-        free(dataF);
         }
+
+        GList *nodeToDelete = listaAuxiliar;
+        listaAuxiliar = g_list_next(listaAuxiliar);
+
+        g_list_free1(nodeToDelete);
+        free(dataF);
+    }
         
 
     if (f == 0) {
@@ -441,7 +449,10 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
             char *planemodel = getPlaneModel(flight);
             
             fprintf(file, "%s;%s;%s;%s;%s\n", id, depdate, destino, airline, planemodel);
+            GList *nodeToDelete = listaVoosOrd;
             listaVoosOrd = g_list_next(listaVoosOrd);
+
+            g_list_free1(nodeToDelete);
             free(id);
             free(depdate);
             free(destino);
@@ -466,22 +477,19 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
             fprintf(file, "airline: %s\n", airline);
             fprintf(file, "plane_model: %s\n", planemodel);
             
+            GList *nodeToDelete = listaVoosOrd;
             listaVoosOrd = g_list_next(listaVoosOrd);
+
             i++;
+
+            g_list_free1(nodeToDelete);
             free(id);
             free(depdate);
             free(destino);
             free(airline);
             free(planemodel);
-            }
+        }
     }
-    /*GList *current = listaAuxiliar;
-    while (current != NULL) {
-        free(current->data); // Free the individual elements
-        current = g_list_next(current);
-    }*/
-    g_list_free(listaAuxiliar);
-    g_list_free(listaVoosOrd);
     free(airportID);
     free(begindate);
     free(enddate);

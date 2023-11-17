@@ -336,7 +336,9 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
 
         if(hstat != NULL){
 
-        GList *sortedList = g_list_sort(get_hotel_stat_reservasHotel(hstat), compare_reservations);
+        GList *sortedList = get_hotel_stat_reservasHotel(hstat);
+        sortedList = g_list_sort(sortedList, compare_reservations);
+
         if (f == 0) {
             while (sortedList != NULL){
                 RESERVATION *reserva = (RESERVATION*)sortedList->data;
@@ -354,6 +356,7 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
                 free(beginDate);
                 free(endDate);
                 free(user_id);
+                
                 }
             printf("Reservation dates from Hotel\n");
         } else {
@@ -384,6 +387,7 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
             }
             printf("Reservation dates from hotel\n");
         }
+        
     }
     fclose(file);
     free(aux);
@@ -408,7 +412,7 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
     AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats,airportID);
 
 
-    GList * listaAuxiliar = g_list_sort(get_airport_stat_listaVoos(astat), compare_flights);
+    GList * listaAuxiliar = g_list_sort(get_airport_stat_listaVoos(astat), compare_flightswithHours);
     
 
 

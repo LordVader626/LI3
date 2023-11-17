@@ -274,6 +274,7 @@ int compare_dates(char * data1 , char * data2) {
 
     sscanf(data1, "%d/%d/%d %d:%d:%d", &ano1, &mes1, &dia1, &hora1, &minuto1 ,&sec1);
     sscanf(data2, "%d/%d/%d %d:%d:%d", &ano2, &mes2, &dia2, &hora2, &minuto2 ,&sec2);
+    
     if ((ano1 > ano2) || (ano1 == ano2 && mes1 > mes2) || (ano1 == ano2 && mes1 == mes2 && dia1 > dia2) || 
     (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 > hora2) || (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 > minuto2)
     || (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 == minuto2 && sec1 > sec2))
@@ -379,4 +380,27 @@ gint compareMediana(gconstpointer a, gconstpointer b){
     free(id2);
 
     return idComparison;
+}
+
+gint compare_flightswithHours(gconstpointer a, gconstpointer b) {
+    FLIGHT *f1 = (FLIGHT*)a;
+    FLIGHT *f2 = (FLIGHT*)b;
+
+    char *data1 = getScheduleDepartureDate(f1);
+    char *data2 = getScheduleDepartureDate(f2);
+    int ano1,ano2,mes1,mes2,dia1,dia2,hora1,hora2,minuto1,minuto2,sec1,sec2;
+
+    sscanf(data1, "%d/%d/%d %d:%d:%d", &ano1, &mes1, &dia1, &hora1, &minuto1 ,&sec1);
+    sscanf(data2, "%d/%d/%d %d:%d:%d", &ano2, &mes2, &dia2, &hora2, &minuto2 ,&sec2);
+    free(data1);
+    free(data2);
+    if ((ano1 > ano2) || (ano1 == ano2 && mes1 > mes2) || (ano1 == ano2 && mes1 == mes2 && dia1 > dia2) || 
+    (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 > hora2) || (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 > minuto2)
+    || (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 == minuto2 && sec1 > sec2))
+        return -1;
+
+    if (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 == minuto2 && sec1 == sec2)
+        return 0;
+
+    return 1;
 }

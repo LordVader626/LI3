@@ -1,6 +1,6 @@
 CC=gcc
 
-CFLAGS=-Wall -Iinclude `pkg-config --cflags glib-2.0`
+CFLAGS=-Wall -g -O0 -Iinclude `pkg-config --cflags glib-2.0`
 
 LDFLAGS=`pkg-config --libs glib-2.0` -lm
 

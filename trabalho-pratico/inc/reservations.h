@@ -1,6 +1,6 @@
 #ifndef reservations_h
 #define reservations_h
-
+#include"../inc/stats.h"
 typedef struct reservation RESERVATION;
 
 RESERVATION *create_Reservation(char *line);
@@ -20,5 +20,6 @@ char *getIncludesBreakfast_reservation(RESERVATION *r);
 char *getRoomDetails_reservation(RESERVATION *r);
 double getRating_reservation(RESERVATION *r);
 char *getComment_reservation(RESERVATION *r);
+GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users, GHashTable *invalid_users) ;
 
 #endif

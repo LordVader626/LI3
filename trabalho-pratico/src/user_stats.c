@@ -112,6 +112,8 @@ void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *
         }
 		free(flightID);
     }
+	else free(username);
+
 	free(account_status);
 }
 
@@ -148,6 +150,6 @@ void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHash
             ustat->total_gasto += get_Total_Price(r);
             free(username);
         }
-    }
+    } else free(username);
     free(account_status);
 }

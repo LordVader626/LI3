@@ -1,6 +1,6 @@
 #ifndef flights_h
 #define flights_h
-
+#include"../inc/stats.h"
 typedef struct flight FLIGHT;
 
 FLIGHT *new_Flight(char *line);
@@ -22,5 +22,6 @@ char *getCopilot(FLIGHT *f);
 char *getNotes(FLIGHT *f);
 
 gpointer copy_FLIGHT(gconstpointer f, gpointer user_data);
+GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_flights);
 
 #endif

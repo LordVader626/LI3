@@ -3,6 +3,14 @@
 #include <string.h>
 #include <glib.h>
 #include "../inc/passengers.h"
+#include "../inc/users.h"
+#include "../inc/flights.h"
+#include "../inc/reservations.h"
+#include "../inc/validation.h"
+#include "../inc/stats.h"
+#include "../inc/user_stat.h"
+#include "../inc/hotel_stats.h"
+#include "../inc/airport_stats.h"
 
 struct passenger{
     char *flight_id;
@@ -45,4 +53,55 @@ void freeGArray(GArray *garray) {
     }
 
     g_array_free(garray, TRUE);
+}
+GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHashTable *flights, GHashTable *invalid_users, GHashTable *invalid_flights) {
+    char *path_passengers = malloc(sizeof(char) * 70);
+    strcpy(path_passengers, path);
+    strcat(path_passengers, "/passengers.csv");
+    char *path_passengers_errors = malloc(sizeof(char) * 70);
+    strcpy(path_passengers_errors,path);
+    strcat(path_passengers_errors, "/passengers_errors.csv");
+
+    char *line = NULL;
+    size_t len = 0;
+
+    GArray *passengers = g_array_new(FALSE, TRUE, sizeof(PASSENGER *));
+
+    FILE *file = fopen(path_passengers, "r");
+    ///FILE *file_errors = fopen(path_passengers_errors, "w");
+
+    //fprintf(file_errors, "flight_id;user_id\n");
+
+    if (file == NULL) {
+        printf("Unable to open the file.\n");
+        return NULL;  // Return NULL to indicate an error
+    }
+
+    getline(&line, &len, file);
+
+    while ((getline(&line, &len, file)) != -1) {
+
+        PASSENGER *passenger = create_Passenger(line);
+
+        if((g_hash_table_contains(invalid_users, passenger->user_id) == FALSE) && (!g_hash_table_contains(invalid_flights, passenger->flight_id))){
+            g_array_append_val(passengers, passenger);
+
+            create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
+            create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
+        }
+        else{
+            //fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));
+            kill_Passenger(passenger);
+        }
+
+    }
+
+    printf("Passenger Validation and Parsing Successfull\n");
+    free(line);
+    free(path_passengers);
+    free(path_passengers_errors);
+    //fclose(file_errors);
+    fclose(file);
+
+    return passengers;
 }

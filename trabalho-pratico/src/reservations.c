@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../inc/reservations.h"
+#include "../inc/users.h"
+#include "../inc/flights.h"
+#include "../inc/passengers.h"
+#include "../inc/validation.h"
+#include "../inc/stats.h"
+#include "../inc/user_stat.h"
+#include "../inc/hotel_stats.h"
+#include "../inc/airport_stats.h"
 
 struct reservation{
     char *id;
@@ -111,4 +119,77 @@ double getRating_reservation(RESERVATION *r) {
 
 char *getComment_reservation(RESERVATION *r) {
     return strdup(r->comment);
+}
+
+GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users, GHashTable *invalid_users) {
+
+    char *line = NULL;
+    size_t len = 0;
+
+    GHashTable *reservations = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_reservation);
+    
+    char *path_reservations = malloc(sizeof(char) * 70);
+    strcpy(path_reservations, path);
+    strcat(path_reservations, "/reservations.csv");
+    char *path_reservations_erros = malloc(sizeof(char) * 70);
+    strcpy(path_reservations_erros, path);
+    strcat(path_reservations_erros, "/reservations_errors.csv");
+
+    FILE *file = fopen(path_reservations, "r");
+    //FILE *file_errors = fopen(path_reservations_erros, "w");
+
+    if (file == NULL /*|| file_errors == NULL*/) {
+        printf("Unable to open the file.\n");
+    }
+
+    //fprintf(file_errors, "id;user_id;hotel_id;hotel_name;hotel_stars;city_tax;address;begin_date;end_date;price_per_night;includes_breakfast;room_details;rating;comment\n");
+
+    getline(&line, &len, file);
+
+    while ((getline(&line, &len, file)) != -1){
+        RESERVATION *reservation = create_Reservation(line);
+        char *userID = reservation->user_id;
+
+        if (!(g_hash_table_contains(invalid_users, userID)) && reservation_validation(reservation) == 0){
+            g_hash_table_insert(reservations, reservation->id, reservation);
+            create_user_stat_reservations(reservation, get_user_stats(stats), users);
+            create_hotel_stats(reservation, get_hotel_stats(stats));
+        }
+        else {
+            char *reservationID = getID_reservation(reservation);
+            char *userID = getUserID_reservartion(reservation);
+            char *hotelID = getHotelID_reservation(reservation);
+            char *hotelName = getHotelName_reservation(reservation);
+            char *address = getAddress_reservation(reservation);
+            char *beginDate = getBeginDate_reservation(reservation);
+            char *endDate = getEndDate_reservation(reservation);
+            char *incBreakfast = getIncludesBreakfast_reservation(reservation);
+            char *roomDetails = getRoomDetails_reservation(reservation);
+            char *comment = getComment_reservation(reservation);
+        
+            //fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", reservationID, userID, hotelID, hotelName, getHotelStars_reservation(reservation), getCityTax_reservation(reservation), 
+            //address, beginDate, endDate, getPricePerNight_reservation(reservation), incBreakfast, roomDetails, getRating_reservation(reservation), comment);
+
+            free(reservationID);
+            free(userID);
+            free(hotelID);
+            free(hotelName);
+            free(address);
+            free(beginDate);
+            free(endDate);
+            free(incBreakfast);
+            free(roomDetails);
+            free(comment);
+
+            kill_reservation(reservation);
+        }
+        
+    }
+    printf("Reservation validition and Parsing Sucessfull\n");
+    free(line);
+    free(path_reservations);
+    free(path_reservations_erros);
+    fclose(file);
+    //fclose(file_errors);
+    return reservations;
 }

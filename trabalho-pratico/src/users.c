@@ -4,6 +4,14 @@
 
 #include "../inc/users.h"
 #include "../inc/parser.h"
+#include "../inc/flights.h"
+#include "../inc/passengers.h"
+#include "../inc/reservations.h"
+#include "../inc/validation.h"
+#include "../inc/stats.h"
+#include "../inc/user_stat.h"
+#include "../inc/hotel_stats.h"
+#include "../inc/airport_stats.h"
 
 /*
 * Struct user
@@ -109,4 +117,58 @@ char *getPayMethod(USER *u){
 
 char *getAccountStatus(USER *u){
     return strdup(u->account_status);
+}
+GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
+
+    char *path_users = malloc(sizeof(char) * 70);
+    strcpy(path_users, path);
+    strcat(path_users, "/users.csv");
+    char *path_user_erros = malloc(sizeof(char) * 70);
+    strcpy(path_user_erros, path);
+    strcat(path_user_erros, "/users_errors.csv");
+
+    char *line = NULL;
+    size_t len = 0;
+
+    GHashTable *users = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
+
+    FILE *file = fopen(path_users, "r");
+    //FILE *file_error = fopen(path_user_erros, "w");
+
+    if (file == NULL /*|| file_error == NULL*/) {
+        printf("Unable to open the file.\n");
+         // Exit
+    }
+
+
+    //fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
+
+    //skip ao cabeçalho
+    getline(&line, &len, file);
+
+    while ((getline(&line, &len, file)) != -1){
+            
+        USER *user = create_User(line);
+
+        if (user_validation(user) == 0){
+            g_hash_table_insert(users, user->id, user);
+        }
+        else {
+            
+
+           g_hash_table_insert(invalid_users, getID(user), "invalid");
+            //fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", idUser, Name, email, phoneNumber, birthDate, sex, passport, countryCode, address, accountCreation, paymethod, accountStatus);
+
+            kill_user(user);
+
+        
+        }
+    }
+    printf("User Validation and Parsing Sucessfull\n");
+    fclose(file);
+    //fclose(file_error); 
+    free(line);
+    free(path_users);
+    free(path_user_erros);
+    return users;
 }

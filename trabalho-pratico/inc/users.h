@@ -18,6 +18,7 @@ char *getAddress(USER *u);
 char *getAccountCreation(USER *u);
 char *getPayMethod(USER *u);
 char *getAccountStatus(USER *u);
+GHashTable *parse_files_users(char *path, GHashTable *invalid_users);
 
 
 #endif

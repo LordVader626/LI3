@@ -68,27 +68,6 @@ void kill_flight(void *flight){
     free(f);
 }
 
-gpointer copy_FLIGHT(gconstpointer f, gpointer user_data) {
-    FLIGHT *flightToCopy = (FLIGHT *)f;
-    FLIGHT *flight = g_slice_new(FLIGHT);
-
-    flight->id = strdup(flightToCopy->id);
-    flight->airline = strdup(flightToCopy->airline);
-    flight->plane_model = strdup(flightToCopy->plane_model);
-    flight->total_seats = flightToCopy->total_seats;
-    flight->origin = strdup(flightToCopy->origin);
-    flight->destination = strdup(flightToCopy->destination);
-    flight->schedule_departure_date = strdup(flightToCopy->schedule_departure_date);
-    flight->schedule_arrival_date = strdup(flightToCopy->schedule_arrival_date);
-    flight->real_departure_date = strdup(flightToCopy->real_departure_date);
-    flight->real_arrival_date = strdup(flightToCopy->real_arrival_date);
-    flight->pilot = strdup(flightToCopy->pilot);
-    flight->copilot = strdup(flightToCopy->copilot);
-    flight->notes = strdup(flightToCopy->notes);
-
-    return flight;
-}
-
 
 char *getID_flight(FLIGHT *f){
     /*char *str_id = malloc(11);

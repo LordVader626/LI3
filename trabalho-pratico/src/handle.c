@@ -22,7 +22,7 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
      }
      int x = 0;
      for (i = 1; (read = getline(&copy, &len, file))!=-1; i++){
-          char *line = strdup(copy);
+          char *line = copy;
           line[read-1] = '\0';
           char *query = strdup(strsep(&line, " "));
           char *path = malloc(100);

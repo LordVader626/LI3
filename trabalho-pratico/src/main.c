@@ -32,7 +32,7 @@ int main(int argc, char **argv){
 
         GHashTable *users = parse_files_users(files_path, invalid_users);
         GHashTable *flights = parse_files_flights(files_path, stats, invalid_flights);
-        GArray *passengers = parse_files_passengers(files_path,stats,users,flights,invalid_users,invalid_flights);
+        GArray *passengers = parse_files_passengers(files_path, stats,users,flights,invalid_users,invalid_flights);
         GHashTable *reservations = parse_files_reservations(files_path, stats, users, invalid_users);
 
         //printUserByID(users, "DGarcia429");
@@ -44,7 +44,10 @@ int main(int argc, char **argv){
 
         handle(data_input, users, flights, passengers, reservations, stats, invalid_users);
 
+        g_hash_table_foreach_remove(invalid_flights, remove_keys, NULL);
         g_hash_table_destroy(invalid_flights);
+
+        g_hash_table_foreach_remove(invalid_users, remove_keys, NULL);
         g_hash_table_destroy(invalid_users);
 
 

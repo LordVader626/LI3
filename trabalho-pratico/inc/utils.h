@@ -21,5 +21,6 @@ int compare_dates(char * data1 , char * data2);
 gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata);
 gint compareMediana(gconstpointer a, gconstpointer b);
 gint compare_flightswithHours(gconstpointer a, gconstpointer b);
+gboolean remove_keys(gpointer key, gpointer value, gpointer user_data);
 
 #endif

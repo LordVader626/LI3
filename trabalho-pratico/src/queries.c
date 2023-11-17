@@ -355,7 +355,14 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
                 GList *nodeToFree = sortedList;
 
                 sortedList = g_list_next(sortedList);
+                /*GList *nodeToDelete = g_list_nth(sortedList, i); // Get the node to delete, 'index' is the position of the node
+                i++;
 
+                if (nodeToDelete != NULL) {
+                    sortedList = g_list_delete_link(sortedList, nodeToDelete);
+                } else {
+                    
+                }*/
                 g_list_free_1(nodeToFree);
                 free(idReserva);
                 free(beginDate);

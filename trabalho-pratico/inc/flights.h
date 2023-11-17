@@ -21,7 +21,6 @@ char *getPilot(FLIGHT *f);
 char *getCopilot(FLIGHT *f);
 char *getNotes(FLIGHT *f);
 
-gpointer copy_FLIGHT(gconstpointer f, gpointer user_data);
 GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_flights);
 
 #endif

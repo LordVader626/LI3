@@ -404,3 +404,9 @@ gint compare_flightswithHours(gconstpointer a, gconstpointer b) {
 
     return 1;
 }
+
+gboolean remove_keys(gpointer key, gpointer value, gpointer user_data) {
+    free(key);
+
+    return FALSE;
+}

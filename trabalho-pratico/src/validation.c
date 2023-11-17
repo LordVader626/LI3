@@ -30,7 +30,7 @@ int dataFormatoCorreto(char *str) {
     return 1;
 }
 
-/*int compareDates(char *data1, char *data2) {
+int compareDates(char *data1, char *data2) {
     struct tm timeStruct1 = {0};
     struct tm timeStruct2 = {0};
 
@@ -42,30 +42,8 @@ int dataFormatoCorreto(char *str) {
     time_t time2 = mktime(&timeStruct2);
 
     if (difftime(time1, time2) > 0) return 0; // data1 é depois da data2
+    if (difftime(time1,time2) == 0) return -1;
     return 1;
-}*/
-
-int compareDates(const char *date1, const char *date2) {
-    struct tm timeStruct1 = {0};
-    struct tm timeStruct2 = {0};
-
-    sscanf(date1, "%d/%d/%d %d:%d:%d",
-           &timeStruct1.tm_year, &timeStruct1.tm_mon, &timeStruct1.tm_mday,
-           &timeStruct1.tm_hour, &timeStruct1.tm_min, &timeStruct1.tm_sec);
-    sscanf(date2, "%d/%d/%d %d:%d:%d",
-           &timeStruct2.tm_year, &timeStruct2.tm_mon, &timeStruct2.tm_mday,
-           &timeStruct2.tm_hour, &timeStruct2.tm_min, &timeStruct2.tm_sec);
-
-    time_t time1 = mktime(&timeStruct1);
-    time_t time2 = mktime(&timeStruct2);
-
-    char formattedDate1[50];
-    char formattedDate2[50];
-
-    strftime(formattedDate1, sizeof(formattedDate1), "%Y%m%d%H%M%S", &timeStruct1);
-    strftime(formattedDate2, sizeof(formattedDate2), "%Y%m%d%H%M%S", &timeStruct2);
-
-    return strcmp(formattedDate1, formattedDate2);
 }
 
 

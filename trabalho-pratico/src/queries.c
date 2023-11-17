@@ -55,14 +55,18 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
             fprintf(file,"hotel_stars: %d\n",(int) hotelStars);
             fprintf(file,"begin_date: %s\n",beginDate);
             fprintf(file,"end_date: %s\n",endDate);
-            fprintf(file,"includes_breakfast: %s\n",incBreakfast);
+            if(strcasecmp(incBreakfast,"true") == 0|| strcasecmp(incBreakfast,"t") == 0|| strcmp(incBreakfast,"1") == 0) fprintf(file,"includes_breakfast: True\n");
+            else fprintf(file,"includes_breakfast: False\n");
+        
             fprintf(file,"nights: %d\n",nights);
             fprintf(file,"total_price: %.3f\n\n",totalPrice);
             
             printf("Reservation id %s from query 1 printed\n", idHotel);
         }
         else {
-            fprintf(file,"%s;%s;%d;%s;%s;%s;%d;%.3f\n",idHotel,hotelName, (int) hotelStars, beginDate, endDate, incBreakfast, nights, totalPrice);
+            if(strcasecmp(incBreakfast,"true") == 0|| strcasecmp(incBreakfast,"t") == 0|| strcmp(incBreakfast,"1") == 0) 
+            fprintf(file,"%s;%s;%d;%s;%s;True;%d;%.3f\n",idHotel,hotelName, (int) hotelStars, beginDate, endDate, nights, totalPrice);
+            else fprintf(file,"%s;%s;%d;%s;%s;False;%d;%.3f\n",idHotel,hotelName, (int) hotelStars, beginDate, endDate, nights, totalPrice);
             printf("Reservation id %s from query 1 printed\n", idHotel);
         }
         free(idHotel);
@@ -149,14 +153,14 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
 
         if(f == 1){
             fprintf(file,"--- 1 ---\n");
-            fprintf(file,"companhia: %s\n",companhia);
-            fprintf(file,"avião: %s\n",aviao);
-            fprintf(file,"origem: %s\n",origem);
-            fprintf(file,"destino: %s\n",destino);
-            fprintf(file,"partida_est: %s\n",partida_est);
-            fprintf(file,"chegada_est: %s\n",chegada_est);
-            fprintf(file,"número_passageiros: %d\n",numero_passageiros);
-            fprintf(file,"tempo_atraso: %d\n\n",tempo_atraso);
+            fprintf(file,"airline: %s\n",companhia);
+            fprintf(file,"plane_model: %s\n",aviao);
+            fprintf(file,"origin: %s\n",origem);
+            fprintf(file,"destination: %s\n",destino);
+            fprintf(file,"schedule_departure_date: %s\n",partida_est);
+            fprintf(file,"schedule_arrival_date: %s\n",chegada_est);
+            fprintf(file,"passengers: %d\n",numero_passageiros);
+            fprintf(file,"delay: %d\n\n",tempo_atraso);
             printf("Flight from query 1 printed\n");
         }
         else {
@@ -403,11 +407,15 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
     AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats,airportID);
 
 
-    GList * listaAuxiliar = get_airport_stat_listaVoos(astat);
-    listaAuxiliar = g_list_sort(listaAuxiliar, compare_flights);
+    GList * listaAuxiliar = g_list_sort(get_airport_stat_listaVoos(astat), compare_flights);
+    GList *iterator;
+    for(iterator=listaAuxiliar;iterator!=NULL;iterator = g_list_next(iterator)) printf("%p\n",iterator->data);
+
+
     GList * listaVoosOrd = NULL;
     
     while (listaAuxiliar != NULL && listaAuxiliar->data != NULL) {
+
         FLIGHT *fl = malloc(sizeof(FLIGHT*));
         fl = (FLIGHT*) listaAuxiliar->data;
         char *dataF = getScheduleDepartureDate(fl);
@@ -541,7 +549,7 @@ void query7(char *linha, int f, char *path, GHashTable *airport_stats){
             AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
 
             char *statID = get_airport_stat_id(airport_stat);
-
+            if(i!=1) fprintf(file,"\n");
             fprintf(file, "--- %d ---\n", i);
             fprintf(file, "name: %s\n", statID);
             int *aux = get_airport_stat_atrasosVoos(airport_stat);
@@ -549,7 +557,7 @@ void query7(char *linha, int f, char *path, GHashTable *airport_stats){
             int index = len/2;
             if(len % 2 == 0) median = (aux[index] + aux[index-1])/2;
             else median = aux[index];
-            fprintf(file, "median: %d\n\n", median);
+            fprintf(file, "median: %d\n", median);
             i++;
             free(statID);
         }

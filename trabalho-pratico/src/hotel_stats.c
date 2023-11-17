@@ -46,7 +46,7 @@ double get_hotel_stat_avgscore(HOTEL_STAT *h){
 
 GList *get_hotel_stat_reservasHotel(HOTEL_STAT *h)
 {
-	return h->reservasHotel;
+	return g_list_copy(h->reservasHotel);
 }
 
 

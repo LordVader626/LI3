@@ -21,4 +21,6 @@ char *getPilot(FLIGHT *f);
 char *getCopilot(FLIGHT *f);
 char *getNotes(FLIGHT *f);
 
+gpointer copy_FLIGHT(gconstpointer f, gpointer user_data);
+
 #endif

@@ -13,6 +13,7 @@
 #include "../inc/parser.h"
 #include "../inc/handle.h"
 #include "../inc/user_stat.h"
+#include "../inc/airport_stats.h"
 #include "../inc/stats.h"
 
 #define TODAY "2023/10/01"
@@ -248,4 +249,132 @@ int passageirosPorVoo(char *idflight , GArray *passengers){
         free(id_flight);
     }
     return n;
+}
+
+void insertion_Sort(int arr[], int n, int value) {
+    int i, j;
+
+    for (i = 0; i < n; i++) {
+        if (arr[i] >= value) {
+
+            for (j = n; j > i; j--) {
+                arr[j] = arr[j - 1];
+            }
+
+            arr[i] = value;
+
+            return;
+        }
+    }
+    arr[n] = value;
+}
+
+int compare_dates(char * data1 , char * data2) {
+    int ano1,ano2,mes1,mes2,dia1,dia2,hora1,hora2,minuto1,minuto2,sec1,sec2;
+
+    sscanf(data1, "%d/%d/%d %d:%d:%d", &ano1, &mes1, &dia1, &hora1, &minuto1 ,&sec1);
+    sscanf(data2, "%d/%d/%d %d:%d:%d", &ano2, &mes2, &dia2, &hora2, &minuto2 ,&sec2);
+    if ((ano1 > ano2) || (ano1 == ano2 && mes1 > mes2) || (ano1 == ano2 && mes1 == mes2 && dia1 > dia2) || 
+    (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 > hora2) || (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 > minuto2)
+    || (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 == minuto2 && sec1 > sec2))
+        return -1;
+
+    if (ano1 == ano2 && mes1 == mes2 && dia1 == dia2 && hora1 == hora2 && minuto1 == minuto2 && sec1 == sec2)
+        return 0;
+
+    return 1;
+}
+
+/*gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata) {
+    AIRPORT_STAT *astat1 = (AIRPORT_STAT*)a;
+    AIRPORT_STAT *astat2 = (AIRPORT_STAT*)b;
+    char *ano = (char*) userdata;
+
+    int npassageiros1 = get_airport_stat_nPassageirosAno(astat1)[2023-atoi(ano)];
+    int npassageiros2 = get_airport_stat_nPassageirosAno(astat2)[2023-atoi(ano)];
+
+    if (npassageiros1 != npassageiros2) {
+        return npassageiros2 - npassageiros1;
+    }
+
+    char * id1 = get_airport_stat_id(astat1);
+    char * id2 = get_airport_stat_id(astat2);
+    if(id1[0]!= id2[0]) return id2[0]-id1[0];
+    if(id1[1]!= id2[1]) return id2[1]-id1[1];
+    if(id1[2]!= id2[2]) return id2[2]-id1[2];
+
+    return 0;
+}*/
+
+gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata) {
+    AIRPORT_STAT *astat1 = (AIRPORT_STAT*)a;
+    AIRPORT_STAT *astat2 = (AIRPORT_STAT*)b;
+    char *ano = (char*)userdata;
+
+    int npassageiros1 = get_airport_stat_nPassageirosAno(astat1)[2023 - atoi(ano)];
+    int npassageiros2 = get_airport_stat_nPassageirosAno(astat2)[2023 - atoi(ano)];
+
+    if (npassageiros1 != npassageiros2) {
+        return npassageiros2 - npassageiros1;
+    }
+
+    char *id1 = get_airport_stat_id(astat1);
+    char *id2 = get_airport_stat_id(astat2);
+
+    if (id1[0] != id2[0]) {
+        gint bool = id2[0] - id1[0];
+        free(id1);
+        free(id2);
+        return bool;
+    }
+    if (id1[1] != id2[1]) {
+        gint bool = id2[1] - id1[1];
+        free(id1);
+        free(id2);
+        return bool;
+    }
+    if (id1[2] != id2[2]) {
+        gint bool = id2[2] - id1[2];
+        free(id1);
+        free(id2);
+        return bool;
+    }
+
+    free(id1);
+    free(id2);
+    return 0;
+}
+
+gint compareMediana(gconstpointer a, gconstpointer b){
+    AIRPORT_STAT *astat1 = (AIRPORT_STAT*)a;
+    AIRPORT_STAT *astat2 = (AIRPORT_STAT*)b;
+
+    int *aux1 = get_airport_stat_atrasosVoos(astat1);
+    int *aux2 = get_airport_stat_atrasosVoos(astat2);
+
+    int len1 = get_airport_stat_nVoos(astat1);
+    int len2 = get_airport_stat_nVoos(astat2);
+    int mediana1,mediana2;
+    int index1 = len1/2;
+    int index2 = len2/2;
+
+
+    if(len1 % 2 == 0) mediana1 = (aux1[index1] + aux1[index1-1])/2;
+    else mediana1 = aux1[index1];
+    if(len2 % 2 == 0) mediana2 = (aux2[index2] + aux2[index2-1])/2;
+    else mediana2 = aux2[index2];
+
+    if (mediana1 != mediana2) {
+        return mediana2 - mediana1;
+    }
+
+    char *id1 = get_airport_stat_id(astat1);
+    char *id2 = get_airport_stat_id(astat2);
+
+    int idComparison = strcmp(id1, id2);
+
+    free(id1);
+    free(id2);
+
+    return idComparison;
 }

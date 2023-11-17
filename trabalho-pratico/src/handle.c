@@ -25,7 +25,7 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
           char *query = strdup(strsep(&line, " "));
           char *path = malloc(100);
 
-          sprintf(path, "Resultados/command%d_output.txt", i);        
+          sprintf(path, "Resultados/command%d_output.txt\n", i);        
           x++;
           switch( query[0]-'0'){ 
                case 1:
@@ -46,17 +46,17 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
                     else query4(line, 0, path, get_hotel_stats(stats));
                     break;
                case 5:
-                    if (strcmp(query, "5F")) printf("not done\n");//query5(catalogo,line, 1);                        
-                    else printf("not done\n");//query5 (catalogo, 0);
+                    /*if (strcmp(query, "5F") == 0) query5(line, 1, path, get_airport_stats(stats));                     
+                    else query5(line, 0, path, get_airport_stats(stats));*/
                     break;
                case 6:
-                    /*if (strcmp(query, "6F")) query6(catalogo,line, 1);                        
-                    else query6 (catalogo, 0);*/
+                    if (strcmp(query, "6F") == 0) query6(line, 1, path, get_airport_stats(stats));                     
+                    else query6(line, 0, path, get_airport_stats(stats));
                     break;
                case 7:
-                    /*if (strcmp(query, "7F")) query7(catalogo,line, 1);                        
-                    else query7(catalogo, 0);
-                    break;*/
+                    /*if (strcmp(query, "7F") == 0) query7(line, 1,path, get_airport_stats(stats));                      
+                    else query7(line, 0,path, get_airport_stats(stats));*/   
+                    break;
                case 8:
                     /*if (strcmp(query, "8F")) query8(catalogo,line, 1);                        
                     else query8(catalogo, 0);

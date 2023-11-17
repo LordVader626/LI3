@@ -15,6 +15,7 @@
 #include "../inc/stats.h"
 #include "../inc/user_stat.h"
 #include "../inc/hotel_stats.h"
+#include "../inc/airport_stats.h"
 #include "../inc/validation.h"
 
 
@@ -372,4 +373,48 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
     }
     fclose(file);
     free(aux);
+}
+
+
+void query6(char *linha, int f, char *path, GHashTable *airport_stats){
+
+    FILE *file = fopen(path, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    char *ano = strdup(strsep(&linha," "));
+    int n = atoi(strsep(&linha,"\n"));
+    GList *air_stats = g_hash_table_get_values(airport_stats);
+    air_stats = g_list_sort_with_data(air_stats,compareNPassageirosAno, ano);
+    int i = 1;
+    
+    if (f == 1) {
+        while (i<=n)
+        {
+            AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
+            char *airport_stat_id = get_airport_stat_id(airport_stat);
+            fprintf(file, "--- %d ---\n", i);
+            fprintf(file, "name: %s\n", airport_stat_id);
+            fprintf(file, "passengers: %d\n", get_airport_stat_nPassageirosAno(airport_stat)[2023-atoi(ano)]);
+            i++;
+            free(airport_stat_id);
+        }
+    }
+    else {
+        while (i<=n)
+        {
+            AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
+            char *airport_stat_id = get_airport_stat_id(airport_stat);
+
+            fprintf(file, "%s;%d\n", airport_stat_id,get_airport_stat_nPassageirosAno(airport_stat)[2023-atoi(ano)]);
+            i++;
+            free(airport_stat_id);
+            
+        }
+    }
+    g_list_free(air_stats);
+    free(ano);
+    fclose(file);
 }

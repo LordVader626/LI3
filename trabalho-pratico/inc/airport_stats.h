@@ -12,7 +12,7 @@ typedef struct a_stat AIRPORT_STAT;
 
 char *get_airport_stat_id(AIRPORT_STAT *a);
 int *get_airport_stat_nPassageirosAno(AIRPORT_STAT *a);
-GArray *get_airport_stat_atrasosVoos(AIRPORT_STAT *a);
+int *get_airport_stat_atrasosVoos(AIRPORT_STAT *a);
 int get_airport_stat_nVoos(AIRPORT_STAT *a);
 GList *get_airport_stat_listaVoos(AIRPORT_STAT *a);
 

@@ -8,4 +8,8 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
 void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats, GHashTable *invalid_users);
 void query3(GHashTable *reservations,char* linha, int f,char *path, GHashTable *hotel_stats);
 void query4(char *lina, int f, char *path, GHashTable *hotel_stats);
+void query5(char *linha, int f, char *path, GHashTable *airport_stats);
+void query6(char *linha, int f, char *path, GHashTable *airport_stats);
+void query7(char *linha, int f, char *path, GHashTable *airport_stats);
+
 #endif

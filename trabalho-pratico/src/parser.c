@@ -131,7 +131,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
             g_array_append_val(passengers, passenger);
 
             create_user_stat_flights(passenger, get_user_stats(stats), users, flights);
-            //create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
+            create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
         }
         else{
             //fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));
@@ -176,6 +176,9 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     getline(&line, &len, file);
 
     while ((getline(&line, &len, file)) != -1){
+
+        
+
         RESERVATION *reservation = create_Reservation(line);
         char *userID = getUserID_reservartion(reservation);
 

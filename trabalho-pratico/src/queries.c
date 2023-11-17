@@ -573,9 +573,10 @@ void query7(char *linha, int f, char *path, GHashTable *airport_stats){
             int *aux = get_airport_stat_atrasosVoos(airport_stat);
             int len = get_airport_stat_nVoos(airport_stat);
             int index = len/2;
+
             if(len % 2 == 0) median = (aux[index] + aux[index-1])/2;
             else median = aux[index];
-            fprintf(file, "%s;%d\n", statID,median);
+            if (median != -1) fprintf(file, "%s;%d\n", statID,median);
             i++;
             
             free(statID);

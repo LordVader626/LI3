@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
+#include <ctype.h>
 #include "../inc/flights.h"
 #include "../inc/users.h"
 #include "../inc/passengers.h"
@@ -181,6 +182,10 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
             int i;
             for (i = 0; i < 3 && flight->origin[i] != '\0'; i ++){
                 flight->origin[i] = toupper(flight->origin[i]);
+            }
+            
+            for (i = 0; i < 3 && flight->destination[i] != '\0'; i ++){
+                flight->destination[i] = toupper(flight->destination[i]);
             }
 
             g_hash_table_insert(flights, flight->id, flight);

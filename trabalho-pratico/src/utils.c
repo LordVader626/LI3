@@ -358,6 +358,8 @@ gint compareMediana(gconstpointer a, gconstpointer b){
     int index1 = len1/2;
     int index2 = len2/2;
 
+    if(aux1[0] == -1) return 1;
+    if(aux2[0] == -1) return -1;
 
     if(len1 % 2 == 0) mediana1 = (aux1[index1] + aux1[index1-1])/2;
     else mediana1 = aux1[index1];

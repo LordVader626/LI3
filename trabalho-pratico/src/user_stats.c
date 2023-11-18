@@ -5,7 +5,9 @@
 #include "../inc/user_stat.h"
 #include "../inc/users.h"
 
-
+/*
+	Struct que vai guardar os dados para as stats dos utilizadores
+*/
 struct stat{
 	char *username;
 	int numReservas;
@@ -15,6 +17,9 @@ struct stat{
 	double total_gasto;
 };
 
+/*
+	Função que liberta o espaço das user_stats
+*/
 void kill_userStat(void *userStat){
 	USER_STAT *us = userStat;
 	free(us->username);
@@ -24,7 +29,7 @@ void kill_userStat(void *userStat){
 	free(us);
 }
 
-// FUNÇÕES GET
+// GETTERS
 
 char *get_user_stat_username(USER_STAT *s)
 {
@@ -55,6 +60,12 @@ double get_user_stat_totalGasto(USER_STAT *s)
 	return s->total_gasto;
 }
 
+
+/*
+	Funções que criam as stats para os utilizadores
+	Caso não exista ja criada inicia os dados
+	Caso contrario apenas os atualiza
+*/
 void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *users, GHashTable *flights)
 {
 	char *username = getID_passenger(p);

@@ -8,7 +8,9 @@
 #include "../inc/hotel_stats.h"
 
 
-
+/*
+    Struct que vai guardar as varias ststs
+*/
 struct stats
 {
     GHashTable *user_stats;
@@ -16,6 +18,8 @@ struct stats
     GHashTable *airport_stats;
 
 };
+
+//GETTERS
 
 GHashTable *get_user_stats(STATS *s)
 {
@@ -31,6 +35,9 @@ GHashTable *get_airport_stats(STATS *s)
     return s->airport_stats;
 }
 
+/*
+    Função que cria as estruturas de dados para as stats
+*/
 STATS *create_stats()
 {
     STATS *s = malloc(sizeof(STATS));
@@ -46,6 +53,10 @@ STATS *create_stats()
     return s;
 }
 
+
+/*
+    Função que liberta o espaço das stats
+*/
 void destroy_stats(void *stats){
     STATS *s = stats;
 

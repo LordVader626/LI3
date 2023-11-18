@@ -11,6 +11,9 @@
 #include "../inc/hotel_stats.h"
 #include "../inc/airport_stats.h"
 
+/*
+    Struct responsavel por guardar dados das reservas
+*/
 struct reservation{
     char *id;
     char *user_id;
@@ -22,12 +25,15 @@ struct reservation{
     char *begin_date;
     char *end_date;
     double price_per_night;
-    char *includes_breakfast; //usar bool lib ou 1 = TRUE && 0 = FALSE
+    char *includes_breakfast;
     char *room_details;
     double rating;
     char *comment;
 };
 
+/*
+    Função responsavel por criar uma strust RESERVATION e inserir os dados
+*/
 RESERVATION*create_Reservation(char *line){
 
     RESERVATION *r = malloc(sizeof(RESERVATION));
@@ -49,6 +55,9 @@ RESERVATION*create_Reservation(char *line){
     return r;
 }
 
+/*
+    Função responsavel por libertar o espaço criado pela função create_Reservation
+*/
 void kill_reservation(void *reservation){
     RESERVATION *r = reservation;
 
@@ -65,6 +74,8 @@ void kill_reservation(void *reservation){
     free(r);
 }
 
+
+// GETTERS
 char *getID_reservation(RESERVATION *r){
     return strdup(r->id);
 }
@@ -121,6 +132,11 @@ char *getComment_reservation(RESERVATION *r) {
     return strdup(r->comment);
 }
 
+/*
+    Função que faz o parsing das reservas
+    Antes de inserir na sua estrutura de dados faz a verificação
+    Se for invalida insere, caso contrario escreve no ficheiro de erros
+*/
 GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users, GHashTable *invalid_users) {
 
     char *line = NULL;
@@ -140,6 +156,7 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
         printf("Unable to open the file.\n");
     }
 
+    //cabeçalho ficheiro de erros
     fprintf(file_errors, "id;user_id;hotel_id;hotel_name;hotel_stars;city_tax;address;begin_date;end_date;price_per_night;includes_breakfast;room_details;rating;comment\n");
 
     getline(&line, &len, file);

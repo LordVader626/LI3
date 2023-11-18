@@ -12,10 +12,18 @@
 #include "../inc/hotel_stats.h"
 #include "../inc/airport_stats.h"
 
+
+/*
+    Struct responsavel por guardar os dados dos passageiros
+*/
 struct passenger{
     char *flight_id;
     char *user_id;
 };
+
+/*
+    Função responsavel pela criação de uma struct PASSENGER e atribuição dos seus dados
+*/
 PASSENGER *create_Passenger(char *line){
 
     PASSENGER *p = malloc(sizeof(PASSENGER));
@@ -26,6 +34,8 @@ PASSENGER *create_Passenger(char *line){
     return p;
 }
 
+
+// GETTERS
 char *get_FlightID_passenger(PASSENGER *p){
     return strdup(p->flight_id);
 }
@@ -34,6 +44,9 @@ char *getID_passenger(PASSENGER *p){
     return strdup(p->user_id);
 }
 
+/*
+    Função que liberta o espaço alocado na funcao create_passenger
+*/
 void kill_Passenger(void *passenger){
     PASSENGER *p = passenger;
 
@@ -42,6 +55,10 @@ void kill_Passenger(void *passenger){
     free(p);
 }
 
+
+/*
+    Função responsavel por dar free ao array completo
+*/
 void freeGArray(GArray *garray) {
     g_assert(garray != NULL);
 
@@ -55,6 +72,12 @@ void freeGArray(GArray *garray) {
     g_array_free(garray, TRUE);
 }
 
+
+/*
+    Função que faz o parsing dos passageiros
+    Apenas coloca na hashtable dos passageiros se ambos utilizador->id e flight->id forem válidos
+    Aqui é também criadas/atualizads stats para o user em relação aos flights assim como para os aeroportos
+*/
 GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHashTable *flights, GHashTable *invalid_users, GHashTable *invalid_flights) {
     char *path_passengers = malloc(sizeof(char) * 70);
     strcpy(path_passengers, path);
@@ -69,6 +92,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     FILE *file = fopen(path_passengers, "r");
     FILE *file_errors = fopen(path_passengers_erros, "w");
 
+    //cabeçalho ficheiro de erros
     fprintf(file_errors, "flight_id;user_id\n");
 
     if (file == NULL) {

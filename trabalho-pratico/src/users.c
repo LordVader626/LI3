@@ -32,6 +32,9 @@ struct user{
     char *account_status;
 };
 
+/*
+    Função responsavel por criar uma strut USER e colocar la os dados necessários
+*/
 USER *create_User(char *line){
 
     USER *u = malloc(sizeof(USER));
@@ -52,7 +55,9 @@ USER *create_User(char *line){
     return u;
 }
 
-// vai apagar utilizador se tiver campo invalido
+/*
+    Função que liberta o espaço alocado pela função create_USER
+*/
 void kill_user(void *user){
     USER *u = user;
 
@@ -71,6 +76,7 @@ void kill_user(void *user){
     free(u);
 }
 
+//GETTERS
 char *getID(USER *u){
     return strdup(u->id);
 }
@@ -118,6 +124,12 @@ char *getPayMethod(USER *u){
 char *getAccountStatus(USER *u){
     return strdup(u->account_status);
 }
+
+/*
+    Função que faz o parsing dos users, e a sua verificação
+    Caso a verificação, nao será adicionado a hashtable dos users
+    Mas o seu id será stored na hashtable invalid_users 
+*/
 GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
 
     char *path_users = malloc(sizeof(char) * 70);
@@ -140,14 +152,15 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
          return NULL;
     }
 
-
+    // cabeçalho ficheiro de erros
     fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
 
-    //skip ao cabeçalho
+    //skip ao cabeçalho do ficheiro input
     getline(&line, &len, file);
 
     while ((getline(&line, &len, file)) != -1){
             
+        char *temp = strdup(line);
         USER *user = create_User(line);
 
         if (user_validation(user) == 0){
@@ -157,13 +170,12 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
             if(strcmp("",user->id) != 0)
             g_hash_table_insert(invalid_users, getID(user), "invalid");
             
-            fprintf(file_error, "%s", line);
+            fprintf(file_error, "%s", temp);
 
             kill_user(user);
 
         }
-        
-        
+        free(temp);
     }
     printf("User Validation and Parsing Sucessfull\n");
     fclose(file);

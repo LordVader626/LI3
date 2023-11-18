@@ -8,6 +8,10 @@
 #include "../inc/flights.h"
 
 
+/*
+    Struct que contem os dados necessários para os aerpoportos
+*/
+
 struct a_stat{
     char *airportid;
     int nPassageirosAno[3];
@@ -17,6 +21,10 @@ struct a_stat{
     //mediana = atrasosVoos[(n+1)/2];
 };
 
+
+/*
+    Função Responsavel por libertar os airportStats
+*/
 void kill_airportStat(void *airportStat){
     AIRPORT_STAT *as = airportStat;
 
@@ -28,7 +36,7 @@ void kill_airportStat(void *airportStat){
     free(as);
 }
 
-// FUNÇÕES GET
+// GETTERS 
 
 char *get_airport_stat_id(AIRPORT_STAT *a)
 {
@@ -52,6 +60,12 @@ GList *get_airport_stat_listaVoos(AIRPORT_STAT *a)
 	return g_list_copy(a->listaVoos);
 }
 
+
+
+/*
+    Funções de criação de estatistica dos aeroportos
+    Procura a estatistica, se nao encontrar cria uma nova, caso contrario da update aos campos
+*/
 void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
     int atraso = get_tempo_atraso(f);
     

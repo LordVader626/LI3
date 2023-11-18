@@ -18,6 +18,10 @@
 
 #define TODAY "2023/10/01"
 
+
+/*
+    Função que retorna o numero de noites de uma reserva
+*/
 int get_Nights (RESERVATION *res) {
     char *begindate = getBeginDate_reservation(res);
     char *enddate = getEndDate_reservation(res);
@@ -41,6 +45,10 @@ int get_Nights (RESERVATION *res) {
     return noites;
 }
 
+
+/*
+    Função que retorna o total price de uma reserva
+*/
 double get_Total_Price(RESERVATION *res){
     double preco = getPricePerNight_reservation(res);
     int noites = get_Nights(res);
@@ -48,6 +56,10 @@ double get_Total_Price(RESERVATION *res){
     double total = preco*noites+((preco*noites)/100)*imposto;
     return total;
 }
+
+/*
+    Função que retorna o numero de voos de um user
+*/
 int getNumVoos(char*username,GArray *passengers){
     int total = 0;
     PASSENGER *p = malloc(sizeof(PASSENGER*));
@@ -63,6 +75,9 @@ int getNumVoos(char*username,GArray *passengers){
     return total;
 }
 
+/*
+    Função que calcula a idade de um utilizador
+*/
 int get_Idade (USER *user) {
     char * birthdate = getBirthDate(user);
 
@@ -78,28 +93,10 @@ int get_Idade (USER *user) {
 
     return idade;
 }
+
 /*
-int get_tempo_atraso(FLIGHT *flight){
-    char *tp_est = getScheduleDepartureDate(flight);
-    char *tp_rl = getRealDepartureDate(flight);
-
-    char * aux = strsep(&tp_est, " ");
-    aux = strsep(&tp_rl, " ");
-    int horaEST = atoi(strsep(&tp_est,":"));
-    int minutoEST = atoi(strsep(&tp_est,":"));
-    int secEST = atoi(strsep(&tp_est,"\n"));
-
-    int horaRL = atoi(strsep(&tp_rl,":"));
-    int minutoRL = atoi(strsep(&tp_rl,":"));
-    int secRL = atoi(strsep(&tp_rl,"\n"));
-
-    int total = (horaRL-horaEST) * 3600 + (minutoRL-minutoEST)*60 +(secRL-secEST);
-
-    free(tp_est);
-    free(tp_rl);
-    return total;
-}*/
-
+    Função que calcula o tempo de atraso de um flight
+*/
 int get_tempo_atraso(FLIGHT *flight) {
     char *tp_est = getScheduleDepartureDate(flight);
     char *tp_rl = getRealDepartureDate(flight);
@@ -119,6 +116,9 @@ int get_tempo_atraso(FLIGHT *flight) {
     return total;
 }
 
+/*
+    Função que remove horas minutos e segundos de uma data
+*/
 void removeHMS(char *inputString) {
     char *space = strchr(inputString, ' ');
     if (space != NULL) {
@@ -126,6 +126,10 @@ void removeHMS(char *inputString) {
     }
 }
 
+/*
+    Função responsavel por comparar flights por data
+    Usada para dar sort nas listas
+*/
 gint compare_flights(gconstpointer a, gconstpointer b) {
     FLIGHT *f1 = (FLIGHT*)a;
     FLIGHT *f2 = (FLIGHT*)b;
@@ -172,6 +176,10 @@ gint compare_flights(gconstpointer a, gconstpointer b) {
     return result;
 }
 
+/*
+    Função responsavel por comparar reservas por data
+    Usada para dar sort nas listas
+*/
 gint compare_reservations(gconstpointer a, gconstpointer b) {
     RESERVATION *res1 = (RESERVATION*)a;
     RESERVATION *res2 = (RESERVATION*)b;
@@ -222,6 +230,10 @@ gint compare_reservations(gconstpointer a, gconstpointer b) {
     return result;
 }
 
+
+/*
+    Função que retorna o ano de uma data
+*/
 int get_Ano_Voo(FLIGHT *f){
     char *data_est = getScheduleDepartureDate(f);
     int ano;
@@ -232,6 +244,9 @@ int get_Ano_Voo(FLIGHT *f){
     return ano;
 }
 
+/*
+    Função que adiciona um atrado ao seu array
+*/
 void addAtraso(int *arr, int at, int n)
 {
     int i; 
@@ -240,6 +255,10 @@ void addAtraso(int *arr, int at, int n)
   
     arr[i + 1] = at; 
 }
+
+/*
+    Função que returna o numero de passsageiros num voo
+*/
 int passageirosPorVoo(char *idflight , GArray *passengers){
     int n = 0;
     for(guint i = 0; i < passengers->len ;i++) {
@@ -251,6 +270,10 @@ int passageirosPorVoo(char *idflight , GArray *passengers){
     return n;
 }
 
+
+/*
+    Função insertion_sort
+*/
 void insertion_Sort(int arr[], int n, int value) {
     int i, j;
 

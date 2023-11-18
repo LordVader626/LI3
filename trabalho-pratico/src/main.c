@@ -24,26 +24,24 @@ int main(int argc, char **argv){
     if (argc == 3){
         char *files_path = strdup(argv[1]);
         char *data_input = strdup(argv[2]);
-
+        
+        // Hashtables responsáveis por guardar os users e flights inválidos
         GHashTable *invalid_users = g_hash_table_new(g_str_hash, g_str_equal);
         GHashTable *invalid_flights = g_hash_table_new(g_str_hash, g_str_equal);
 
+        // Criação das estruturas das stats
         STATS *stats = create_stats();
 
+        // Estruturas de dados
         GHashTable *users = parse_files_users(files_path, invalid_users);
         GHashTable *flights = parse_files_flights(files_path, stats, invalid_flights);
         GArray *passengers = parse_files_passengers(files_path, stats,users,flights,invalid_users,invalid_flights);
         GHashTable *reservations = parse_files_reservations(files_path, stats, users, invalid_users);
 
-        //printUserByID(users, "DGarcia429");
-        //printFlightrByID(flights, "100");
-        //printPassanger(passengers);
-        //printReservationByID(reservations, "Book0000020828");//Book0000024352
-
-        //validade_files(users);//, flights, reservations, get_flight_stats(stats));
-
+        // Handle do input
         handle(data_input, users, flights, passengers, reservations, stats, invalid_users);
 
+        // Libertação da memória
         
         g_hash_table_foreach_remove(invalid_users, remove_keys, NULL);
         g_hash_table_destroy(invalid_users);

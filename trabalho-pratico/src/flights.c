@@ -13,6 +13,10 @@
 #include "../inc/hotel_stats.h"
 #include "../inc/airport_stats.h"
 
+
+/*
+    Struct responsavel por guardar os dados dos voos
+*/
 struct flight {
     char *id;
     char *airline;
@@ -29,6 +33,9 @@ struct flight {
     char *notes; //observações sobre o voo
 };
 
+/*
+    Função responsavel por iniciar uma struct FLIGHT com as suas informações
+*/
 FLIGHT *new_Flight(char *line){
 
     FLIGHT *f = malloc(sizeof(FLIGHT));
@@ -50,6 +57,10 @@ FLIGHT *new_Flight(char *line){
     return f;
 }
 
+
+/*
+    Função que apaga a memoria alocada na função new_flight
+*/
 void kill_flight(void *flight){
     FLIGHT *f = flight;
 
@@ -68,6 +79,8 @@ void kill_flight(void *flight){
     free(f);
 }
 
+
+// getters
 
 char *getID_flight(FLIGHT *f){
     /*char *str_id = malloc(11);
@@ -123,6 +136,14 @@ char *getCopilot(FLIGHT *f) {
 char *getNotes(FLIGHT *f) {
     return strdup(f->notes);
 }
+
+
+/*
+    Função que faz o parsing dos ficheiros, lê o ficheiro que contem os voos, usa a função new_flight
+    para criar a struct, usa a função de verificação para confirmar que é um voo valido e caso seja 
+    insere na HashTable responsavel por guardar os voos, caso coontrario adiciona numa hashtable responsavel
+    por guardar os voos invalidos
+*/
 GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_flights){
 
     // ou usar func em utils
@@ -154,6 +175,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
 
     while ((getline(&line, &len, file)) != -1){
         
+        char *temp = strdup(line);
         FLIGHT *flight = new_Flight(line);
 
         if (flight_validation_1phase(flight) == 0){
@@ -178,9 +200,10 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
 
             //fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flight->id, flight->airline, flight->plane_model, flight->total_seats, flight->origin,
             //        flight->destination, flight->schedule_departure_date, flight->schedule_arrival_date, flight->real_departure_date, flight->real_arrival_date, flight->pilot, flight->copilot, flight->notes);
-            fprintf(file_errors, "%s",line);
+            fprintf(file_errors, "%s",temp);
             kill_flight(flight);
         }
+        free(temp);
     }
     printf("Flight Validation and Parsing SuccessFull\n");
 

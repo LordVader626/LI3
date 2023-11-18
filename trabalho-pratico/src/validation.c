@@ -10,6 +10,10 @@
 #include "../inc/flights.h"
 #include "../inc/reservations.h"
 
+
+/*
+    Funcao que returna 0 caso um email contenha @
+*/
 int contemNArroba(const char *str) {
     int i = 0;
     while (*str) {
@@ -21,6 +25,9 @@ int contemNArroba(const char *str) {
     return i;
 }
 
+/*
+    Função que ajuda a verificar se uma data tem um formato correto
+*/
 int dataFormatoCorreto(char *str) {
     while (*str) {
         if (*str == '|') {
@@ -30,6 +37,9 @@ int dataFormatoCorreto(char *str) {
     return 1;
 }
 
+/*
+    Função usada para comprar 2 datas (incluindo horas)
+*/
 int compareDates(char *data1, char *data2) {
     struct tm timeStruct1 = {0};
     struct tm timeStruct2 = {0};
@@ -47,6 +57,9 @@ int compareDates(char *data1, char *data2) {
 }
 
 
+/*
+    Função que comprada datas
+*/
 int compareDatesSimple(char *date1, char *date2) {
 
     int year1, month1, day1;
@@ -59,6 +72,9 @@ int compareDatesSimple(char *date1, char *date2) {
 }
 
 
+/*
+    Função responsavel por validar os campos do utilizador
+*/
 int user_validation(USER *u) {
 
     int valido = 0;
@@ -129,6 +145,10 @@ cleanup:
     return valido;
 }
 
+
+/*
+    Função responsavel por verificar todos os campos de um voo
+*/
 int flight_validation_1phase(FLIGHT *f){
     //total seats nao pode ser menos que passageiros (countar todos os passageiros com getFlightID e verificar)
     int valido = 0;
@@ -201,6 +221,9 @@ cleanup:
     return valido;
 }
 
+/*
+    Função responsável por validar uma reservation
+*/
 int reservation_validation(RESERVATION *r){
     int valido = 0;
     double hotel_stars, city_tax, price_per_night, rating;
@@ -281,39 +304,3 @@ cleanup:
 
     return valido;
 }
-
-/*void validade_files(GHashTable *users){//, GHashTable *flights, GHashTable *reservations, GHashTable *flight_stats){
-    GArray *invalid_users = g_array_new(FALSE, TRUE, sizeof(USER*));
-    GArray *invalid_flights = g_array_new(FALSE, TRUE, sizeof(FLIGHT*));
-    GArray *invalid_reservations = g_array_new(FALSE, TRUE, sizeof(RESERVATION*));
-
-    GHashTableIter i_users;
-    gpointer key_users, value_users;
-    g_hash_table_iter_init(&i_users, users);
-    while (g_hash_table_iter_next(&i_users, &key_users, &value_users)) {
-        USER *user = (USER*)value_users;
-        if (user_validation(user) == 1) {
-            g_array_append_val(invalid_users, user);
-        }
-    }
-
-    GHashTableIter i_flights;
-    gpointer key_flights, value_flights;
-    g_hash_table_iter_init(&i_flights, flights);
-    while (g_hash_table_iter_next(&i_flights, &key_flights, &value_flights)) {
-        FLIGHT *flight = (FLIGHT*)value_flights;
-        if (flight_validation(flight, g_hash_table_lookup(flight_stats, getID_flight(flight))) == 1) {
-            g_array_append_val(invalid_flights, flight);
-        }
-    }
-
-    GHashTableIter iter_reservations;
-    gpointer key_reservations, value_reservations;
-    g_hash_table_iter_init(&iter_reservations, reservations);
-    while (g_hash_table_iter_next(&iter_reservations, &key_reservations, &value_reservations)){
-        RESERVATION *reservation = (RESERVATION*)value_reservations;
-        if (reservation_validation(reservation) == 1) {
-            g_array_append_val(invalid_reservations, reservation);
-        }
-    }
-}*/

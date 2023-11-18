@@ -5,7 +5,9 @@
 
 #include "../inc/hotel_stats.h"
 
-
+/*
+	Struct responsável por guardar os dados das stats dos hoteis
+*/
 struct h_stat{
     char *hotelid;
     double nReservas;
@@ -14,6 +16,9 @@ struct h_stat{
     GList *reservasHotel;
 };
 
+/*
+	Função responsavel por libertar o espaço alocado para uma struct HotelStat
+*/
 void kill_hotelStat(void *hotelStat){
 	HOTEL_STAT *hs = hotelStat;
 	
@@ -24,7 +29,7 @@ void kill_hotelStat(void *hotelStat){
 	free(hs);
 }
 
-// FUNÇÕES GET
+// GETTERS
 
 char *get_hotel_stat_id(HOTEL_STAT *h)
 {
@@ -50,6 +55,12 @@ GList *get_hotel_stat_reservasHotel(HOTEL_STAT *h)
 }
 
 
+
+/*
+	Função responsavel por criar as stats para cada hotel,
+	Cria uma stat nova caso nao exista,
+	Caso ja haja stat criada para o hotel irá dar update aos seus campos
+*/
 void create_hotel_stats(RESERVATION *r, GHashTable *hotel_stats)
 {
 	char *hotelID = getHotelID_reservation(r);	

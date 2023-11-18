@@ -127,11 +127,9 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
 
     // ou usar func em utils
     char *path_flights = malloc(sizeof(char) * 70);
-    char *path_flights_errors = malloc(sizeof(char) * 70);
     strcpy(path_flights, path);
     strcat(path_flights, "/flights.csv");
-    strcpy(path_flights_errors, path);
-    strcat(path_flights_errors, "/flights_errors.csv");
+    char *path_flights_errors = "Resultados/flights_errors.csv";
 
     char *line = NULL;
     size_t len = 0;
@@ -139,14 +137,14 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     GHashTable *flights = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_flight);
 
     FILE *file = fopen(path_flights, "r");
-    //FILE *file_errors = fopen(path_flights_errors, "w");
+    FILE *file_errors = fopen(path_flights_errors, "w");
 
     if (file == NULL /*|| file_errors == NULL*/) {
         printf("Unable to open the file.\n");
     }
 
     //escreve o cabeçalho no ficheiro dos erros
-    //fprintf(file_errors, "id;airline;plane_model;total_seats;origin;destination;schedule_departure_date;schedule_arrival_date;real_departure_date;real_arrival_date;pilot;copilot;notes\n");
+    fprintf(file_errors, "id;airline;plane_model;total_seats;origin;destination;schedule_departure_date;schedule_arrival_date;real_departure_date;real_arrival_date;pilot;copilot;notes\n");
 
     //skip ao cabeçalho
     getline(&line, &len, file);
@@ -174,43 +172,19 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
 
             g_hash_table_insert(invalid_flights, getID_flight(flight), "INVALIDO");
 
-            char *airline = getAirline(flight);
-            char *planeModel = getPlaneModel(flight);
-            char *flightOrigin = getFlightOrigin(flight);
-            char *flightDestination = getFlightDestination(flight);
-            char *notrealDeparture = getScheduleDepartureDate(flight);
-            char *notrealArrival = getScheduleArrivalDate(flight);
-            char *realDeparture = getRealDepartureDate(flight);
-            char *realArrival = getRealArrivalDate(flight);
-            char *pilot = getPilot(flight);
-            char *copilot = getCopilot(flight);
-            char *notes = getNotes(flight);
-
-            //fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flightID, airline, planeModel, getTotalSeats(flight), flightOrigin,
-            //        flightDestination, notrealDeparture, notrealArrival, realDeparture, realArrival, pilot, copilot, notes);
+            fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flight->id, flight->airline, flight->plane_model, flight->total_seats, flight->origin,
+                    flight->destination, flight->schedule_departure_date, flight->schedule_arrival_date, flight->real_departure_date, flight->real_arrival_date, flight->pilot, flight->copilot, flight->notes);
 
             kill_flight(flight);
-
-            free(airline);
-            free(planeModel);
-            free(flightOrigin);
-            free(flightDestination);
-            free(notrealDeparture);
-            free(notrealArrival);
-            free(realArrival);
-            free(realDeparture);
-            free(pilot);
-            free(copilot);
-            free(notes);
         }
     }
     printf("Flight Validation and Parsing SuccessFull\n");
 
     fclose(file);
-    //fclose(file_errors);
+    fclose(file_errors);
     free(line);
     free(path_flights);
-    free(path_flights_errors);
+    //free(path_flights_errors);
 
     return flights;
 }

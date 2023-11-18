@@ -123,9 +123,7 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
     char *path_users = malloc(sizeof(char) * 70);
     strcpy(path_users, path);
     strcat(path_users, "/users.csv");
-    char *path_user_erros = malloc(sizeof(char) * 70);
-    strcpy(path_user_erros, path);
-    strcat(path_user_erros, "/users_errors.csv");
+    char *path_user_erros = "Resultados/users_errors.csv";
 
     char *line = NULL;
     size_t len = 0;
@@ -133,15 +131,15 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
     GHashTable *users = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
 
     FILE *file = fopen(path_users, "r");
-    //FILE *file_error = fopen(path_user_erros, "w");
+    FILE *file_error = fopen(path_user_erros, "w");
 
     if (file == NULL /*|| file_error == NULL*/) {
         printf("Unable to open the file.\n");
-         // Exit
+         // Return
     }
 
 
-    //fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
+    fprintf(file_error, "id;name;email;phone_number;birth_date;sex;passport;country_code;address;account_creation;pay_method;account_status\n");
 
     //skip ao cabeçalho
     getline(&line, &len, file);
@@ -155,20 +153,17 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
         }
         else {
             
-
-           g_hash_table_insert(invalid_users, getID(user), "invalid");
-            //fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", idUser, Name, email, phoneNumber, birthDate, sex, passport, countryCode, address, accountCreation, paymethod, accountStatus);
+            g_hash_table_insert(invalid_users, getID(user), "invalid");
+            fprintf(file_error,"%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", user->id, user->name, user->email, user->phone_number, user->birth_date, user->sex, user->passport, user->country_code, user->address, user->account_creation, user->pay_method, user->account_status);
 
             kill_user(user);
 
-        
         }
     }
     printf("User Validation and Parsing Sucessfull\n");
     fclose(file);
-    //fclose(file_error); 
+    fclose(file_error); 
     free(line);
     free(path_users);
-    free(path_user_erros);
     return users;
 }

@@ -54,13 +54,12 @@ void freeGArray(GArray *garray) {
 
     g_array_free(garray, TRUE);
 }
+
 GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHashTable *flights, GHashTable *invalid_users, GHashTable *invalid_flights) {
     char *path_passengers = malloc(sizeof(char) * 70);
     strcpy(path_passengers, path);
     strcat(path_passengers, "/passengers.csv");
-    char *path_passengers_errors = malloc(sizeof(char) * 70);
-    strcpy(path_passengers_errors,path);
-    strcat(path_passengers_errors, "/passengers_errors.csv");
+    char *path_passengers_erros = "Resultados/passengers_errors.csv";
 
     char *line = NULL;
     size_t len = 0;
@@ -68,13 +67,13 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     GArray *passengers = g_array_new(FALSE, TRUE, sizeof(PASSENGER *));
 
     FILE *file = fopen(path_passengers, "r");
-    ///FILE *file_errors = fopen(path_passengers_errors, "w");
+    FILE *file_errors = fopen(path_passengers_erros, "w");
 
-    //fprintf(file_errors, "flight_id;user_id\n");
+    fprintf(file_errors, "flight_id;user_id\n");
 
     if (file == NULL) {
         printf("Unable to open the file.\n");
-        return NULL;  // Return NULL to indicate an error
+        return NULL;
     }
 
     getline(&line, &len, file);
@@ -90,7 +89,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
             create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
         }
         else{
-            //fprintf(file_errors, "%s;%s\n", get_FlightID_passenger(passenger), getID_passenger(passenger));
+            fprintf(file_errors, "%s;%s\n", passenger->flight_id, passenger->user_id);
             kill_Passenger(passenger);
         }
 
@@ -99,8 +98,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     printf("Passenger Validation and Parsing Successfull\n");
     free(line);
     free(path_passengers);
-    free(path_passengers_errors);
-    //fclose(file_errors);
+    fclose(file_errors);
     fclose(file);
 
     return passengers;

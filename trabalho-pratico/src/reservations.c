@@ -131,18 +131,16 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     char *path_reservations = malloc(sizeof(char) * 70);
     strcpy(path_reservations, path);
     strcat(path_reservations, "/reservations.csv");
-    char *path_reservations_erros = malloc(sizeof(char) * 70);
-    strcpy(path_reservations_erros, path);
-    strcat(path_reservations_erros, "/reservations_errors.csv");
+    char *path_reservations_erros = "Resultados/reservations_errors.csv";
 
     FILE *file = fopen(path_reservations, "r");
-    //FILE *file_errors = fopen(path_reservations_erros, "w");
+    FILE *file_errors = fopen(path_reservations_erros, "w");
 
-    if (file == NULL /*|| file_errors == NULL*/) {
+    if (file == NULL || file_errors == NULL) {
         printf("Unable to open the file.\n");
     }
 
-    //fprintf(file_errors, "id;user_id;hotel_id;hotel_name;hotel_stars;city_tax;address;begin_date;end_date;price_per_night;includes_breakfast;room_details;rating;comment\n");
+    fprintf(file_errors, "id;user_id;hotel_id;hotel_name;hotel_stars;city_tax;address;begin_date;end_date;price_per_night;includes_breakfast;room_details;rating;comment\n");
 
     getline(&line, &len, file);
 
@@ -156,30 +154,9 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
             create_hotel_stats(reservation, get_hotel_stats(stats));
         }
         else {
-            char *reservationID = getID_reservation(reservation);
-            char *userID = getUserID_reservartion(reservation);
-            char *hotelID = getHotelID_reservation(reservation);
-            char *hotelName = getHotelName_reservation(reservation);
-            char *address = getAddress_reservation(reservation);
-            char *beginDate = getBeginDate_reservation(reservation);
-            char *endDate = getEndDate_reservation(reservation);
-            char *incBreakfast = getIncludesBreakfast_reservation(reservation);
-            char *roomDetails = getRoomDetails_reservation(reservation);
-            char *comment = getComment_reservation(reservation);
         
-            //fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", reservationID, userID, hotelID, hotelName, getHotelStars_reservation(reservation), getCityTax_reservation(reservation), 
-            //address, beginDate, endDate, getPricePerNight_reservation(reservation), incBreakfast, roomDetails, getRating_reservation(reservation), comment);
-
-            free(reservationID);
-            free(userID);
-            free(hotelID);
-            free(hotelName);
-            free(address);
-            free(beginDate);
-            free(endDate);
-            free(incBreakfast);
-            free(roomDetails);
-            free(comment);
+            fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", reservation->id, reservation->user_id, reservation->hotel_id, reservation->hotel_name, reservation->hotel_stars, 
+            reservation->city_tax, reservation->adress, reservation->begin_date, reservation->end_date, reservation->price_per_night, reservation->includes_breakfast, reservation->room_details, reservation->rating, reservation->comment);
 
             kill_reservation(reservation);
         }
@@ -188,8 +165,7 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     printf("Reservation validition and Parsing Sucessfull\n");
     free(line);
     free(path_reservations);
-    free(path_reservations_erros);
     fclose(file);
-    //fclose(file_errors);
+    fclose(file_errors);
     return reservations;
 }

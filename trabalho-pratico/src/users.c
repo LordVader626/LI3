@@ -157,10 +157,10 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
             g_hash_table_insert(invalid_users, getID(user), "invalid");
             fprintf(file_error, "%s", temp);
 
-            free(temp);
             kill_user(user);
 
         }
+        free(temp);
     }
     printf("User Validation and Parsing Sucessfull\n");
     fclose(file);

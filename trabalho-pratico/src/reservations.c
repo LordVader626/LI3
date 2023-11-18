@@ -159,9 +159,10 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
         
             fprintf(file_errors, "%s", temp);
 
-            free(temp);
+           
             kill_reservation(reservation);
         }
+         free(temp);
         
     }
     printf("Reservation validition and Parsing Sucessfull\n");

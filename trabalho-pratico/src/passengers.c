@@ -91,10 +91,10 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
         }
         else{
             fprintf(file_errors, "%s", temp);
-            free(temp);
+            
             kill_Passenger(passenger);
         }
-
+        free(temp);
     }
 
     printf("Passenger Validation and Parsing Successfull\n");

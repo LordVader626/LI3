@@ -177,8 +177,8 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
             //        flight->destination, flight->schedule_departure_date, flight->schedule_arrival_date, flight->real_departure_date, flight->real_arrival_date, flight->pilot, flight->copilot, flight->notes);
             fprintf(file_errors, "%s",temp);
             kill_flight(flight);
-            free(temp);
         }
+        free(temp);
     }
     printf("Flight Validation and Parsing SuccessFull\n");
 

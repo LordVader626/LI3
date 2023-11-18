@@ -145,6 +145,8 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
     getline(&line, &len, file);
 
     while ((getline(&line, &len, file)) != -1){
+
+        char *temp = strdup(line);
         RESERVATION *reservation = create_Reservation(line);
         char *userID = reservation->user_id;
 
@@ -155,9 +157,9 @@ GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users,
         }
         else {
         
-            fprintf(file_errors, "%s;%s;%s;%s;%f;%f;%s;%s;%s;%f;%s;%s;%f;%s\n", reservation->id, reservation->user_id, reservation->hotel_id, reservation->hotel_name, reservation->hotel_stars, 
-            reservation->city_tax, reservation->adress, reservation->begin_date, reservation->end_date, reservation->price_per_night, reservation->includes_breakfast, reservation->room_details, reservation->rating, reservation->comment);
+            fprintf(file_errors, "%s", temp);
 
+            free(temp);
             kill_reservation(reservation);
         }
         

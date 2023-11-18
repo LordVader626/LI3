@@ -80,6 +80,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
 
     while ((getline(&line, &len, file)) != -1) {
 
+        char *temp = strdup(line);
         PASSENGER *passenger = create_Passenger(line);
 
         if((g_hash_table_contains(invalid_users, passenger->user_id) == FALSE) && (!g_hash_table_contains(invalid_flights, passenger->flight_id))){
@@ -89,7 +90,8 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
             create_airport_stat_passenger(passenger, get_airport_stats(stats), flights);
         }
         else{
-            fprintf(file_errors, "%s;%s\n", passenger->flight_id, passenger->user_id);
+            fprintf(file_errors, "%s", temp);
+            free(temp);
             kill_Passenger(passenger);
         }
 

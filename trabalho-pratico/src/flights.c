@@ -150,6 +150,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     getline(&line, &len, file);
 
     while ((getline(&line, &len, file)) != -1){
+        char *temp = strdup(line);
         FLIGHT *flight = new_Flight(line);
 
         if (flight_validation_1phase(flight) == 0){
@@ -172,10 +173,11 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
 
             g_hash_table_insert(invalid_flights, getID_flight(flight), "INVALIDO");
 
-            fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flight->id, flight->airline, flight->plane_model, flight->total_seats, flight->origin,
-                    flight->destination, flight->schedule_departure_date, flight->schedule_arrival_date, flight->real_departure_date, flight->real_arrival_date, flight->pilot, flight->copilot, flight->notes);
-
+            //fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flight->id, flight->airline, flight->plane_model, flight->total_seats, flight->origin,
+            //        flight->destination, flight->schedule_departure_date, flight->schedule_arrival_date, flight->real_departure_date, flight->real_arrival_date, flight->pilot, flight->copilot, flight->notes);
+            fprintf(file_errors, "%s",temp);
             kill_flight(flight);
+            free(temp);
         }
     }
     printf("Flight Validation and Parsing SuccessFull\n");
@@ -184,7 +186,6 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     fclose(file_errors);
     free(line);
     free(path_flights);
-    //free(path_flights_errors);
 
     return flights;
 }

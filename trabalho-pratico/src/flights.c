@@ -139,8 +139,11 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     FILE *file = fopen(path_flights, "r");
     FILE *file_errors = fopen(path_flights_errors, "w");
 
-    if (file == NULL /*|| file_errors == NULL*/) {
+    if (file == NULL || file_errors == NULL) {
         printf("Unable to open the file.\n");
+        fclose(file);
+        fclose(file_errors);
+        return NULL;
     }
 
     //escreve o cabeçalho no ficheiro dos erros
@@ -150,7 +153,7 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
     getline(&line, &len, file);
 
     while ((getline(&line, &len, file)) != -1){
-        char *temp = strdup(line);
+        
         FLIGHT *flight = new_Flight(line);
 
         if (flight_validation_1phase(flight) == 0){
@@ -170,15 +173,14 @@ GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_fl
             create_airport_stat_flight(flight, get_airport_stats(stats));          
         }
         else {
-
-            g_hash_table_insert(invalid_flights, getID_flight(flight), "INVALIDO");
+            if(strcmp("",flight->id) != 0) 
+            g_hash_table_replace(invalid_flights, getID_flight(flight), "INVALIDO");
 
             //fprintf(file_errors,"%10s;%s;%s;%d;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",flight->id, flight->airline, flight->plane_model, flight->total_seats, flight->origin,
             //        flight->destination, flight->schedule_departure_date, flight->schedule_arrival_date, flight->real_departure_date, flight->real_arrival_date, flight->pilot, flight->copilot, flight->notes);
-            fprintf(file_errors, "%s",temp);
+            fprintf(file_errors, "%s",line);
             kill_flight(flight);
         }
-        free(temp);
     }
     printf("Flight Validation and Parsing SuccessFull\n");
 

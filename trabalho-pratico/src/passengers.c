@@ -83,7 +83,7 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
         char *temp = strdup(line);
         PASSENGER *passenger = create_Passenger(line);
 
-        if((g_hash_table_contains(invalid_users, passenger->user_id) == FALSE) && (!g_hash_table_contains(invalid_flights, passenger->flight_id))){
+        if((g_hash_table_contains(invalid_users, passenger->user_id) == FALSE) && !(g_hash_table_contains(invalid_flights, passenger->flight_id)) && strcmp("",passenger->flight_id) != 0){
             g_array_append_val(passengers, passenger);
 
             create_user_stat_flights(passenger, get_user_stats(stats), users, flights);

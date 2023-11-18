@@ -8,9 +8,6 @@
 
 struct stat{
 	char *username;
-	char *nome;
-	char *gender;
-	int idade;
 	int numReservas;
 	int numVoos;
     GList *listaVoos;
@@ -21,9 +18,6 @@ struct stat{
 void kill_userStat(void *userStat){
 	USER_STAT *us = userStat;
 	free(us->username);
-	free(us->nome);
-	free(us->gender);
-
 	g_list_free(us->listaVoos);
 	g_list_free(us->listaReservas);
 
@@ -35,21 +29,6 @@ void kill_userStat(void *userStat){
 char *get_user_stat_username(USER_STAT *s)
 {
 	return strdup(s->username);
-}
-
-char *get_user_stat_nome(USER_STAT *s)
-{
-	return strdup(s->nome);
-}
-
-char *get_user_stat_gender(USER_STAT *s)
-{
-	return strdup(s->gender);
-}
-
-int get_user_stat_idade(USER_STAT *s)
-{
-	return s->idade;
 }
 
 int get_user_stat_numReservas(USER_STAT *s)
@@ -95,19 +74,16 @@ void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *
 			USER_STAT *user_stat = malloc(sizeof(USER_STAT));
 
 			user_stat->username = username;
-			user_stat->nome = getName(u);
-			user_stat->gender = getSex(u);
-			user_stat->idade = get_Idade(u);
             user_stat->numReservas = 0;
 			user_stat->numVoos = 1;
 			user_stat->listaReservas = NULL;
-			user_stat->listaVoos = g_list_append(NULL, f);
+			user_stat->listaVoos = g_list_prepend(NULL, f);
 			user_stat->total_gasto = 0;
 			g_hash_table_insert(user_stats, username, user_stat);
 		}
 		else{
 			ustat->numVoos = get_user_stat_numVoos(ustat) + 1;
-            ustat->listaVoos = g_list_append(ustat->listaVoos,f);
+            ustat->listaVoos = g_list_prepend(ustat->listaVoos,f);
 			free(username);
         }
 		free(flightID);
@@ -133,20 +109,17 @@ void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHash
         {
             USER_STAT *user_stat = malloc(sizeof(USER_STAT));
             user_stat->username = username;
-            user_stat->nome = getName(u);
-            user_stat->gender = getSex(u);
-            user_stat->idade = get_Idade(u);
             user_stat->numReservas = 1;
             user_stat->numVoos = 0;
             user_stat->listaVoos = NULL;
-            user_stat->listaReservas = g_list_append(NULL, r);
+            user_stat->listaReservas = g_list_prepend(NULL, r);
             user_stat->total_gasto = get_Total_Price(r);
             g_hash_table_insert(user_stats, user_stat->username, user_stat);
         }
         else
         {
             ustat->numReservas += 1;
-            ustat->listaReservas = g_list_append(ustat->listaReservas, r);
+            ustat->listaReservas = g_list_prepend(ustat->listaReservas, r);
             ustat->total_gasto += get_Total_Price(r);
             free(username);
         }

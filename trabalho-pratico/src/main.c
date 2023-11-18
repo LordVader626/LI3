@@ -44,11 +44,12 @@ int main(int argc, char **argv){
 
         handle(data_input, users, flights, passengers, reservations, stats, invalid_users);
 
-        g_hash_table_foreach_remove(invalid_flights, remove_keys, NULL);
-        g_hash_table_destroy(invalid_flights);
-
+        
         g_hash_table_foreach_remove(invalid_users, remove_keys, NULL);
         g_hash_table_destroy(invalid_users);
+        
+        g_hash_table_foreach_remove(invalid_flights, remove_keys, NULL);
+        g_hash_table_destroy(invalid_flights);
 
 
         free(files_path);

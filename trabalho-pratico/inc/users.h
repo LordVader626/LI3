@@ -4,7 +4,7 @@
 typedef struct user USER;
 
 USER *create_User(char *line);
-void kill_user();
+void kill_user(void*user);
 
 char *getID(USER *u);
 char *getName(USER *u);

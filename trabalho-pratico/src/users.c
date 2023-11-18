@@ -135,7 +135,9 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
 
     if (file == NULL || file_error == NULL) {
         printf("Unable to open the file.\n");
-         // Return
+         fclose(file);
+         fclose(file_error);
+         return NULL;
     }
 
 
@@ -146,21 +148,22 @@ GHashTable *parse_files_users(char *path, GHashTable *invalid_users){
 
     while ((getline(&line, &len, file)) != -1){
             
-        char *temp = strdup(line);
         USER *user = create_User(line);
 
         if (user_validation(user) == 0){
             g_hash_table_insert(users, user->id, user);
         }
         else {
-            
+            if(strcmp("",user->id) != 0)
             g_hash_table_insert(invalid_users, getID(user), "invalid");
-            fprintf(file_error, "%s", temp);
+            
+            fprintf(file_error, "%s", line);
 
             kill_user(user);
 
         }
-        free(temp);
+        
+        
     }
     printf("User Validation and Parsing Sucessfull\n");
     fclose(file);

@@ -11,9 +11,6 @@
 typedef struct stat USER_STAT;
 
 char *get_user_stat_username(USER_STAT *s);
-char *get_user_stat_nome(USER_STAT *s);
-char *get_user_stat_gender(USER_STAT *s);
-int get_user_stat_idade(USER_STAT *s);
 int get_user_stat_numReservas(USER_STAT *s);
 int get_user_stat_numVoos(USER_STAT *s);
 GList* get_user_stat_listaVoos(USER_STAT *s);

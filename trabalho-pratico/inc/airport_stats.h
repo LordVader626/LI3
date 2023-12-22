@@ -12,13 +12,13 @@ typedef struct a_stat AIRPORT_STAT;
 
 char *get_airport_stat_id(AIRPORT_STAT *a);
 int *get_airport_stat_nPassageirosAno(AIRPORT_STAT *a);
-int *get_airport_stat_atrasosVoos(AIRPORT_STAT *a);
+GArray *get_airport_stat_atrasosVoos(AIRPORT_STAT *a);
 int get_airport_stat_nVoos(AIRPORT_STAT *a);
 GList *get_airport_stat_listaVoos(AIRPORT_STAT *a);
 
 
 void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) ;
-void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats,GHashTable *flights);
+void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats, CATALOGO_FLIGHTS *cat_flights);
 
 void kill_airportStat(void *airportStat);
 

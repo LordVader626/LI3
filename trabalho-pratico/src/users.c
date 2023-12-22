@@ -32,6 +32,22 @@ struct user{
     char *account_status;
 };
 
+int start_user_process(char *line, CATALOGO_USER *cat_user, CATALOGO_INVALID *cat_invalids){
+    USER *u = create_User(line);
+    if(user_validation(u) == 0){
+        addUser(cat_user, u->id, u);
+        return 0;
+    }
+    else{
+        //ou fazer so replace (evitar mais 1 comparação)
+        if(strcmp("",u->id) != 0)
+            addInvalidUser(cat_invalids, getID(u), "invalid");
+            //g_hash_table_insert(invalid_users, getID(u), "invalid");
+        kill_user(u);
+        return 1;
+    }
+    return 1;
+}
 /*
     Função responsavel por criar uma strut USER e colocar la os dados necessários
 */

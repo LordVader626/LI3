@@ -1,6 +1,9 @@
 #ifndef users_h
 #define users_h
 
+#include "../inc/catalogo_user.h"
+#include "../inc/catalogo_invalids.h"
+
 typedef struct user USER;
 
 USER *create_User(char *line);
@@ -20,5 +23,6 @@ char *getPayMethod(USER *u);
 char *getAccountStatus(USER *u);
 GHashTable *parse_files_users(char *path, GHashTable *invalid_users);
 
+int start_user_process(char *line, CATALOGO_USER *cat_user, CATALOGO_INVALID *cat_invalids);
 
 #endif

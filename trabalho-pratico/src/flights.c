@@ -30,8 +30,36 @@ struct flight {
     char *real_arrival_date;
     char *pilot; //nome do piloto
     char *copilot; //nome do copiloto
-    char *notes; //observações sobre o voo
 };
+
+int start_flight_process(char *line, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids, STATS *stats){
+    FLIGHT *f = new_Flight(line);
+    if(flight_validation_1phase(f) == 0){
+
+        int i;
+        for (i = 0; i < 3 && f->origin[i] != '\0'; i ++){
+            f->origin[i] = toupper(f->origin[i]);
+        }
+        
+        for (i = 0; i < 3 && f->destination[i] != '\0'; i ++){
+            f->destination[i] = toupper(f->destination[i]);
+        }
+
+        addFlight(cat_flights, f->id, f);
+        create_airport_stat_flight(f, get_airport_stats(stats));  
+        return 0;
+    }
+    else{
+       if(strcmp("",f->id) != 0) 
+
+            addInvalidFlight(cat_invalids, getID_flight(f), "INVALIDO");
+            //g_hash_table_replace(invalid_flights, getID_flight(f), "INVALIDO");
+        
+        kill_flight(f);
+        return 1;
+    }
+    return 1;
+}
 
 /*
     Função responsavel por iniciar uma struct FLIGHT com as suas informações
@@ -52,7 +80,7 @@ FLIGHT *new_Flight(char *line){
     f->real_arrival_date = strdup(strsep(&line, ";"));
     f->pilot = strdup(strsep(&line, ";"));
     f->copilot = strdup(strsep(&line, ";"));
-    f->notes = strdup(strsep(&line, "\n"));
+    strsep(&line, "\n");
 
     return f;
 }
@@ -75,7 +103,6 @@ void kill_flight(void *flight){
     free(f->real_arrival_date);
     free(f->pilot);
     free(f->copilot);
-    free(f->notes);
     free(f);
 }
 
@@ -132,11 +159,6 @@ char *getPilot(FLIGHT *f) {
 char *getCopilot(FLIGHT *f) {
     return strdup(f->copilot);
 }
-
-char *getNotes(FLIGHT *f) {
-    return strdup(f->notes);
-}
-
 
 /*
     Função que faz o parsing dos ficheiros, lê o ficheiro que contem os voos, usa a função new_flight

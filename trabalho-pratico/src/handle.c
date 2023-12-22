@@ -11,7 +11,7 @@
 /*
      Função que executa as queries perante o seu input
 */
-void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *passengers, GHashTable *reservations, STATS *stats, GHashTable *invalid_users) {
+void handle(char *data_input, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers, CATALOGO_RESERVATIONS *cat_reservations, STATS *stats, CATALOGO_INVALID *cat_invalids) {
      char *copy = NULL;
      size_t len;
      ssize_t read;
@@ -36,16 +36,16 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
           switch( query[0]-'0'){ 
                case 1:
                     if(strcmp(query, "10") == 0|| strcmp(query, "10F") == 0) break;
-                    if (strcmp(query, "1F") == 0) query1(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats));                        
-                    else query1 (reservations, users, flights, passengers, line, 0, path, get_user_stats(stats));
+                    if (strcmp(query, "1F") == 0) query1(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, get_user_stats(stats));                        
+                    else query1 (cat_reservations, cat_users, cat_flights, cat_passengers, line, 0, path, get_user_stats(stats));
                     break;
                case 2:
-                    if (strcmp(query, "2F") == 0) query2(reservations, users, flights,passengers,line, 1, path, get_user_stats(stats), invalid_users);                        
-                    else query2 (reservations, users, flights,passengers,line, 0, path, get_user_stats(stats), invalid_users);   
+                    if (strcmp(query, "2F") == 0) query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, get_user_stats(stats), cat_invalids);                        
+                    else query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 0, path, get_user_stats(stats), cat_invalids);    
                     break;
                case 3:
-                    if (strcmp(query, "3F") == 0) query3(reservations,line, 1, path, get_hotel_stats(stats));                        
-                    else query3(reservations,line, 0, path, get_hotel_stats(stats));
+                    if (strcmp(query, "3F") == 0) query3(cat_reservations,line, 1, path, get_hotel_stats(stats));                        
+                    else query3(cat_reservations,line, 0, path, get_hotel_stats(stats));
                     break;
                case 4:
                     if (strcmp(query, "4F") == 0) query4(line, 1, path, get_hotel_stats(stats));                        
@@ -63,18 +63,18 @@ void handle(char *data_input, GHashTable *users, GHashTable *flights, GArray *pa
                     if (strcmp(query, "7F") == 0) query7(line, 1,path, get_airport_stats(stats));                      
                     else query7(line, 0,path, get_airport_stats(stats));    
                     break;
-               case 8:
-                    /*if (strcmp(query, "8F")) query8(catalogo,line, 1);                        
+              /* case 8:
+                    if (strcmp(query, "8F")) query8(catalogo,line, 1);                        
                     else query8(catalogo, 0);
-                    break;*/
+                    break;
                 case 9:
-                    /*if (strcmp(query, "7F")) query9(catalogo,line, 1);                        
-                    else query9(catalogo, 0);*/
+                    if (strcmp(query, "7F")) query9(catalogo,line, 1);                        
+                    else query9(catalogo, 0);
                     break;
                case 10:
-                    /*if (strcmp(query, "8F")) query10(catalogo,line, 1);                        
-                    else query10(catalogo, 0);*/
-                    break;
+                    if (strcmp(query, "8F")) query10(catalogo,line, 1);                        
+                    else query10(catalogo, 0);
+                    break;*/
           
           }
           printf("Query number: %d\n", x);

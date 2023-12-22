@@ -1,6 +1,11 @@
 #ifndef reservations_h
 #define reservations_h
-#include"../inc/stats.h"
+
+#include "../inc/stats.h"
+#include "../inc/catalogo_user.h"
+#include "../inc/catalogo_reservations.h"
+#include "../inc/catalogo_invalids.h"
+
 typedef struct reservation RESERVATION;
 
 RESERVATION *create_Reservation(char *line);
@@ -21,5 +26,7 @@ char *getRoomDetails_reservation(RESERVATION *r);
 double getRating_reservation(RESERVATION *r);
 char *getComment_reservation(RESERVATION *r);
 GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users, GHashTable *invalid_users) ;
+
+int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids);
 
 #endif

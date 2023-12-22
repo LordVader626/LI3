@@ -75,7 +75,7 @@ void create_hotel_stats(RESERVATION *r, GHashTable *hotel_stats)
             hotel_stat->nReservas = 1;
             hotel_stat->somaRatings = rating;
 			hotel_stat->avgscore = rating;
-            hotel_stat->reservasHotel = g_list_append(NULL,r);
+            hotel_stat->reservasHotel = g_list_prepend(NULL,r);
 			g_hash_table_insert(hotel_stats, hotelID, hotel_stat);
 		}
 		else{
@@ -83,7 +83,7 @@ void create_hotel_stats(RESERVATION *r, GHashTable *hotel_stats)
 			hstat->nReservas += 1;
             hstat->somaRatings += rating;
             hstat->avgscore = hstat->somaRatings/hstat->nReservas;
-            hstat->reservasHotel = g_list_append(hstat->reservasHotel,r);
+            hstat->reservasHotel = g_list_prepend(hstat->reservasHotel,r);
 			free(hotelID);
         }
 		

@@ -11,7 +11,7 @@
 #include "../inc/user_stat.h"
 #include "../inc/hotel_stats.h"
 #include "../inc/airport_stats.h"
-
+#include "../inc/catalogo_flights.h"
 
 /*
     Struct responsavel por guardar os dados dos passageiros
@@ -21,6 +21,33 @@ struct passenger{
     char *user_id;
 };
 
+int start_passenger_process(char *line,CATALOGO_PASSENGER *cat_passenger, CATALOGO_INVALID *cat_invalids, STATS *stats, CATALOGO_FLIGHTS *cat_flights, CATALOGO_USER *cat_users){
+    PASSENGER *p = create_Passenger(line);
+    
+    char *flightID = get_FlightID_passenger(p);
+    char *userID = getID_passenger(p);
+    if(!cointains_invalid_user(cat_invalids, userID) && !cointains_invalid_flight(cat_invalids, flightID) && strcmp("",p->flight_id) != 0){
+
+    //if(!g_hash_table_contains(invalid_flights, p->flight_id) && !g_hash_table_contains(invalid_users, p->user_id) && strcmp("",p->flight_id) != 0){
+        addPassenger(cat_passenger, p);
+        
+        //printf("%s\n", getFlightDestination(f));
+
+        create_user_stat_flights(p, get_user_stats(stats), cat_users, cat_flights);
+        create_airport_stat_passenger(p, get_airport_stats(stats), cat_flights);
+
+        free(flightID);
+        free(userID);
+
+        return 0;
+    }
+
+    free(flightID);
+    free(userID);
+    kill_Passenger(p);
+
+    return 1;
+}
 /*
     Função responsavel pela criação de uma struct PASSENGER e atribuição dos seus dados
 */
@@ -78,7 +105,7 @@ void freeGArray(GArray *garray) {
     Apenas coloca na hashtable dos passageiros se ambos utilizador->id e flight->id forem válidos
     Aqui é também criadas/atualizads stats para o user em relação aos flights assim como para os aeroportos
 */
-GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHashTable *flights, GHashTable *invalid_users, GHashTable *invalid_flights) {
+/*GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHashTable *flights, GHashTable *invalid_users, GHashTable *invalid_flights) {
     char *path_passengers = malloc(sizeof(char) * 70);
     strcpy(path_passengers, path);
     strcat(path_passengers, "/passengers.csv");
@@ -128,4 +155,4 @@ GArray *parse_files_passengers(char *path, STATS*stats, GHashTable *users, GHash
     fclose(file);
 
     return passengers;
-}
+}*/

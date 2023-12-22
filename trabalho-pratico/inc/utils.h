@@ -2,6 +2,9 @@
 #define utils_h
 
 #include "../inc/stats.h"
+#include "../inc/reservations.h"
+#include "../inc/users.h"
+#include "../inc/flights.h"
 
 int get_Nights (RESERVATION *res);
 double get_Total_Price(RESERVATION *res);
@@ -22,5 +25,7 @@ gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata)
 gint compareMediana(gconstpointer a, gconstpointer b);
 gint compare_flightswithHours(gconstpointer a, gconstpointer b);
 gboolean remove_keys(gpointer key, gpointer value, gpointer user_data);
+
+void insertionSort_garray(GArray *garray, int value);
 
 #endif

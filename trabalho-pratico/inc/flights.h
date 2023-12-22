@@ -1,6 +1,10 @@
 #ifndef flights_h
 #define flights_h
-#include"../inc/stats.h"
+
+#include "../inc/stats.h"
+#include "../inc/catalogo_flights.h"
+#include "../inc/catalogo_invalids.h"
+
 typedef struct flight FLIGHT;
 
 FLIGHT *new_Flight(char *line);
@@ -22,5 +26,7 @@ char *getCopilot(FLIGHT *f);
 char *getNotes(FLIGHT *f);
 
 GHashTable *parse_files_flights(char *path, STATS *stats, GHashTable *invalid_flights);
+
+int start_flight_process(char *line, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids, STATS *stats);
 
 #endif

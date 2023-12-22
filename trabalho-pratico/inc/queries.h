@@ -1,12 +1,16 @@
 #ifndef queries_h
 #define queries_h
 
-#include "../inc/reservations.h"
 #include "../inc/stats.h"
+#include "../inc/catalogo_flights.h"
+#include "../inc/catalogo_invalids.h"
+#include "../inc/catalogo_passenger.h"
+#include "../inc/catalogo_reservations.h"
+#include "../inc/catalogo_user.h"
 
-void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats);
-void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats, GHashTable *invalid_users);
-void query3(GHashTable *reservations,char* linha, int f,char *path, GHashTable *hotel_stats);
+void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, GHashTable *user_stats);
+void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, GHashTable *user_stats, CATALOGO_INVALID *cat_invalids);
+void query3(CATALOGO_RESERVATIONS *cat_reservations,char* linha, int f,char *path, GHashTable *hotel_stats);
 void query4(char *lina, int f, char *path, GHashTable *hotel_stats);
 void query5(char *linha, int f, char *path, GHashTable *airport_stats);
 void query6(char *linha, int f, char *path, GHashTable *airport_stats);

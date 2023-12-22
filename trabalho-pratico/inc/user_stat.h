@@ -17,7 +17,7 @@ GList* get_user_stat_listaVoos(USER_STAT *s);
 GList* get_user_stat_listaReservas(USER_STAT *s);
 double get_user_stat_totalGasto(USER_STAT *s);
 
-void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *users, GHashTable *flights);
+void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights);
 void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHashTable *users);
 
 void kill_userStat(void *userStat);

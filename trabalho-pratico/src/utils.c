@@ -292,6 +292,24 @@ void insertion_Sort(int arr[], int n, int value) {
     arr[n] = value;
 }
 
+void insertionSort_garray(GArray *garray, int value) {
+    int n = garray->len;
+    
+    for(guint i = 0; i < n; i++){
+        if(g_array_index(garray, int, i) >= value){
+
+            for(guint j = n; j > i; j--){
+                g_array_index(garray, int, j) = g_array_index(garray, int, j - 1);
+            }
+
+            g_array_index(garray, int, i) = value;
+
+            return;
+        }
+    }
+    g_array_index(garray, int, n) = value;
+}
+
 int compare_dates(char * data1 , char * data2) {
     int ano1,ano2,mes1,mes2,dia1,dia2,hora1,hora2,minuto1,minuto2,sec1,sec2;
 
@@ -369,7 +387,7 @@ gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata)
     return 0;
 }
 
-gint compareMediana(gconstpointer a, gconstpointer b){
+/*gint compareMediana(gconstpointer a, gconstpointer b){
     AIRPORT_STAT *astat1 = (AIRPORT_STAT*)a;
     AIRPORT_STAT *astat2 = (AIRPORT_STAT*)b;
 
@@ -389,6 +407,43 @@ gint compareMediana(gconstpointer a, gconstpointer b){
     else mediana1 = aux1[index1];
     if(len2 % 2 == 0) mediana2 = (aux2[index2] + aux2[index2-1])/2;
     else mediana2 = aux2[index2];
+
+    if (mediana1 != mediana2) {
+        return mediana2 - mediana1;
+    }
+
+    char *id1 = get_airport_stat_id(astat1);
+    char *id2 = get_airport_stat_id(astat2);
+
+    int idComparison = strcmp(id1, id2);
+
+    free(id1);
+    free(id2);
+
+    return idComparison;
+}*/
+
+gint compareMediana(gconstpointer a, gconstpointer b) {
+    AIRPORT_STAT *astat1 = (AIRPORT_STAT *)a;
+    AIRPORT_STAT *astat2 = (AIRPORT_STAT *)b;
+
+    GArray *aux1 = get_airport_stat_atrasosVoos(astat1);
+    GArray *aux2 = get_airport_stat_atrasosVoos(astat2);
+
+    int len1 = aux1->len;
+    int len2 = aux2->len;
+    int mediana1, mediana2;
+    int index1 = len1 / 2;
+    int index2 = len2 / 2;
+
+    if (g_array_index(aux1, int, 0) == -1) return 1;
+    if (g_array_index(aux2, int, 0) == -1) return -1;
+
+    if (len1 % 2 == 0) mediana1 = (g_array_index(aux1, int, index1) + g_array_index(aux1, int, index1 - 1)) / 2;
+    else mediana1 = g_array_index(aux1, int, index1);
+
+    if (len2 % 2 == 0) mediana2 = (g_array_index(aux2, int, index2) + g_array_index(aux2, int, index2 - 1)) / 2;
+    else mediana2 = g_array_index(aux2, int, index2);
 
     if (mediana1 != mediana2) {
         return mediana2 - mediana1;

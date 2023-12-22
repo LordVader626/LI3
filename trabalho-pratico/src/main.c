@@ -12,6 +12,7 @@
 #include "../inc/stats.h"
 #include "../inc/user_stat.h"
 #include "../inc/validation.h"
+#include "../inc/batch.h"
 
 int main(int argc, char **argv){
     /*Modo batch em que primeiro Input = o caminho para a pasta onde estão os cheiros de entrada 
@@ -22,11 +23,27 @@ int main(int argc, char **argv){
     }
 
     if (argc == 3){
+
+        clock_t start_time, end_time;
+        double cpu_time_used;
+
+        start_time = clock();
+
         char *files_path = strdup(argv[1]);
         char *data_input = strdup(argv[2]);
+
+        batch(files_path, data_input);
+
+        end_time = clock();
+
+        // Calculate the time taken
+        cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+
+        printf("CPU time used: %f seconds\n", cpu_time_used);
+        
         
         // Hashtables responsáveis por guardar os users e flights inválidos
-        GHashTable *invalid_users = g_hash_table_new(g_str_hash, g_str_equal);
+        /*GHashTable *invalid_users = g_hash_table_new(g_str_hash, g_str_equal);
         GHashTable *invalid_flights = g_hash_table_new(g_str_hash, g_str_equal);
 
         // Criação das estruturas das stats
@@ -57,7 +74,9 @@ int main(int argc, char **argv){
         g_hash_table_destroy(flights);
         g_hash_table_destroy(reservations);
         freeGArray(passengers);
-        destroy_stats(stats);
+        destroy_stats(stats);*/
+        free(files_path);
+        free(data_input);
 
     }
     printf("EXECUTION FINISHED\n");

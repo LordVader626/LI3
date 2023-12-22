@@ -4,6 +4,8 @@
 #include <glib.h>
 #include "../inc/user_stat.h"
 #include "../inc/users.h"
+#include "../inc/catalogo_user.h"
+#include "../inc/catalogo_flights.h"
 
 /*
 	Struct que vai guardar os dados para as stats dos utilizadores
@@ -66,10 +68,10 @@ double get_user_stat_totalGasto(USER_STAT *s)
 	Caso não exista ja criada inicia os dados
 	Caso contrario apenas os atualiza
 */
-void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *users, GHashTable *flights)
+void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights)
 {
 	char *username = getID_passenger(p);
-	USER *u = g_hash_table_lookup(users, username);
+	USER *u = getUser(cat_users, username);
 
 	USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
 	
@@ -78,7 +80,7 @@ void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, GHashTable *
 	if (!strcmp(account_status, "active"))
 	{   
 		char *flightID = get_FlightID_passenger(p);
-        FLIGHT *f = g_hash_table_lookup(flights,flightID);
+        FLIGHT *f = getFlight(cat_flights, flightID);
 
 		if (ustat == NULL)
 		{

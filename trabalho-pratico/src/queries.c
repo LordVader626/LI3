@@ -22,7 +22,7 @@
 /*
     Função que responde a query 1
 */
-void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats){;
+void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, GHashTable *user_stats){;
     
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -33,7 +33,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
     
     if(strncmp(linha, "Book", 4) == 0) {
         //  ./main-program /home/rui/Desktop/dataset/data_clean /home/rui/Desktop/dataset/inputTest.txt
-        RESERVATION* res = g_hash_table_lookup(reservations,linha);
+        RESERVATION* res = getReservation(cat_reservations, linha);
 
         if (res == NULL) {
             printf("Reservation not found in hash table\n");
@@ -78,7 +78,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         free(incBreakfast);
     }
     else if (isalpha(linha[0])!=0) {
-        USER* user = g_hash_table_lookup(users,linha);
+        USER* user = getUser(cat_users, linha);
         
         if (user == NULL) {
             printf("User not found in hash table\n");
@@ -137,7 +137,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         free(account_status);
     } 
     else {
-        FLIGHT* flight = g_hash_table_lookup(flights,linha);
+        FLIGHT* flight = getFlight(cat_flights, linha);
 
         if (flight == NULL) {
             printf("Flight not found in hash table\n");
@@ -151,7 +151,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
         char *destino = getFlightDestination(flight);
         char *partida_est = getScheduleDepartureDate(flight);
         char *chegada_est = getScheduleArrivalDate(flight);
-        int numero_passageiros = passageirosPorVoo(linha ,passengers);
+        int numero_passageiros = passageirosPorVoo(linha ,get_catalogo_passengers(cat_passengers));
         int tempo_atraso = get_tempo_atraso(flight);
 
         if(f == 1){
@@ -185,7 +185,7 @@ void query1(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
 /*
     Função que responde a query2 (em desenvolvimento)
 */
-void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GArray *passengers ,char* linha, int f,char *path, GHashTable *user_stats, GHashTable *invalid_users){
+void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, GHashTable *user_stats, CATALOGO_INVALID *cat_invalids){
     char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -198,8 +198,9 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
 
     if (sscanf(aux, "%20s %14s", id, type) == 2) {
         // verifica nao so se é do tipo flights como se o utilizador é invalido e se existe
-        if (strcmp(type, "flights") == 0 && g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL) {
-            USER *u = g_hash_table_lookup(users, id);
+        //if (strcmp(type, "flights") == 0 && g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL) {
+        if (strcmp(type, "flights") == 0 && cointains_invalid_user(cat_invalids, id) && cointains_user(cat_users, id)) {
+            USER *u = getUser(cat_users, id);
 
             char *accountStatus = getAccountStatus(u);
 
@@ -248,8 +249,8 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
             }
         }
         // verifica nao so se é do tipo reservations como se o utilizador é invalido e se existe
-        else if (strcmp(type, "reservations") == 0 && g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL){
-            USER *u = g_hash_table_lookup(users, id);
+        else if (strcmp(type, "reservations") == 0 && cointains_invalid_user(cat_invalids, id) && cointains_user(cat_users, id)){
+            USER *u = getUser(cat_users, id);
             char *accountStatus = getAccountStatus(u);
 
             if(strcasecmp(accountStatus, "active") == 0){
@@ -308,7 +309,7 @@ void query2(GHashTable *reservations, GHashTable *users,GHashTable *flights, GAr
 /*
     Função que responde a query3
 */
-void query3(GHashTable *reservations,char* linha, int f,char *path, GHashTable *hotel_stats){
+void query3(CATALOGO_RESERVATIONS *reservations,char* linha, int f,char *path, GHashTable *hotel_stats){
     char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -546,8 +547,10 @@ void query6(char *linha, int f, char *path, GHashTable *airport_stats){
     if (f == 1) {
         //da fprint enquanto i <= TOP N
         while (i<=n)
-        {
+        {   
+            printf("%d\n", i); 
             AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
+            if (airport_stat == NULL) break;
             char *airport_stat_id = get_airport_stat_id(airport_stat);
             if(i!=1) fprintf(file,"\n");
             fprintf(file, "--- %d ---\n", i);
@@ -561,7 +564,9 @@ void query6(char *linha, int f, char *path, GHashTable *airport_stats){
          //da fprint enquanto i <= TOP N
         while (i<=n)
         {
+            printf("%d\n", i);
             AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
+            if (airport_stat == NULL) break;
             char *airport_stat_id = get_airport_stat_id(airport_stat);
 
             fprintf(file, "%s;%d\n", airport_stat_id,get_airport_stat_nPassageirosAno(airport_stat)[2023-atoi(ano)]);

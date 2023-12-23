@@ -107,8 +107,6 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                 numReservas = get_user_stat_numReservas(us);
                 totalGasto = get_user_stat_totalGasto(us);
             }
-
-            printf("%d\n", numVoos);
             
             char *name = getName(user);
             char *sex = getSex(user);
@@ -548,7 +546,6 @@ void query6(char *linha, int f, char *path, GHashTable *airport_stats){
         //da fprint enquanto i <= TOP N
         while (i<=n)
         {   
-            printf("%d\n", i); 
             AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
             if (airport_stat == NULL) break;
             char *airport_stat_id = get_airport_stat_id(airport_stat);
@@ -564,7 +561,6 @@ void query6(char *linha, int f, char *path, GHashTable *airport_stats){
          //da fprint enquanto i <= TOP N
         while (i<=n)
         {
-            printf("%d\n", i);
             AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
             if (airport_stat == NULL) break;
             char *airport_stat_id = get_airport_stat_id(airport_stat);
@@ -584,7 +580,7 @@ void query6(char *linha, int f, char *path, GHashTable *airport_stats){
 /*
     Função que responde a query 7
 */
-void query7(char *linha, int f, char *path, GHashTable *airport_stats){
+/*void query7(char *linha, int f, char *path, GHashTable *airport_stats){
 
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -642,6 +638,68 @@ void query7(char *linha, int f, char *path, GHashTable *airport_stats){
             free(statID);
         }
     }
+    g_list_free(air_stats);
+    fclose(file);
+}*/
+
+void query7(char *linha, int f, char *path, GHashTable *airport_stats){
+
+    FILE *file = fopen(path, "w");
+
+    if (file == NULL) {
+        perror("Error opening file");
+        fclose(file);
+        return;
+    }
+
+    //top N
+    int n = atoi(strsep(&linha,"\n"));
+
+    GList *air_stats = g_hash_table_get_values(airport_stats);
+    air_stats = g_list_sort(air_stats, compareMediana);
+
+    int i = 1;
+    int median;
+
+    if (f == 1) {
+        while (i <= n && i < 20) {
+            AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats, i - 1);
+
+            char *statID = get_airport_stat_id(airport_stat);
+            if (i != 1) fprintf(file,"\n");
+            fprintf(file, "--- %d ---\n", i);
+            fprintf(file, "name: %s\n", statID);
+
+            GArray *aux = get_airport_stat_atrasosVoos(airport_stat); // Assuming this function exists
+            int len = aux->len;
+            int index = len / 2;
+
+            if (len % 2 == 0) median = (g_array_index(aux, int, index) + g_array_index(aux, int, index - 1)) / 2;
+            else median = g_array_index(aux, int, index);
+
+            fprintf(file, "median: %d\n", median);
+            i++;
+            free(statID);
+        }
+    } else {
+        while (i <= n && i < 20) {
+            AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats, i - 1);
+
+            char *statID = get_airport_stat_id(airport_stat);
+            GArray *aux = get_airport_stat_atrasosVoos(airport_stat); // Assuming this function exists
+
+            int len = aux->len;
+            int index = len / 2;
+
+            if (len % 2 == 0) median = (g_array_index(aux, int, index) + g_array_index(aux, int, index - 1)) / 2;
+            else median = g_array_index(aux, int, index);
+
+            if (median != -1) fprintf(file, "%s;%d\n", statID, median);
+            i++;
+            free(statID);
+        }
+    }
+
     g_list_free(air_stats);
     fclose(file);
 }

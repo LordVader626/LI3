@@ -66,7 +66,6 @@ int main(int argc, char **argv){
         g_hash_table_foreach_remove(invalid_flights, remove_keys, NULL);
         g_hash_table_destroy(invalid_flights);
 
-
         free(files_path);
         free(data_input);
 

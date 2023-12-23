@@ -13,8 +13,8 @@ struct cat_user {
 CATALOGO_USER *create_Catalogo_User(){
 
     CATALOGO_USER *catu = malloc(sizeof(struct cat_user));
-    GHashTable *catalogo = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
-    catu->catalogo_user = catalogo;
+    GHashTable *cat_user = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_user);
+    catu->catalogo_user = cat_user;
 
     return catu;
 }

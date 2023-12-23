@@ -32,7 +32,9 @@ struct reservation{
 };
 
 
-int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids){
+//int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids){
+int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed){
+
     RESERVATION *r = create_Reservation(line);
 
     char *userID = getUserID_reservartion(r);
@@ -41,8 +43,10 @@ int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RES
     //if(!(g_hash_table_contains(invalid_users, r->user_id)) && reservation_validation(r) == 0){
         addReservations(cat_reservas, r->id, r);
 
-        create_user_stat_reservations(r, get_user_stats(stats), get_Catalogo_User(cat_users));
-        create_hotel_stats(r, get_hotel_stats(stats));
+        if (g_hash_table_contains(stats_needed, r->user_id))
+            create_user_stat_reservations(r, get_user_stats(stats), get_Catalogo_User(cat_users));
+        if (g_hash_table_contains(stats_needed, r->hotel_id))
+            create_hotel_stats(r, get_hotel_stats(stats));
         
         free(userID);
         return 0;

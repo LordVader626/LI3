@@ -21,7 +21,9 @@ struct passenger{
     char *user_id;
 };
 
-int start_passenger_process(char *line,CATALOGO_PASSENGER *cat_passenger, CATALOGO_INVALID *cat_invalids, STATS *stats, CATALOGO_FLIGHTS *cat_flights, CATALOGO_USER *cat_users){
+//int start_passenger_process(char *line,CATALOGO_PASSENGER *cat_passenger, CATALOGO_INVALID *cat_invalids, STATS *stats, CATALOGO_FLIGHTS *cat_flights, CATALOGO_USER *cat_users){
+int start_passenger_process(char *line,CATALOGO_PASSENGER *cat_passenger, CATALOGO_INVALID *cat_invalids, STATS *stats, CATALOGO_FLIGHTS *cat_flights, CATALOGO_USER *cat_users, GHashTable *stats_need){
+
     PASSENGER *p = create_Passenger(line);
     
     char *flightID = get_FlightID_passenger(p);
@@ -32,8 +34,8 @@ int start_passenger_process(char *line,CATALOGO_PASSENGER *cat_passenger, CATALO
         addPassenger(cat_passenger, p);
         
         //printf("%s\n", getFlightDestination(f));
-
-        create_user_stat_flights(p, get_user_stats(stats), cat_users, cat_flights);
+        if(g_hash_table_contains(stats_need, p->user_id))
+            create_user_stat_flights(p, get_user_stats(stats), cat_users, cat_flights);
         create_airport_stat_passenger(p, get_airport_stats(stats), cat_flights);
 
         free(flightID);

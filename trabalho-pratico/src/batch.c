@@ -10,6 +10,7 @@
 #include "../inc/catalogo_invalids.h"
 #include "../inc/utils.h"
 #include "../inc/handle.h"
+#include "../inc/teste.h"
 
 void batch(char *files_path, char *data_input){
 
@@ -20,14 +21,46 @@ void batch(char *files_path, char *data_input){
         CATALOGO_RESERVATIONS *cat_reservations = create_Catalogo_Reservations();
         CATALOGO_INVALID *cat_invalids = create_Catalogo_invalids();
 
+        printf("CALALOGS CREATION COMPLETE\n");
+
         //criaçao das stats
         STATS *stats = create_stats();
-
+        GHashTable *stats_needed = g_hash_table_new(g_str_hash, g_str_equal);
+        
+        start_stats_needed(stats_needed, data_input);
+        
+        printf("STARTING FILES PARSING\n");
+        
         //parsing dos ficheiros
         parse_files_users_teste(files_path, cat_users, cat_invalids);
+
+        /*USER *u = getUser(cat_users, "JoaqBranco1021");
+
+        char *morada = getAddress(u);
+
+        printf("%s\n", morada);*/
+
         parse_files_flights_teste(files_path, cat_flights, stats, cat_invalids);
-        parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
-        parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids);
+
+
+        /*FLIGHT *f = getFlight(cat_flights, "0000000001");
+
+        char *copilot = getCopilot(f);
+
+        printf("%s\n", copilot);*/
+
+        parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids, stats_needed);
+        //parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
+        parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids, stats_needed);
+
+        g_hash_table_destroy(stats_needed);
+
+        /*RESERVATION *r = getReservation(cat_reservations, "Book0005999908");
+        if (r == NULL) printf("CORRECT\n");
+
+        RESERVATION *yy = getReservation(cat_reservations, "Book0005999907");
+        printf("%f\n", getRating_reservation(yy));*/
+
 
         handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids);
 

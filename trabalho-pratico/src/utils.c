@@ -294,20 +294,14 @@ void insertion_Sort(int arr[], int n, int value) {
 
 void insertionSort_garray(GArray *garray, int value) {
     int n = garray->len;
-    
-    for(guint i = 0; i < n; i++){
-        if(g_array_index(garray, int, i) >= value){
 
-            for(guint j = n; j > i; j--){
-                g_array_index(garray, int, j) = g_array_index(garray, int, j - 1);
-            }
-
-            g_array_index(garray, int, i) = value;
-
+    for (guint i = 0; i < n; i++) {
+        if (g_array_index(garray, int, i) >= value) {
+            g_array_insert_val(garray, i, value);
             return;
         }
     }
-    g_array_index(garray, int, n) = value;
+    g_array_append_val(garray, value);
 }
 
 int compare_dates(char * data1 , char * data2) {

@@ -25,31 +25,9 @@ void batch(char *files_path, char *data_input){
 
         //parsing dos ficheiros
         parse_files_users_teste(files_path, cat_users, cat_invalids);
-
-        USER *u = getUser(cat_users, "JoaqBranco1021");
-
-        char *morada = getAddress(u);
-
-        printf("%s\n", morada);
-
         parse_files_flights_teste(files_path, cat_flights, stats, cat_invalids);
-
-
-        FLIGHT *f = getFlight(cat_flights, "0000000001");
-
-        char *copilot = getCopilot(f);
-
-        printf("%s\n", copilot);
-
         parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
         parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids);
-
-        RESERVATION *r = getReservation(cat_reservations, "Book0005999908");
-        if (r == NULL) printf("CORRECT\n");
-
-        RESERVATION *yy = getReservation(cat_reservations, "Book0005999907");
-        printf("%f\n", getRating_reservation(yy));
-
 
         handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids);
 

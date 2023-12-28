@@ -82,15 +82,18 @@ int get_Idade (USER *user) {
     char * birthdate = getBirthDate(user);
 
     int idade, ano, mes, dia;
-    
     sscanf(birthdate, "%d/%d/%d", &ano, &mes, &dia);
+
+    int today_year, today_month, today_day;
+    sscanf(TODAY, "%d/%d/%d", &today_year, &today_month, &today_day);
+
+    if (mes < today_month || (mes == today_month && dia <= today_day)) {
+        idade = today_year - ano;
+    } else {
+        idade = today_year - ano - 1;
+    }
     
-    if (mes<10) idade = 2023 - ano;
-    else if (mes== 10 && dia >= 1) idade = 2023-ano;
-    else idade = 2023-ano-1;
-
     free(birthdate);
-
     return idade;
 }
 

@@ -6,6 +6,13 @@
 struct user;
 typedef struct user USER;
 
+/**
+ * @brief Função de criação de catalogo.
+ * 
+ * Esta função cria o catalogo relacionado aos utilizadores
+ * 
+ * @return pointer para a estrutura de catalogo criada
+ */
 typedef struct cat_user CATALOGO_USER;
 CATALOGO_USER *create_Catalogo_User();
 GHashTable *get_Catalogo_User(CATALOGO_USER * catu);

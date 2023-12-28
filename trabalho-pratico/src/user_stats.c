@@ -77,7 +77,7 @@ void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, CATALOGO_USE
 	
 	char *account_status = getAccountStatus(u);
 
-	if (!strcmp(account_status, "active"))
+	if (!strcasecmp(account_status, "active"))
 	{   
 		char *flightID = get_FlightID_passenger(p);
         FLIGHT *f = getFlight(cat_flights, flightID);
@@ -116,7 +116,7 @@ void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHash
 
     char *account_status = getAccountStatus(u);
 
-    if (!strcmp(account_status, "active"))
+    if (!strcasecmp(account_status, "active"))
     {
         if (ustat == NULL)
         {

@@ -83,7 +83,6 @@ void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
         airport_stat->atrasosVoos = g_array_new(FALSE, FALSE, sizeof(int));
         //airport_stat->atrasosVoos[0] = atraso;
         g_array_append_val(airport_stat->atrasosVoos, atraso);
-        printf("%d\n", atraso);
         airport_stat->nVoos = 1;
         airport_stat->listaVoos= NULL;
         airport_stat->listaVoos = g_list_append(airport_stat->listaVoos, f);

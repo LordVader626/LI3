@@ -23,7 +23,6 @@
     Função que responde a query 1
 */
 void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, GHashTable *user_stats){;
-    
     FILE *file = fopen(path, "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -88,7 +87,7 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
         char *account_status = getAccountStatus(user);
         
-        if(strcmp(account_status,"active") == 0){
+        if(strcasecmp(account_status,"active") == 0){
             int numVoos;
             int numReservas;
             double totalGasto;;

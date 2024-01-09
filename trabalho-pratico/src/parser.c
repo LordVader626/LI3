@@ -100,8 +100,8 @@ void parse_files_flights_teste(char *path, CATALOGO_FLIGHTS *cat_flights,STATS *
     free(path_flights);
 }
 
-void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed) {
-//void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids) {
+//void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed) {
+void parse_files_passengers_teste(char *path, STATS *stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids) {
   
     char *path_passengers = malloc(sizeof(char) * 70);
     strcpy(path_passengers, path);
@@ -127,7 +127,7 @@ void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *c
 
         char *temp = strdup(line);
         //printf("%s\n", line);
-        int status = start_passenger_process(line, cat_passenger, cat_invalids, stats, cat_flights, cat_users, stats_needed);
+        int status = start_passenger_process(line, cat_passenger, cat_invalids, stats, cat_flights, cat_users);
 
         if (status != 0){
             fprintf(file_errors, "%s", temp);
@@ -142,8 +142,8 @@ void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *c
     fclose(file);
 }
 
-//void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids) {
-void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed) {
+void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids) {
+//void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed) {
 
     char *line = NULL;
     size_t len = 0;
@@ -169,7 +169,7 @@ void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIO
 
         char *temp = strdup(line);
 
-        int status = start_reservation_process(line, cat_users, cat_reservations, stats, cat_invalids, stats_needed);
+        int status = start_reservation_process(line, cat_users, cat_reservations, stats, cat_invalids);
 
         if (status != 0){
 

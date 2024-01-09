@@ -21,24 +21,18 @@ void batch(char *files_path, char *data_input){
         CATALOGO_RESERVATIONS *cat_reservations = create_Catalogo_Reservations();
         CATALOGO_INVALID *cat_invalids = create_Catalogo_invalids();
 
-        printf("CALALOGS CREATION COMPLETE\n");
-
         //criaçao das stats
-        STATS *stats = create_stats();
-        GHashTable *stats_needed = g_hash_table_new(g_str_hash, g_str_equal);
-        
-        start_stats_needed(stats_needed, data_input);
+        STATS *stats = create_stats();    
+        start_stats_needed(stats, data_input);
         
         printf("STARTING FILES PARSING\n");
         
         //parsing dos ficheiros
         parse_files_users_teste(files_path, cat_users, cat_invalids);
         parse_files_flights_teste(files_path, cat_flights, stats, cat_invalids);
-        parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids, stats_needed);
-        parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids, stats_needed);
+        parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
+        parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids);
 
-        // so era necessario para as criações das stats
-        g_hash_table_destroy(stats_needed);
 
         // Realizar as queries
         handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids);

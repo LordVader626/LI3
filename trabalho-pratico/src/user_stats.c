@@ -10,7 +10,7 @@
 /*
 	Struct que vai guardar os dados para as stats dos utilizadores
 */
-struct stat{
+struct user_stat{
 	char *username;
 	int numReservas;
 	int numVoos;
@@ -68,13 +68,14 @@ double get_user_stat_totalGasto(USER_STAT *s)
 	Caso não exista ja criada inicia os dados
 	Caso contrario apenas os atualiza
 */
-void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights)
+void create_user_stat_flights(PASSENGER *p, STATS *s, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights)
 {
 	char *username = getID_passenger(p);
 	USER *u = getUser(cat_users, username);
 
-	USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
-	
+	//USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
+	USER_STAT *ustat = get_stat_user(s, username);
+
 	char *account_status = getAccountStatus(u);
 
 	if (!strcasecmp(account_status, "active"))
@@ -92,7 +93,8 @@ void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, CATALOGO_USE
 			user_stat->listaReservas = NULL;
 			user_stat->listaVoos = g_list_prepend(NULL, f);
 			user_stat->total_gasto = 0;
-			g_hash_table_insert(user_stats, username, user_stat);
+			//g_hash_table_insert(user_stats, username, user_stat);
+			addUserStat(s, user_stat, username);
 		}
 		else{
 			ustat->numVoos = get_user_stat_numVoos(ustat) + 1;
@@ -107,12 +109,13 @@ void create_user_stat_flights(PASSENGER *p, GHashTable *user_stats, CATALOGO_USE
 }
 
 
-void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHashTable *users)
+void create_user_stat_reservations(RESERVATION *r, STATS *stats, GHashTable *users)
 {
     char *username = getUserID_reservartion(r);
     USER *u = g_hash_table_lookup(users, username);
 
-    USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
+	USER_STAT *ustat = get_stat_user(stats, username);
+    //USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
 
     char *account_status = getAccountStatus(u);
 
@@ -127,7 +130,8 @@ void create_user_stat_reservations(RESERVATION *r, GHashTable *user_stats, GHash
             user_stat->listaVoos = NULL;
             user_stat->listaReservas = g_list_prepend(NULL, r);
             user_stat->total_gasto = get_Total_Price(r);
-            g_hash_table_insert(user_stats, user_stat->username, user_stat);
+            //g_hash_table_insert(user_stats, user_stat->username, user_stat);
+			addUserStat(stats, ustat, username);
         }
         else
         {

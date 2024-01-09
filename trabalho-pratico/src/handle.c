@@ -36,45 +36,45 @@ void handle(char *data_input, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_fl
           switch( query[0]-'0'){ 
                case 1:
                     if(strcmp(query, "10") == 0|| strcmp(query, "10F") == 0) break;
-                    if (strcmp(query, "1F") == 0) query1(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, get_user_stats(stats));                        
-                    else query1 (cat_reservations, cat_users, cat_flights, cat_passengers, line, 0, path, get_user_stats(stats));
+                    if (strcmp(query, "1F") == 0) query1(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, stats);                        
+                    else query1 (cat_reservations, cat_users, cat_flights, cat_passengers, line, 0, path, stats);
                     break;
                case 2:
-                    if (strcmp(query, "2F") == 0) query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, get_user_stats(stats), cat_invalids);                        
-                    else query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 0, path, get_user_stats(stats), cat_invalids);    
+                    if (strcmp(query, "2F") == 0) query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, stats, cat_invalids);                        
+                    else query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 0, path, stats, cat_invalids);    
                     break;
                case 3:
-                    if (strcmp(query, "3F") == 0) query3(cat_reservations,line, 1, path, get_hotel_stats(stats));                        
-                    else query3(cat_reservations,line, 0, path, get_hotel_stats(stats));
+                    if (strcmp(query, "3F") == 0) query3(cat_reservations,line, 1, path, stats);                        
+                    else query3(cat_reservations,line, 0, path, stats);
                     break;
                case 4:
-                    if (strcmp(query, "4F") == 0) query4(line, 1, path, get_hotel_stats(stats));                        
-                    else query4(line, 0, path, get_hotel_stats(stats));
+                    if (strcmp(query, "4F") == 0) query4(line, 1, path, stats);                        
+                    else query4(line, 0, path, stats);
                     break;
                case 5:
-                    if (strcmp(query, "5F") == 0) query5(line, 1, path, get_airport_stats(stats));                     
-                    else query5(line, 0, path, get_airport_stats(stats));
+                    if (strcmp(query, "5F") == 0) query5(line, 1, path, stats);                     
+                    else query5(line, 0, path, stats);
                     break;
                case 6:
-                    if (strcmp(query, "6F") == 0) query6(line, 1, path, get_airport_stats(stats));                     
-                    else query6(line, 0, path, get_airport_stats(stats));
+                    if (strcmp(query, "6F") == 0) query6(line, 1, path, stats);                     
+                    else query6(line, 0, path, stats);
                     break;
                case 7:
-                    if (strcmp(query, "7F") == 0) query7(line, 1,path, get_airport_stats(stats));                      
-                    else query7(line, 0,path, get_airport_stats(stats));    
+                    if (strcmp(query, "7F") == 0) query7(line, 1,path, stats);                      
+                    else query7(line, 0,path, stats);    
                     break;
-              /* case 8:
-                    if (strcmp(query, "8F")) query8(catalogo,line, 1);                        
-                    else query8(catalogo, 0);
-                    break;
-                case 9:
-                    if (strcmp(query, "7F")) query9(catalogo,line, 1);                        
-                    else query9(catalogo, 0);
-                    break;
-               case 10:
-                    if (strcmp(query, "8F")) query10(catalogo,line, 1);                        
-                    else query10(catalogo, 0);
-                    break;*/
+              //case 8:
+                //    if (strcmp(query, "8F")) query8(catalogo,line, 1);                        
+                  //  else query8(catalogo, 0);
+                    //break;
+               //case 9:
+                 //   if (strcmp(query, "9F"))  query9(line, 1, path, cat_users);                        
+                   // else query9(line, 1, path, cat_users);
+                    //break;
+               //case 10:
+                //    if (strcmp(query, "8F")) query10(catalogo,line, 1);                        
+                  //  else query10(catalogo, 0);
+                    //break;*/
           
           }
           printf("Query number: %d\n", x);

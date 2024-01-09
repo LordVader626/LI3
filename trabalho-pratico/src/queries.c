@@ -22,7 +22,7 @@
 /*
     Função que responde a query 1
 */
-void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, GHashTable *user_stats){;
+void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, STATS *stats){;
     FILE *file = fopen(path, "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -94,7 +94,8 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
             char *idUser = getID(user);
 
-            USER_STAT *us = g_hash_table_lookup(user_stats,idUser);
+            //USER_STAT *us = g_hash_table_lookup(user_stats,idUser);
+            USER_STAT *us = get_stat_user(stats, idUser);
             
             // Feito para o caso de um user nao ter viagens nem voos, e que consequentemente não tenha sido criado uma USER_STAT para o mesmo
             if(us == NULL){
@@ -182,7 +183,7 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 /*
     Função que responde a query2 (em desenvolvimento)
 */
-void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, GHashTable *user_stats, CATALOGO_INVALID *cat_invalids){
+void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, STATS *stats, CATALOGO_INVALID *cat_invalids){
     char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -203,7 +204,8 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
             // verificação se a conta é ativa
             if(strcasecmp(accountStatus, "active") == 0){
-                USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
+                //USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
+                USER_STAT *userStat = get_stat_user(stats, id);
 
                 if(userStat != NULL){
 
@@ -251,7 +253,8 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
             char *accountStatus = getAccountStatus(u);
 
             if(strcasecmp(accountStatus, "active") == 0){
-                USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
+                //USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
+                USER_STAT *userStat = get_stat_user(stats, id);
 
                 if(userStat != NULL){
                     GList *listaReservas = get_user_stat_listaReservas(userStat);
@@ -306,7 +309,7 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 /*
     Função que responde a query3
 */
-void query3(CATALOGO_RESERVATIONS *reservations,char* linha, int f,char *path, GHashTable *hotel_stats){
+void query3(CATALOGO_RESERVATIONS *reservations,char* linha, int f,char *path, STATS *stats){
     char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -315,7 +318,8 @@ void query3(CATALOGO_RESERVATIONS *reservations,char* linha, int f,char *path, G
         return;
     }
 
-    HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
+    //HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
+    HOTEL_STAT *hstat = get_stat_hotel(stats, aux);
 
     if(hstat != NULL){
 
@@ -337,7 +341,7 @@ void query3(CATALOGO_RESERVATIONS *reservations,char* linha, int f,char *path, G
 /*
     Função que responde a query4
 */
-void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
+void query4(char *linha, int f, char *path, STATS *stats){
     char *aux = strdup(linha);
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -346,7 +350,8 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
         return;
     }
 
-    HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
+    //HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
+    HOTEL_STAT *hstat = get_stat_hotel(stats, aux);
 
         if(hstat != NULL){
         
@@ -419,7 +424,7 @@ void query4(char *linha, int f, char *path, GHashTable *hotel_stats){
 /*
     Função responsável por responder a query5
 */
-void query5(char *linha, int f, char *path, GHashTable *airport_stats){
+void query5(char *linha, int f, char *path, STATS *stats){
 
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -438,7 +443,8 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
     enddate[19] = '\0';   
 
     //pega nos stats do aeroporto
-    AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats,airportID);
+    //AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats,airportID);
+    AIRPORT_STAT *astat = get_stat_airport(stats, airportID);
 
     //sort na lista perante data incluindo hora
     GList * listaAuxiliar = g_list_sort(get_airport_stat_listaVoos(astat), compare_flightswithHours);
@@ -521,7 +527,7 @@ void query5(char *linha, int f, char *path, GHashTable *airport_stats){
 /*
     Função que responde a query6
 */
-void query6(char *linha, int f, char *path, GHashTable *airport_stats){
+void query6(char *linha, int f, char *path, STATS *stats){
 
     FILE *file = fopen(path, "w");
     if (file == NULL) {
@@ -536,7 +542,8 @@ void query6(char *linha, int f, char *path, GHashTable *airport_stats){
     // top N
     int n = atoi(strsep(&linha,"\n"));
 
-    GList *air_stats = g_hash_table_get_values(airport_stats);
+    //GList *air_stats = g_hash_table_get_values(airport_stats);
+    GList *air_stats = get_airport_stats_values(stats);
     //Sort por numero de passageiros
     air_stats = g_list_sort_with_data(air_stats,compareNPassageirosAno, ano);
     int i = 1;
@@ -641,7 +648,7 @@ void query6(char *linha, int f, char *path, GHashTable *airport_stats){
     fclose(file);
 }*/
 
-void query7(char *linha, int f, char *path, GHashTable *airport_stats){
+void query7(char *linha, int f, char *path, STATS *stats){
 
     FILE *file = fopen(path, "w");
 
@@ -654,7 +661,8 @@ void query7(char *linha, int f, char *path, GHashTable *airport_stats){
     //top N
     int n = atoi(strsep(&linha,"\n"));
 
-    GList *air_stats = g_hash_table_get_values(airport_stats);
+    //GList *air_stats = g_hash_table_get_values(airport_stats);
+    GList *air_stats = get_airport_stats_values(stats);
     air_stats = g_list_sort(air_stats, compareMediana);
 
     int i = 1;
@@ -702,3 +710,48 @@ void query7(char *linha, int f, char *path, GHashTable *airport_stats){
     g_list_free(air_stats);
     fclose(file);
 }
+
+/*void query9(char *linha, int f, char *path, CATALOGO_USER *cat_users) {
+    FILE *file = fopen(path, "w");
+
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    GHashTable *user_table = get_Catalogo_User(cat_users);
+    if (user_table == NULL) {
+        fprintf(file, "User catalog is empty or invalid.\n");
+        fclose(file);
+        return;
+    }
+
+    GList *users = g_hash_table_get_values(user_table);
+    GList *sorted_users = NULL;
+
+    fprintf(file, "Prefix to match: %s\n", linha);
+
+    // Iterate through users and filter by the prefix and active status
+    for (GList *iter = users; iter != NULL; iter = g_list_next(iter)) {
+        USER *user = (USER *)iter->data;
+        fprintf(file, "Processing user: %s\n", getName(user)); // Debug print
+
+        if (user != NULL && strcasecmp(getAccountStatus(user), "active") == 0 && g_str_has_prefix(getName(user), linha)) {
+            sorted_users = g_list_insert_sorted_with_data(
+                sorted_users, user, (GCompareDataFunc)g_strcmp0, NULL);
+            fprintf(file, "Match found: %s\n", getName(user)); // Debug print
+        }
+    }
+
+    // Print the sorted user list to the file
+    fprintf(file, "Users matching prefix and sorted:\n");
+    for (GList *iter = sorted_users; iter != NULL; iter = g_list_next(iter)) {
+        USER *user = (USER *)iter->data;
+        fprintf(file, "Name: %s, Identifier: %s\n", getName(user), getID(user));
+    }
+
+    g_list_free(users);
+    g_list_free(sorted_users);
+
+    fclose(file);
+}*/

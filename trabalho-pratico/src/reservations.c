@@ -32,8 +32,8 @@ struct reservation{
 };
 
 
-//int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids){
-int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed){
+int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids){
+//int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed){
 
     RESERVATION *r = create_Reservation(line);
 
@@ -43,10 +43,10 @@ int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RES
     //if(!(g_hash_table_contains(invalid_users, r->user_id)) && reservation_validation(r) == 0){
         addReservations(cat_reservas, r->id, r);
 
-        if (g_hash_table_contains(stats_needed, r->user_id))
-            create_user_stat_reservations(r, get_user_stats(stats), get_Catalogo_User(cat_users));
-        if (g_hash_table_contains(stats_needed, r->hotel_id))
-            create_hotel_stats(r, get_hotel_stats(stats));
+        if (contains_stat(stats, r->user_id))
+            create_user_stat_reservations(r, stats, get_Catalogo_User(cat_users));
+        if (contains_stat(stats, r->hotel_id))
+            create_hotel_stats(r, stats);
         
         free(userID);
         return 0;
@@ -148,61 +148,4 @@ char *getIncludesBreakfast_reservation(RESERVATION *r) {
 
 double getRating_reservation(RESERVATION *r) {
     return r->rating;
-}
-/*
-    Função que faz o parsing das reservas
-    Antes de inserir na sua estrutura de dados faz a verificação
-    Se for invalida insere, caso contrario escreve no ficheiro de erros
-*/
-GHashTable* parse_files_reservations(char *path, STATS*stats, GHashTable *users, GHashTable *invalid_users) {
-
-    char *line = NULL;
-    size_t len = 0;
-
-    GHashTable *reservations = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, kill_reservation);
-    
-    char *path_reservations = malloc(sizeof(char) * 70);
-    strcpy(path_reservations, path);
-    strcat(path_reservations, "/reservations.csv");
-    char *path_reservations_erros = "Resultados/reservations_errors.csv";
-
-    FILE *file = fopen(path_reservations, "r");
-    FILE *file_errors = fopen(path_reservations_erros, "w");
-
-    if (file == NULL || file_errors == NULL) {
-        printf("Unable to open the file.\n");
-    }
-
-    //cabeçalho ficheiro de erros
-    fprintf(file_errors, "id;user_id;hotel_id;hotel_name;hotel_stars;city_tax;address;begin_date;end_date;price_per_night;includes_breakfast;room_details;rating;comment\n");
-
-    getline(&line, &len, file);
-
-    while ((getline(&line, &len, file)) != -1){
-
-        char *temp = strdup(line);
-        RESERVATION *reservation = create_Reservation(line);
-        char *userID = reservation->user_id;
-
-        if (!(g_hash_table_contains(invalid_users, userID)) && reservation_validation(reservation) == 0){
-            g_hash_table_insert(reservations, reservation->id, reservation);
-            create_user_stat_reservations(reservation, get_user_stats(stats), users);
-            create_hotel_stats(reservation, get_hotel_stats(stats));
-        }
-        else {
-        
-            fprintf(file_errors, "%s", temp);
-
-           
-            kill_reservation(reservation);
-        }
-         free(temp);
-        
-    }
-    printf("Reservation validition and Parsing Sucessfull\n");
-    free(line);
-    free(path_reservations);
-    fclose(file);
-    fclose(file_errors);
-    return reservations;
 }

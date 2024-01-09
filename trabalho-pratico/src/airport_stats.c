@@ -12,7 +12,7 @@
     Struct que contem os dados necessários para os aerpoportos
 */
 
-struct a_stat{
+struct airport_stat{
     char *airportid;
     int nPassageirosAno[3];
     GArray *atrasosVoos;
@@ -28,11 +28,13 @@ struct a_stat{
 void kill_airportStat(void *airportStat){
     AIRPORT_STAT *as = airportStat;
 
-    free(as->airportid);
-    if(as->atrasosVoos!=NULL) g_array_free(as->atrasosVoos, TRUE);
+    if(as != NULL){
+        free(as->airportid);
+        if(as->atrasosVoos!=NULL) g_array_free(as->atrasosVoos, TRUE);
 
-    g_list_free(as->listaVoos);
+        g_list_free(as->listaVoos);
 
+    }
     free(as);
 }
 
@@ -66,13 +68,12 @@ GList *get_airport_stat_listaVoos(AIRPORT_STAT *a)
     Funções de criação de estatistica dos aeroportos
     Procura a estatistica, se nao encontrar cria uma nova, caso contrario da update aos campos
 */
-void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
+void create_airport_stat_flight(FLIGHT *f, STATS *s) {
     int atraso = get_tempo_atraso(f);
     
     char *airportID = getFlightOrigin(f); 
     
-    AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats, airportID);
-    
+    AIRPORT_STAT *astat = get_stat_airport(s, airportID);
     
     if (astat == NULL) {
         AIRPORT_STAT *airport_stat = malloc(sizeof(AIRPORT_STAT));
@@ -87,7 +88,9 @@ void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
         airport_stat->listaVoos= NULL;
         airport_stat->listaVoos = g_list_append(airport_stat->listaVoos, f);
 
-        g_hash_table_insert(airport_stats, airportID, airport_stat);
+        //g_hash_table_insert(airport_stats, airportID, airport_stat);
+        addAirportStat(s, airport_stat, airportID);
+
     } else {
         astat->listaVoos = g_list_append(astat->listaVoos,f);
         //insertion_Sort(astat->atrasosVoos,astat->nVoos,atraso);
@@ -99,14 +102,15 @@ void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) {
 }
 
 
-void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats, CATALOGO_FLIGHTS *cat_flights) {
+void create_airport_stat_passenger(PASSENGER *p, STATS *stats, CATALOGO_FLIGHTS *cat_flights) {
     char *flightID = get_FlightID_passenger(p);
     FLIGHT *f = getFlight(cat_flights, flightID);
     char *airportIDorigin = getFlightOrigin(f);
     
     int ano = get_Ano_Voo(f);
-    AIRPORT_STAT *astato = g_hash_table_lookup(airport_stats, airportIDorigin);
-    
+    //AIRPORT_STAT *astato = g_hash_table_lookup(airport_stats, airportIDorigin);
+    AIRPORT_STAT *astato = get_stat_airport(stats, airportIDorigin);
+
     size_t n = 2023 - ano;
     astato->nPassageirosAno[n] += 1;
     
@@ -115,7 +119,9 @@ void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats, CATA
 
     char * aIDdest = getFlightDestination(f);
 
-    AIRPORT_STAT *astatd = g_hash_table_lookup(airport_stats, aIDdest);
+    //AIRPORT_STAT *astatd = g_hash_table_lookup(airport_stats, aIDdest);
+    AIRPORT_STAT *astatd = get_stat_airport(stats, aIDdest);
+
 
     if(astatd == NULL) {
         AIRPORT_STAT *airport_statd = malloc(sizeof(AIRPORT_STAT));
@@ -130,7 +136,8 @@ void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats, CATA
         g_array_append_val(airport_statd->atrasosVoos, insert);
         airport_statd->nVoos = 0;
         airport_statd->listaVoos = NULL;
-        g_hash_table_insert(airport_stats, aIDdest, airport_statd);
+        //g_hash_table_insert(airport_stats, aIDdest, airport_statd);
+        addAirportStat(stats, airport_statd, aIDdest);
     } else {
         astatd->nPassageirosAno[n] +=1;
         

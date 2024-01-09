@@ -8,7 +8,7 @@
 /*
 	Struct responsável por guardar os dados das stats dos hoteis
 */
-struct h_stat{
+struct hotel_stat{
     char *hotelid;
     double nReservas;
     double somaRatings;
@@ -22,10 +22,11 @@ struct h_stat{
 void kill_hotelStat(void *hotelStat){
 	HOTEL_STAT *hs = hotelStat;
 	
-	free(hs->hotelid);
+	if(hs != NULL){
+		free(hs->hotelid);
 
-	g_list_free(hs->reservasHotel);	
-
+		g_list_free(hs->reservasHotel);	
+	}
 	free(hs);
 }
 
@@ -61,11 +62,12 @@ GList *get_hotel_stat_reservasHotel(HOTEL_STAT *h)
 	Cria uma stat nova caso nao exista,
 	Caso ja haja stat criada para o hotel irá dar update aos seus campos
 */
-void create_hotel_stats(RESERVATION *r, GHashTable *hotel_stats)
+void create_hotel_stats(RESERVATION *r, STATS *stats)
 {
 	char *hotelID = getHotelID_reservation(r);	
 	
-	HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats, hotelID);
+	//HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats, hotelID);
+	HOTEL_STAT *hstat = get_stat_hotel(stats, hotelID);
     double rating = getRating_reservation(r);
 		if (hstat == NULL)
 		{
@@ -76,7 +78,8 @@ void create_hotel_stats(RESERVATION *r, GHashTable *hotel_stats)
             hotel_stat->somaRatings = rating;
 			hotel_stat->avgscore = rating;
             hotel_stat->reservasHotel = g_list_prepend(NULL,r);
-			g_hash_table_insert(hotel_stats, hotelID, hotel_stat);
+			//g_hash_table_insert(hotel_stats, hotelID, hotel_stat);
+			addHotelStat(stats, hstat, hotelID);
 		}
 		else{
 

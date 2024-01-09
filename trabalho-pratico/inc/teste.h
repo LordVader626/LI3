@@ -2,8 +2,9 @@
 #define teste_h
 
 #include <glib.h>
+#include "../inc/stats.h"
 
-void start_stats_needed(GHashTable *stats_needed, char *data_input);
+void start_stats_needed(STATS *stats, char *data_input);
 
 
 #endif

@@ -8,7 +8,7 @@
 #include "../inc/reservations.h"
 #include "../inc/utils.h"
 
-typedef struct a_stat AIRPORT_STAT;
+typedef struct airport_stat AIRPORT_STAT;
 
 /**
  * @brief getters.
@@ -35,8 +35,7 @@ GList *get_airport_stat_listaVoos(AIRPORT_STAT *a);
  * @param airport_stats estrutura de dados onde são guardadas as estatísticas
  */
     
-void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) ;
-
+void create_airport_stat_flight(FLIGHT *f, STATS *s);
 /**
  * @brief Função para criação de estatística.
  * 
@@ -44,10 +43,9 @@ void create_airport_stat_flight(FLIGHT *f, GHashTable *airport_stats) ;
  * a um passageiro, com dados como os passageiros por ano.
  * 
  * @param p pointer para o passageiro sobre o qual vai ser criada a estatística.
- * @param airport_stats estrutura de dados onde são guardadas as estatísticas
- * @param cat_flights usado para obter dados sobre o voo
+ * @param s catalogo de dados onde são guardadas as estatísticas
  */
-void create_airport_stat_passenger(PASSENGER *p, GHashTable *airport_stats, CATALOGO_FLIGHTS *cat_flights);
+void create_airport_stat_passenger(PASSENGER *p, STATS *stats, CATALOGO_FLIGHTS *cat_flights);
 
 
 /**

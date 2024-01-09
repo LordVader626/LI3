@@ -4,6 +4,8 @@
 #include <sys/types.h>
 
 #include "../inc/tests.h"
+#include "../../inc/teste.h"
+#include "../../inc/stats.h"
 
 void execute_tests(char *data_input, char *test_path){
     char *line = NULL;
@@ -20,11 +22,16 @@ void execute_tests(char *data_input, char *test_path){
         char *query = strdup(strsep(&line, " "));
 
         char *path_executed_queries = malloc(sizeof(char) * 100);
-        sprintf(path_executed_queries, "%s/command%d_output.txt", test_path, i);
+        sprintf(path_executed_queries, "Resultados/command%d_output.txt", i);
         executed_queries = fopen(path_executed_queries, "r");
+        //printf("%s\n", path_executed_queries);
+
+        if (executed_queries == NULL)
+            continue; 
             
         char *path_results = malloc(sizeof(char) * 100);
-        sprintf(path_results, "Resultados/command%d_output.txt", i);
+        sprintf(path_results, "%s/command%d_output.txt", test_path, i);
+        //printf("%s\n", path_results);
         results = fopen(path_results, "r");
 
         char *results_line = NULL;
@@ -34,20 +41,20 @@ void execute_tests(char *data_input, char *test_path){
         size_t tests_len = 0;
 
         for (int a = 1; getline(&results_line, &results_len, executed_queries) != -1 && getline(&tests_line, &tests_len, results) != -1; a++){
+            //printf("%s\n", results_line);
+            //printf("%s\n", tests_line);
             if (strcmp(results_line, tests_line)){
-                if (first_error == 0) 
+                if (first_error == 0){
                     printf("\n");
-                printf("Falha na linha %d\n", a);
-                printf("Resultado esperado: %s", tests_line);
-                printf("Resultado obtido: %s", results_line);
-                first_error = 1;
+                    printf("Falha no ficheiro %s\n", path_executed_queries);
+                    printf("Falha na linha %d\n", a);
+                    printf("Resultado esperado: %s", tests_line);
+                    printf("Resultado obtido: %s", results_line);
+                    first_error = 1;
+                }
             }
         }
 
-        if (first_error == 0)
-            printf(" Passou no teste com sucesso\n");
-
-        
         fclose(executed_queries);
         fclose(results);
         free(results_line);
@@ -56,45 +63,40 @@ void execute_tests(char *data_input, char *test_path){
         free(path_results);
         free(query);
     }
-    fclose(data_input);
+    if (first_error == 0)
+        printf("Passou no teste com sucesso\n");
+    fclose(file);
 }
 
 // fazer uma função geral para isto
 void run_test(char *files_path, char *data_input){
-        CATALOGO_USER *cat_users = create_Catalogo_User();
-        CATALOGO_FLIGHTS *cat_flights = create_Catalogo_flights();
-        CATALOGO_PASSENGER *cat_passengers = create_catalogo_Passenger();
-        CATALOGO_RESERVATIONS *cat_reservations = create_Catalogo_Reservations();
-        CATALOGO_INVALID *cat_invalids = create_Catalogo_invalids();
+    CATALOGO_USER *cat_users = create_Catalogo_User();
+    CATALOGO_FLIGHTS *cat_flights = create_Catalogo_flights();
+    CATALOGO_PASSENGER *cat_passengers = create_catalogo_Passenger();
+    CATALOGO_RESERVATIONS *cat_reservations = create_Catalogo_Reservations();
+    CATALOGO_INVALID *cat_invalids = create_Catalogo_invalids();
 
-        printf("CALALOGS CREATION COMPLETE\n");
+    //criaçao das stats
+    STATS *stats = create_stats();    
+    start_stats_needed(stats, data_input);
+    
+    printf("STARTING FILES PARSING\n");
+    
+    //parsing dos ficheiros
+    parse_files_users_teste(files_path, cat_users, cat_invalids);
+    parse_files_flights_teste(files_path, cat_flights, stats, cat_invalids);
+    parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
+    parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids);
 
-        //criaçao das stats
-        STATS *stats = create_stats();
-        GHashTable *stats_needed = g_hash_table_new(g_str_hash, g_str_equal);
-        
-        start_stats_needed(stats_needed, data_input);
-        
-        printf("STARTING FILES PARSING\n");
-        
-        //parsing dos ficheiros
-        parse_files_users_teste(files_path, cat_users, cat_invalids);
-        parse_files_flights_teste(files_path, cat_flights, stats, cat_invalids);
-        parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids, stats_needed);
-        parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids, stats_needed);
+    // Realizar as queries
+    handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids);
 
-        // so era necessario para as criações das stats
-        g_hash_table_destroy(stats_needed);
+    // Libertar Memoria
+    destroy_catalogo_invalids(cat_invalids);
 
-        // Realizar as queries
-        handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids);
-
-        // Libertar Memoria
-        destroy_catalogo_invalids(cat_invalids);
-
-        destroy_catalogo_users(cat_users);
-        destroy_catalogo_flights(cat_flights);
-        destroy_catalogo_reservations(cat_reservations);
-        destroy_catalogo_passengers(cat_passengers);
-        destroy_stats(stats);
+    destroy_catalogo_users(cat_users);
+    destroy_catalogo_flights(cat_flights);
+    destroy_catalogo_reservations(cat_reservations);
+    destroy_catalogo_passengers(cat_passengers);
+    destroy_stats(stats);
 }

@@ -9,6 +9,7 @@
 #include "../../inc/catalogo_user.h"
 #include "../../inc/handle.h"
 #include "../../inc/parser.h"
+#include "../../inc/teste.h"
 
 void run_test(char *files_path, char *data_input);
 void execute_tests(char *data_input, char *test_path);

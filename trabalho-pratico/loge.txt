@@ -1,0 +1,938 @@
+==187032== Memcheck, a memory error detector
+==187032== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==187032== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==187032== Command: ./programa-principal /home/rui/Desktop/dataset/data_clean /home/rui/Desktop/dataset/input.txt
+==187032== Parent PID: 175379
+==187032== 
+==187032== Invalid read of size 8
+==187032==    at 0x1107F1: get_hotel_stat_avgscore (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10F313: query3 (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10E026: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==  Address 0x18 is not stack'd, malloc'd or (recently) free'd
+==187032== 
+==187032== 
+==187032== Process terminating with default action of signal 11 (SIGSEGV)
+==187032==  Access not within mapped region at address 0x18
+==187032==    at 0x1107F1: get_hotel_stat_avgscore (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10F313: query3 (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10E026: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==  If you believe this happened as a result of a stack
+==187032==  overflow in your program's main thread (unlikely but
+==187032==  possible), you can try to increase the size of the
+==187032==  main thread stack using the --main-stacksize= flag.
+==187032==  The main thread stack size used in this run was 8388608.
+==187032== 
+==187032== HEAP SUMMARY:
+==187032==     in use at exit: 10,774,677 bytes in 494,886 blocks
+==187032==   total heap usage: 2,031,392 allocs, 1,536,506 frees, 36,824,521 bytes allocated
+==187032== 
+==187032== 2 bytes in 1 blocks are still reachable in loss record 1 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10DDAD: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 4 bytes in 1 blocks are still reachable in loss record 2 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x490E8C3: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x490E95D: g_private_get (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB53: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48C8B62: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BA8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032== 
+==187032== 8 bytes in 1 blocks are still reachable in loss record 3 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10F2B7: query3 (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10E026: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 11 bytes in 1 blocks are possibly lost in loss record 4 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10DD79: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 15 bytes in 1 blocks are still reachable in loss record 5 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x4B65C10: tzset_internal (tzset.c:402)
+==187032==    by 0x4B664F2: tzset (tzset.c:551)
+==187032==    by 0x4B6494C: mktime (mktime.c:529)
+==187032==    by 0x10CAED: compareDates (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10D6A8: flight_validation_1phase (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9FD: parse_files_flights (parser.c:48)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 20 bytes in 1 blocks are still reachable in loss record 6 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B65917: __tzstring_len (tzset.c:98)
+==187032==    by 0x4B65917: __tzstring (tzset.c:121)
+==187032==    by 0x4B67264: __tzfile_read (tzfile.c:408)
+==187032==    by 0x4B65C23: tzset_internal (tzset.c:405)
+==187032==    by 0x4B664F2: tzset (tzset.c:551)
+==187032==    by 0x4B6494C: mktime (mktime.c:529)
+==187032==    by 0x10CADA: compareDates (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10D688: flight_validation_1phase (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9FD: parse_files_flights (parser.c:48)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 24 bytes in 1 blocks are still reachable in loss record 7 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x11016E: create_stats (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A6CC: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 32 bytes in 1 blocks are still reachable in loss record 8 of 105
+==187032==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8C50: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA16E: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48C8B62: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BA8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032== 
+==187032== 32 bytes in 1 blocks are still reachable in loss record 9 of 105
+==187032==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8C50: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA16E: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BB1: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032==    by 0x1FFEFFFE2C: ???
+==187032== 
+==187032== 32 bytes in 1 blocks are still reachable in loss record 10 of 105
+==187032==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8C50: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA16E: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10A6A1: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 32 bytes in 1 blocks are still reachable in loss record 11 of 105
+==187032==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8C50: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA16E: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10A6BE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 32 bytes in 1 blocks are still reachable in loss record 12 of 105
+==187032==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8C50: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA16E: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x1101C6: create_stats (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A6CC: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 32 bytes in 1 blocks are still reachable in loss record 13 of 105
+==187032==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8C50: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA16E: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10B07C: parse_files_reservations (parser.c:159)
+==187032==    by 0x10A744: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 36 bytes in 1 blocks are still reachable in loss record 14 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10A684: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 37 bytes in 1 blocks are still reachable in loss record 15 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10A66D: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 40 bytes in 1 blocks are still reachable in loss record 16 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x488E0C3: g_array_sized_new (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10ADDB: parse_files_passengers (parser.c:111)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 64 bytes in 1 blocks are still reachable in loss record 17 of 105
+==187032==    at 0x48487A9: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA159: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48C8B62: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BA8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032== 
+==187032== 64 bytes in 1 blocks are still reachable in loss record 18 of 105
+==187032==    at 0x48487A9: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA159: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BB1: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032==    by 0x1FFEFFFE2C: ???
+==187032== 
+==187032== 64 bytes in 1 blocks are still reachable in loss record 19 of 105
+==187032==    at 0x48487A9: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA159: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10A6A1: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 64 bytes in 1 blocks are still reachable in loss record 20 of 105
+==187032==    at 0x48487A9: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA159: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10A6BE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 64 bytes in 1 blocks are still reachable in loss record 21 of 105
+==187032==    at 0x48487A9: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA159: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x1101C6: create_stats (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A6CC: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 64 bytes in 1 blocks are still reachable in loss record 22 of 105
+==187032==    at 0x48487A9: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA159: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD540: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10B07C: parse_files_reservations (parser.c:159)
+==187032==    by 0x10A744: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 76 bytes in 19 blocks are still reachable in loss record 23 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C259: getFlightOrigin (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x110A6A: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 76 bytes in 19 blocks are still reachable in loss record 24 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x110B50: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 25 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48C8B62: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BA8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 26 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BB1: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032==    by 0x1FFEFFFE2C: ???
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 27 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10A6A1: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 28 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10A6BE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 29 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x11019A: create_stats (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A6CC: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 30 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x1101C6: create_stats (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A6CC: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 31 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x1101F2: create_stats (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A6CC: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 32 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10B6C1: parse_files_users (parser.c:240)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 33 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10A93E: parse_files_flights (parser.c:30)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 96 bytes in 1 blocks are still reachable in loss record 34 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10B07C: parse_files_reservations (parser.c:159)
+==187032==    by 0x10A744: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 100 bytes in 1 blocks are still reachable in loss record 35 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x10DDD0: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 103 bytes in 5 blocks are still reachable in loss record 36 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B658BD: __tzstring_len (tzset.c:98)
+==187032==    by 0x4B658BD: __tzstring (tzset.c:121)
+==187032==    by 0x4B67264: __tzfile_read (tzfile.c:408)
+==187032==    by 0x4B65C23: tzset_internal (tzset.c:405)
+==187032==    by 0x4B664F2: tzset (tzset.c:551)
+==187032==    by 0x4B6494C: mktime (mktime.c:529)
+==187032==    by 0x10CADA: compareDates (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10D688: flight_validation_1phase (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9FD: parse_files_flights (parser.c:48)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 120 bytes in 1 blocks are still reachable in loss record 37 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B0B122: getdelim (iogetdelim.c:62)
+==187032==    by 0x10E118: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 128 bytes in 1 blocks are still reachable in loss record 38 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9C8B: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110B66: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 153 bytes in 11 blocks are definitely lost in loss record 39 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10E192: query1 (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10DEF8: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 256 bytes in 1 blocks are still reachable in loss record 40 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CAC: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110B66: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 256 bytes in 1 blocks are still reachable in loss record 41 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CD3: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110B66: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 416 bytes in 24 blocks are definitely lost in loss record 42 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10DD79: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 456 bytes in 19 blocks are still reachable in loss record 43 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48BA197: g_list_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110B3C: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 472 bytes in 1 blocks are still reachable in loss record 44 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B0A64D: __fopen_internal (iofopen.c:65)
+==187032==    by 0x4B0A64D: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==187032==    by 0x10DD40: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 472 bytes in 1 blocks are still reachable in loss record 45 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B0A64D: __fopen_internal (iofopen.c:65)
+==187032==    by 0x4B0A64D: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==187032==    by 0x10F2D1: query3 (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10E026: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 760 bytes in 19 blocks are still reachable in loss record 46 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x488E0C3: g_array_sized_new (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110AF4: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 912 bytes in 19 blocks are still reachable in loss record 47 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x110AB8: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 1,024 bytes in 1 blocks are still reachable in loss record 48 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B09BA3: _IO_file_doallocate (filedoalloc.c:101)
+==187032==    by 0x4B18CDF: _IO_doallocbuf (genops.c:347)
+==187032==    by 0x4B17F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+==187032==    by 0x4B166D4: _IO_new_file_xsputn (fileops.c:1243)
+==187032==    by 0x4B166D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==187032==    by 0x4B0BF1B: puts (ioputs.c:40)
+==187032==    by 0x10B9B7: parse_files_users (parser.c:295)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 2,032 bytes in 1 blocks are still reachable in loss record 49 of 105
+==187032==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8C50: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFDDD: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD501: g_hash_table_new_full (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48C8B62: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BA8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032== 
+==187032== 2,165 bytes in 1 blocks are still reachable in loss record 50 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B66AC2: __tzfile_read (tzfile.c:275)
+==187032==    by 0x4B65C23: tzset_internal (tzset.c:405)
+==187032==    by 0x4B664F2: tzset (tzset.c:551)
+==187032==    by 0x4B6494C: mktime (mktime.c:529)
+==187032==    by 0x10CADA: compareDates (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10D688: flight_validation_1phase (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9FD: parse_files_flights (parser.c:48)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 3,800 bytes in 950 blocks are still reachable in loss record 51 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BF80: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 3,800 bytes in 950 blocks are still reachable in loss record 52 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BFA9: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 4,096 bytes in 1 blocks are still reachable in loss record 53 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9C8B: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10AA26: parse_files_flights (parser.c:50)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 4,096 bytes in 1 blocks are still reachable in loss record 54 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B09BA3: _IO_file_doallocate (filedoalloc.c:101)
+==187032==    by 0x4B18CDF: _IO_doallocbuf (genops.c:347)
+==187032==    by 0x4B17CDB: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:485)
+==187032==    by 0x4B0B307: getdelim (iogetdelim.c:73)
+==187032==    by 0x10E118: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 5,192 bytes in 11 blocks are still reachable in loss record 55 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B0A64D: __fopen_internal (iofopen.c:65)
+==187032==    by 0x4B0A64D: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==187032==    by 0x10E1AC: query1 (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10DEF8: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 5,632 bytes in 19 blocks are still reachable in loss record 56 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x488DFF8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x488E39C: g_array_append_vals (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110B84: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 8,192 bytes in 1 blocks are still reachable in loss record 57 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CAC: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10AA26: parse_files_flights (parser.c:50)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 8,192 bytes in 1 blocks are still reachable in loss record 58 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CD3: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10AA26: parse_files_flights (parser.c:50)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 10,156 bytes in 950 blocks are still reachable in loss record 59 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C0C8: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 10,450 bytes in 950 blocks are still reachable in loss record 60 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BEE1: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 10,450 bytes in 950 blocks are still reachable in loss record 61 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C1DE: getID_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA0D: parse_files_flights (parser.c:50)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 11,166 bytes in 950 blocks are still reachable in loss record 62 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BF32: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 11,778 bytes in 950 blocks are still reachable in loss record 63 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C09F: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 12,249 bytes in 950 blocks are still reachable in loss record 64 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C076: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 15,436 bytes in 950 blocks are still reachable in loss record 65 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BF09: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 16,384 bytes in 1 blocks are still reachable in loss record 66 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48C8B73: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x4888BA8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x400647D: call_init.part.0 (dl-init.c:70)
+==187032==    by 0x4006567: call_init (dl-init.c:33)
+==187032==    by 0x4006567: _dl_init (dl-init.c:117)
+==187032==    by 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+==187032==    by 0x2: ???
+==187032==    by 0x1FFEFFFDF2: ???
+==187032==    by 0x1FFEFFFE07: ???
+==187032==    by 0x1FFEFFFE2C: ???
+==187032== 
+==187032== 17,852 bytes in 8,926 blocks are still reachable in loss record 67 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BDD7: getSex (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x1104AF: create_user_stat_flights (user_stats.c:95)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 18,928 bytes in 9,464 blocks are still reachable in loss record 68 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BB21: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 19,000 bytes in 950 blocks are still reachable in loss record 69 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BFD2: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 19,000 bytes in 950 blocks are still reachable in loss record 70 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BFFB: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 19,000 bytes in 950 blocks are still reachable in loss record 71 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C024: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 19,000 bytes in 950 blocks are still reachable in loss record 72 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C04D: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 22,344 bytes in 931 blocks are still reachable in loss record 73 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48BA197: g_list_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110BB4: create_airport_stat_flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AA47: parse_files_flights (parser.c:51)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 28,392 bytes in 9,464 blocks are still reachable in loss record 74 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BB73: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 53,015 bytes in 4,034 blocks are definitely lost in loss record 75 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C421: getID_passenger (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x1103E4: create_user_stat_flights (user_stats.c:77)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 65,536 bytes in 1 blocks are still reachable in loss record 76 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9C8B: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10B7A9: parse_files_users (parser.c:260)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 65,536 bytes in 1 blocks are still reachable in loss record 77 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9C8B: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110529: create_user_stat_flights (user_stats.c:102)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 67,320 bytes in 9,464 blocks are still reachable in loss record 78 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BC17: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 85,176 bytes in 9,464 blocks are still reachable in loss record 79 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BB4A: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 88,196 bytes in 9,464 blocks are still reachable in loss record 80 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BBEE: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 98,800 bytes in 950 blocks are still reachable in loss record 81 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x10BEBF: new_Flight (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A9ED: parse_files_flights (parser.c:46)
+==187032==    by 0x10A6FE: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 104,104 bytes in 9,464 blocks are still reachable in loss record 82 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BAF8: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 118,834 bytes in 8,926 blocks are still reachable in loss record 83 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C421: getID_passenger (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x1103E4: create_user_stat_flights (user_stats.c:77)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 125,909 bytes in 9,464 blocks are still reachable in loss record 84 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BA55: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 125,909 bytes in 9,464 blocks are still reachable in loss record 85 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BD2D: getID (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B790: parse_files_users (parser.c:260)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 131,072 bytes in 1 blocks are still reachable in loss record 86 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CAC: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10B7A9: parse_files_users (parser.c:260)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 131,072 bytes in 1 blocks are still reachable in loss record 87 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CD3: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10B7A9: parse_files_users (parser.c:260)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 131,072 bytes in 1 blocks are still reachable in loss record 88 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CAC: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110529: create_user_stat_flights (user_stats.c:102)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 131,072 bytes in 1 blocks are still reachable in loss record 89 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48A9CD3: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AA695: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48AD9CB: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48ADDEF: g_hash_table_insert (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110529: create_user_stat_flights (user_stats.c:102)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 140,740 bytes in 9,464 blocks are still reachable in loss record 90 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BACF: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 142,120 bytes in 8,926 blocks are still reachable in loss record 91 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BD4F: getName (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x11049B: create_user_stat_flights (user_stats.c:94)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 150,636 bytes in 9,464 blocks are still reachable in loss record 92 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BA7D: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 189,280 bytes in 9,464 blocks are still reachable in loss record 93 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BBC5: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 189,280 bytes in 9,464 blocks are definitely lost in loss record 94 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BE5F: getAccountCreation (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10CD0E: user_validation (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B780: parse_files_users (parser.c:259)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 192,157 bytes in 9,464 blocks are still reachable in loss record 95 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BAA6: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 214,224 bytes in 8,926 blocks are still reachable in loss record 96 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48BA197: g_list_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x1104FD: create_user_stat_flights (user_stats.c:100)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 392,344 bytes in 9,464 blocks are still reachable in loss record 97 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BB9C: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 392,344 bytes in 9,464 blocks are definitely lost in loss record 98 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10BE3D: getAddress (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10CD21: user_validation (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B780: parse_files_users (parser.c:259)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 571,264 bytes in 8,926 blocks are still reachable in loss record 99 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x110480: create_user_stat_flights (user_stats.c:91)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 806,597 bytes in 73,327 blocks are still reachable in loss record 100 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C3A7: create_Passenger (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AE7B: parse_files_passengers (parser.c:127)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 908,544 bytes in 9,464 blocks are still reachable in loss record 101 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x10BA33: create_User (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10B770: parse_files_users (parser.c:257)
+==187032==    by 0x10A6E3: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 975,613 bytes in 73,327 blocks are still reachable in loss record 102 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x4B3358E: strdup (strdup.c:42)
+==187032==    by 0x10C3CF: create_Passenger (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AE7B: parse_files_passengers (parser.c:127)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 1,048,576 bytes in 1 blocks are still reachable in loss record 103 of 105
+==187032==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8D7F: g_realloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x488DFF8: ??? (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x488E39C: g_array_append_vals (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x10AEED: parse_files_passengers (parser.c:132)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 1,173,232 bytes in 73,327 blocks are still reachable in loss record 104 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x10C385: create_Passenger (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10AE7B: parse_files_passengers (parser.c:127)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== 1,448,808 bytes in 60,367 blocks are still reachable in loss record 105 of 105
+==187032==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==187032==    by 0x48C8738: g_malloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48DFB74: g_slice_alloc (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x48BA197: g_list_append (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.7200.4)
+==187032==    by 0x110558: create_user_stat_flights (user_stats.c:106)
+==187032==    by 0x10AF16: parse_files_passengers (parser.c:134)
+==187032==    by 0x10A728: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032== 
+==187032== LEAK SUMMARY:
+==187032==    definitely lost: 635,208 bytes in 22,997 blocks
+==187032==    indirectly lost: 0 bytes in 0 blocks
+==187032==      possibly lost: 11 bytes in 1 blocks
+==187032==    still reachable: 10,139,458 bytes in 471,888 blocks
+==187032==         suppressed: 0 bytes in 0 blocks
+==187032== 
+==187032== ERROR SUMMARY: 7 errors from 7 contexts (suppressed: 0 from 0)
+==187032== 
+==187032== 1 errors in context 1 of 7:
+==187032== Invalid read of size 8
+==187032==    at 0x1107F1: get_hotel_stat_avgscore (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10F313: query3 (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10E026: handle (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==    by 0x10A775: main (in /home/rui/Desktop/trabalho-pratico/programa-principal)
+==187032==  Address 0x18 is not stack'd, malloc'd or (recently) free'd
+==187032== 
+==187032== ERROR SUMMARY: 7 errors from 7 contexts (suppressed: 0 from 0)

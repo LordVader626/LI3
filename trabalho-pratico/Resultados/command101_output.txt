@@ -1,1 +1,1 @@
-LOT Polish Airlines;Embraer E190;WAW;BUD;2021/02/12 04:07:51;2021/02/12 05:22:51;43;2700
+HTL604;Danube Riverfront Hotel;4;2021/03/10;2021/03/12;True;2;457.600

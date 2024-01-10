@@ -65,8 +65,10 @@ GHashTable *get_airport_stats(STATS *s)
 }
 
 void addStatNeeded(STATS *s, char *value){
-    g_hash_table_insert(s->stats_needed, value, value);
+    if (!contains_stat(s, value))
+        g_hash_table_insert(s->stats_needed, value, value);
 }
+
 GHashTable *get_stats_needed(STATS *s)
 {
     return s->stats_needed;

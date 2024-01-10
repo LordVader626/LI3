@@ -3,6 +3,8 @@
 #include <string.h>
 #include <glib.h>
 #include <ctype.h>
+
+#include "../inc/catalogo_flights.h"
 #include "../inc/flights.h"
 #include "../inc/users.h"
 #include "../inc/passengers.h"

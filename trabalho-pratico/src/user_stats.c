@@ -109,10 +109,11 @@ void create_user_stat_flights(PASSENGER *p, STATS *s, CATALOGO_USER *cat_users, 
 }
 
 
-void create_user_stat_reservations(RESERVATION *r, STATS *stats, GHashTable *users)
+void create_user_stat_reservations(RESERVATION *r, STATS *stats, CATALOGO_USER *cat_users)
 {
     char *username = getUserID_reservartion(r);
-    USER *u = g_hash_table_lookup(users, username);
+    //USER *u = g_hash_table_lookup(users, username);
+	USER *u = getUser(cat_users, username);
 
 	USER_STAT *ustat = get_stat_user(stats, username);
     //USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
@@ -131,7 +132,7 @@ void create_user_stat_reservations(RESERVATION *r, STATS *stats, GHashTable *use
             user_stat->listaReservas = g_list_prepend(NULL, r);
             user_stat->total_gasto = get_Total_Price(r);
             //g_hash_table_insert(user_stats, user_stat->username, user_stat);
-			addUserStat(stats, ustat, username);
+			addUserStat(stats, user_stat, username);
         }
         else
         {

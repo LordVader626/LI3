@@ -350,11 +350,18 @@ void query4(char *linha, int f, char *path, STATS *stats){
         return;
     }
 
+    printf("%s\n", aux);
     //HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
     HOTEL_STAT *hstat = get_stat_hotel(stats, aux);
 
-        if(hstat != NULL){
-        
+    if(hstat == NULL) {
+        for (int i = 0; i < 100; i++){
+            printf("NULLO");
+        }
+    }
+
+    if(hstat != NULL){
+
         GList *sortedList = get_hotel_stat_reservasHotel(hstat);
         //sort na lista com as datas ou id se necessário
         sortedList = g_list_sort(sortedList, compare_reservations);

@@ -46,10 +46,10 @@ void execute_tests(char *data_input, char *test_path){
             if (strcmp(results_line, tests_line)){
                 if (first_error == 0){
                     printf("\n");
-                    printf("Falha no ficheiro %s\n", path_executed_queries);
-                    printf("Falha na linha %d\n", a);
-                    printf("Resultado esperado: %s", tests_line);
-                    printf("Resultado obtido: %s", results_line);
+                    printf("Erro no ficheiro %s\n", path_executed_queries);
+                    printf("Erro na linha %d\n", a);
+                    printf("Esperado: %s", tests_line);
+                    printf("Obtido: %s", results_line);
                     first_error = 1;
                 }
             }
@@ -80,16 +80,18 @@ void run_test(char *files_path, char *data_input){
     STATS *stats = create_stats();    
     start_stats_needed(stats, data_input);
     
-    printf("STARTING FILES PARSING\n");
-    
     //parsing dos ficheiros
     parse_files_users_teste(files_path, cat_users, cat_invalids);
+    printf("User parsing and validation complete\n");
     parse_files_flights_teste(files_path, cat_flights, stats, cat_invalids);
+    printf("Flights parsing and validation complete\n");
     parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
+    printf("Passengers parsing and validation complete\n");
     parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids);
+    printf("Reservations parsing and validation complete\n");
 
     // Realizar as queries
-    handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids);
+    handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids, 1);
 
     // Libertar Memoria
     destroy_catalogo_invalids(cat_invalids);

@@ -62,13 +62,11 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
             fprintf(file,"nights: %d\n",nights);
             fprintf(file,"total_price: %.3f\n",totalPrice);
             
-            printf("Reservation id %s from query 1 printed\n", idHotel);
         }
         else {
             if(strcasecmp(incBreakfast,"true") == 0|| strcasecmp(incBreakfast,"t") == 0|| strcmp(incBreakfast,"1") == 0) 
             fprintf(file,"%s;%s;%d;%s;%s;True;%d;%.3f\n",idHotel,hotelName, (int) hotelStars, beginDate, endDate, nights, totalPrice);
             else fprintf(file,"%s;%s;%d;%s;%s;False;%d;%.3f\n",idHotel,hotelName, (int) hotelStars, beginDate, endDate, nights, totalPrice);
-            printf("Reservation id %s from query 1 printed\n", idHotel);
         }
         free(idHotel);
         free(hotelName);
@@ -162,11 +160,9 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
             fprintf(file,"schedule_arrival_date: %s\n",chegada_est);
             fprintf(file,"passengers: %d\n",numero_passageiros);
             fprintf(file,"delay: %d\n",tempo_atraso);
-            printf("Flight from query 1 printed\n");
         }
         else {
             fprintf(file,"%s;%s;%s;%s;%s;%s;%d;%d\n",companhia,aviao, origem, destino, partida_est, chegada_est, numero_passageiros, tempo_atraso);
-            printf("Flight from query 1 printed\n");
         }
         free(companhia);
         free(aviao);
@@ -224,7 +220,6 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                             free(id_flight);
                             current = g_list_next(current);
                         }
-                        printf("Flight dates printed\n");
                     }
                     else {
                         guint i = 1;
@@ -241,7 +236,6 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                             current = g_list_next(current);
                             i++;
                         }
-                        printf("Flight dates printed\n");
                     }
                 }
             free(accountStatus);
@@ -272,7 +266,6 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                             free(beginDate);
                             current = g_list_next(current);
                         }
-                        printf("Reservation dates printed\n");
                     } else {
                         guint i = 1;
                         while (current != NULL) {
@@ -289,7 +282,6 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                             current = g_list_next(current);
                             i++;
                         }
-                        printf("Reservation dates from user printed\n");
                     }
                 }
             }
@@ -297,7 +289,7 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
         }
     } 
     else if (sscanf(aux, "%20s", id) == 1) {
-        printf("IN PROGRESS\n");
+        //printf("IN PROGRESS\n");
     }
     free(aux);
     free(id);
@@ -331,7 +323,6 @@ void query3(CATALOGO_RESERVATIONS *reservations,char* linha, int f,char *path, S
         }
         else {
             fprintf(file,"%.3f\n",avgscore);
-            printf("Rating from Hotel  from query 3 printed\n");
         }
     }
     fclose(file);
@@ -349,16 +340,8 @@ void query4(char *linha, int f, char *path, STATS *stats){
         fclose(file);
         return;
     }
-
-    printf("%s\n", aux);
     //HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
     HOTEL_STAT *hstat = get_stat_hotel(stats, aux);
-
-    if(hstat == NULL) {
-        for (int i = 0; i < 100; i++){
-            printf("NULLO");
-        }
-    }
 
     if(hstat != NULL){
 
@@ -390,7 +373,6 @@ void query4(char *linha, int f, char *path, STATS *stats){
                 free(user_id);
                 
                 }
-            printf("Reservation dates from Hotel\n");
         } else {
             guint i = 1;
             while (sortedList != NULL) {
@@ -684,7 +666,7 @@ void query7(char *linha, int f, char *path, STATS *stats){
             fprintf(file, "--- %d ---\n", i);
             fprintf(file, "name: %s\n", statID);
 
-            GArray *aux = get_airport_stat_atrasosVoos(airport_stat); // Assuming this function exists
+            GArray *aux = get_airport_stat_atrasosVoos(airport_stat);
             int len = aux->len;
             int index = len / 2;
 
@@ -700,7 +682,7 @@ void query7(char *linha, int f, char *path, STATS *stats){
             AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats, i - 1);
 
             char *statID = get_airport_stat_id(airport_stat);
-            GArray *aux = get_airport_stat_atrasosVoos(airport_stat); // Assuming this function exists
+            GArray *aux = get_airport_stat_atrasosVoos(airport_stat);
 
             int len = aux->len;
             int index = len / 2;

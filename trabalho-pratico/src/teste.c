@@ -30,7 +30,6 @@ void start_stats_needed(STATS *stats, char *data_input) {
             }
         }
     }
-
     free(line);
     fclose(input);
 }

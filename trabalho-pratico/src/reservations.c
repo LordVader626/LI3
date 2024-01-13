@@ -46,8 +46,6 @@ int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RES
         if (contains_stat(stats, r->user_id))
             create_user_stat_reservations(r, stats, cat_users);
         if (contains_stat(stats, r->hotel_id)){
-            //if(strcmp(r->hotel_id, "HTL1504") == 0)
-            //    printf("%s\n", r->hotel_id);
             create_hotel_stats(r, stats);
         }
         

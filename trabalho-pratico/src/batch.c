@@ -11,6 +11,22 @@
 #include "../inc/utils.h"
 #include "../inc/handle.h"
 #include "../inc/teste.h"
+#include <malloc.h>
+
+void trim_memory() {
+    malloc_trim(0);
+}
+#include <sys/resource.h>
+
+
+void print_memory_usage() {
+    struct rusage usage;
+
+    if (getrusage(RUSAGE_SELF, &usage) == 0) {
+        long megabytes = usage.ru_maxrss / 1024; // Convert from KB to MB
+        printf("Memoria Usada: %ld megabytes\n", megabytes);
+    } 
+}
 
 void batch(char *files_path, char *data_input){
 
@@ -33,16 +49,22 @@ void batch(char *files_path, char *data_input){
         parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
         parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids);
 
+        //print_memory_usage();
+
+        //return;
+        //apenas necessários para o parsing
+        destroy_stats_needed(stats);
 
         // Realizar as queries
-        handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids);
+        handle(data_input, cat_users, cat_flights, cat_passengers, cat_reservations, stats, cat_invalids, 0);
 
         // Libertar Memoria
         destroy_catalogo_invalids(cat_invalids);
-
         destroy_catalogo_users(cat_users);
         destroy_catalogo_flights(cat_flights);
         destroy_catalogo_reservations(cat_reservations);
         destroy_catalogo_passengers(cat_passengers);
         destroy_stats(stats);
+
+        print_memory_usage();
 }

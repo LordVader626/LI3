@@ -46,7 +46,7 @@ void parse_files_users_teste(char *path, CATALOGO_USER *catusers, CATALOGO_INVAL
         }
         free(temp);
     }
-    printf("User Validation and Parsing Sucessfull\n");
+    //printf("User Validation and Parsing Sucessfull\n");
     fclose(file);
     fclose(file_error); 
     free(line);
@@ -92,7 +92,7 @@ void parse_files_flights_teste(char *path, CATALOGO_FLIGHTS *cat_flights,STATS *
         }
         free(temp);
     }
-    printf("Flight Validation and Parsing SuccessFull\n");
+    //printf("Flight Validation and Parsing SuccessFull\n");
 
     fclose(file);
     fclose(file_errors);
@@ -135,7 +135,7 @@ void parse_files_passengers_teste(char *path, STATS *stats, CATALOGO_PASSENGER *
         free(temp);
     }
 
-    printf("Passenger Validation and Parsing Successfull\n");
+    //printf("Passenger Validation and Parsing Successfull\n");
     free(line);
     free(path_passengers);
     fclose(file_errors);
@@ -179,7 +179,7 @@ void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIO
          free(temp);
         
     }
-    printf("Reservation validition and Parsing Sucessfull\n");
+    //printf("Reservation validition and Parsing Sucessfull\n");
     free(line);
     free(path_reservations);
     fclose(file);

@@ -93,7 +93,6 @@ int user_validation(USER *u) {
     char *account_creation = getAccountCreation(u);
     char *address = getAddress(u);
 
-
     if (strlen(id) < 1) {valido = 1; goto cleanup;}
     //printf("%s\n", id);
     if (strlen(name) < 1) {valido = 1; goto cleanup;}

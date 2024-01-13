@@ -64,9 +64,14 @@ GHashTable *get_airport_stats(STATS *s)
     return s->airport_stats;
 }
 
-void addStatNeeded(STATS *s, char *value){
-    if (!contains_stat(s, value))
-        g_hash_table_insert(s->stats_needed, value, value);
+void addStatNeeded(STATS *s, char *key){
+    if (!contains_stat(s, key)){
+        g_hash_table_insert(s->stats_needed, key, key);
+        //printf("Inserted %s\n", key);
+    }
+    else{
+        free(key);
+    }
 }
 
 GHashTable *get_stats_needed(STATS *s)
@@ -100,6 +105,9 @@ int contains_stat(STATS *stats, char *key){
     return g_hash_table_contains(stats->stats_needed, key);
 }
 
+void destroy_stats_needed(STATS *stats){
+    g_hash_table_destroy(stats->stats_needed);
+}
 
 /*
     Função que liberta o espaço das stats
@@ -110,7 +118,6 @@ void destroy_stats(void *stats){
     g_hash_table_destroy(s->user_stats);
     g_hash_table_destroy(s->hotel_stats);
     g_hash_table_destroy(s->airport_stats);
-    g_hash_table_destroy(s->stats_needed);
     free(s);
 
 }

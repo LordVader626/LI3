@@ -14,17 +14,15 @@
 #include "../inc/user_stat.h"
 #include "../inc/validation.h"
 #include "../inc/batch.h"
+#include "../inc/interativo.h"
+
 
 int main(int argc, char **argv){
     /*Modo batch em que primeiro Input = o caminho para a pasta onde estão os cheiros de entrada 
     segundo input = caminho para um ficheiro de texto que contém uma lista de comandos (queries) a serem executados*/
 
     if (argc == 1){
-        initscr();			
-        printw("Hello World !!!");	
-        refresh();			
-        getch();			
-        endwin();
+        interativo();
     }
 
     else if (argc < 3){
@@ -45,7 +43,6 @@ int main(int argc, char **argv){
 
         end_time = clock();
 
-        // Calculate the time taken
         cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
 
         printf("CPU time used: %f seconds\n", cpu_time_used);

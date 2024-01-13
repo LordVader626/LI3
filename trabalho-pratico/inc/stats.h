@@ -26,12 +26,13 @@ void addAirportStat (STATS *s, AIRPORT_STAT *astat, char *aiport);
 GList *get_airport_stats_values(STATS *s);
 GHashTable *get_airport_stats(STATS *s);
 
-void addStatNeeded(STATS *s, char *value);
+void addStatNeeded(STATS *s, char *key);
 GHashTable *get_stats_needed(STATS *s);
 
 STATS *create_stats();
 
 int contains_stat(STATS *stats, char *key);
+void destroy_stats_needed(STATS *stats);
 
 void destroy_stats(void *stats);
 //void print_stats(STATS *s);

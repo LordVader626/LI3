@@ -50,11 +50,11 @@ int get_user_stat_numVoos(USER_STAT *s)
 
 GList* get_user_stat_listaVoos(USER_STAT *s)
 {
-	return s->listaVoos;
+	return g_list_copy(s->listaVoos);
 }
 GList* get_user_stat_listaReservas(USER_STAT *s)
 {
-	return s->listaReservas;
+	return g_list_copy(s->listaReservas);
 }
 
 double get_user_stat_totalGasto(USER_STAT *s)
@@ -112,11 +112,9 @@ void create_user_stat_flights(PASSENGER *p, STATS *s, CATALOGO_USER *cat_users, 
 void create_user_stat_reservations(RESERVATION *r, STATS *stats, CATALOGO_USER *cat_users)
 {
     char *username = getUserID_reservartion(r);
-    //USER *u = g_hash_table_lookup(users, username);
 	USER *u = getUser(cat_users, username);
 
 	USER_STAT *ustat = get_stat_user(stats, username);
-    //USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
 
     char *account_status = getAccountStatus(u);
 

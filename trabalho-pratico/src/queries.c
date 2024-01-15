@@ -17,7 +17,7 @@
 #include "../inc/hotel_stats.h"
 #include "../inc/airport_stats.h"
 #include "../inc/validation.h"
-
+int macacolider = 1;
 
 /*
     Função que responde a query 1
@@ -92,7 +92,6 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
             char *idUser = getID(user);
 
-            //USER_STAT *us = g_hash_table_lookup(user_stats,idUser);
             USER_STAT *us = get_stat_user(stats, idUser);
             
             // Feito para o caso de um user nao ter viagens nem voos, e que consequentemente não tenha sido criado uma USER_STAT para o mesmo
@@ -190,15 +189,12 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
     char *id = malloc(20);
     char *type = malloc(15);
 
+
     if (sscanf(aux, "%20s %14s", id, type) == 2) {
-        // verifica nao so se é do tipo flights como se o utilizador é invalido e se existe
-        //if (strcmp(type, "flights") == 0 && g_hash_table_lookup(invalid_users, id) == NULL && g_hash_table_lookup(users, id) != NULL) {
-        if (strcmp(type, "flights") == 0 && cointains_invalid_user(cat_invalids, id) && cointains_user(cat_users, id)) {
+        if (strcmp(type, "flights") == 0 && !cointains_invalid_user(cat_invalids, id) && cointains_user(cat_users, id)) {
             USER *u = getUser(cat_users, id);
 
             char *accountStatus = getAccountStatus(u);
-
-            // verificação se a conta é ativa
             if(strcasecmp(accountStatus, "active") == 0){
                 //USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
                 USER_STAT *userStat = get_stat_user(stats, id);
@@ -241,8 +237,7 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
             free(accountStatus);
             }
         }
-        // verifica nao so se é do tipo reservations como se o utilizador é invalido e se existe
-        else if (strcmp(type, "reservations") == 0 && cointains_invalid_user(cat_invalids, id) && cointains_user(cat_users, id)){
+        else if (strcmp(type, "reservations") == 0 && !cointains_invalid_user(cat_invalids, id) && cointains_user(cat_users, id)){
             USER *u = getUser(cat_users, id);
             char *accountStatus = getAccountStatus(u);
 
@@ -288,8 +283,79 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
             free(accountStatus);
         }
     } 
-    else if (sscanf(aux, "%20s", id) == 1) {
-        //printf("IN PROGRESS\n");
+    else if (sscanf(aux, "%20s", id) == 1 && !cointains_invalid_user(cat_invalids, id) && cointains_user(cat_users, id)) {
+        GList *combinedList = NULL;
+        USER *u = getUser(cat_users, id);
+        char *accountStatus = getAccountStatus(u);
+        if(u == NULL){
+            printf("User doesnt exist");
+        }
+
+        if (strcasecmp(accountStatus, "active") == 0) {
+            USER_STAT *userStat = get_stat_user(stats, id);
+
+            if (userStat != NULL) {
+                GList *listaReservas = get_user_stat_listaReservas(userStat);
+                GList *listaVoos = get_user_stat_listaVoos(userStat);
+                combinedList = g_list_concat(combinedList, listaReservas);
+                combinedList = g_list_concat(combinedList, listaVoos);
+
+                combinedList = g_list_sort(combinedList, compare_flights_and_reservations);
+
+                GList *current = combinedList;
+                guint i = 1;
+
+                while (current != NULL) {
+                    gpointer data = current->data;
+                    FLIGHT *try = (FLIGHT *)data;
+            
+                    char *tryd = getID_flight(try);
+
+                    if (tryd[0] == 'B') {
+                        RESERVATION *reserva = (RESERVATION *)data;
+                        char *id_reserva = getID_reservation(reserva);
+                        char *beginDate = getBeginDate_reservation(reserva);
+
+                        if (f == 0){
+                            fprintf(file, "%s;%s;reservation\n", id_reserva, beginDate);
+                        }
+                        else{
+                            if(i!=1) fprintf(file,"\n");
+                            fprintf(file, "--- %d ---\n", i);
+                            fprintf(file,"id: %s\n", id_reserva);
+                            fprintf(file,"date: %s\n", beginDate);
+                            fprintf(file,"type: reservation\n");
+                            i++;
+                        }                        
+                        free(id_reserva);
+                        free(beginDate);
+                    } else {
+                        FLIGHT *flight = (FLIGHT *)data;
+                        char *id_flight = getID_flight(flight);
+                        char *data_flight = getScheduleDepartureDate(flight);
+                        removeHMS(data_flight);
+                        
+                        if (f==0){
+                            fprintf(file, "%s;%s;flight\n", id_flight, data_flight);
+                        }
+                        else{
+                            if(i!=1) fprintf(file,"\n");
+                            fprintf(file, "--- %d ---\n", i);
+                            fprintf(file,"id: %s\n", id_flight);
+                            fprintf(file,"date: %s\n", data_flight);
+                            fprintf(file,"type: flight\n");
+                            i++;
+                        }
+                        free(id_flight);
+                        free(data_flight);
+                    }
+
+                    current = g_list_next(current);
+                }
+            }
+        }
+
+        free(accountStatus);
     }
     free(aux);
     free(id);

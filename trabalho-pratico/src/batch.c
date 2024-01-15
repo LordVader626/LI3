@@ -11,11 +11,6 @@
 #include "../inc/utils.h"
 #include "../inc/handle.h"
 #include "../inc/teste.h"
-#include <malloc.h>
-
-void trim_memory() {
-    malloc_trim(0);
-}
 #include <sys/resource.h>
 
 
@@ -45,9 +40,13 @@ void batch(char *files_path, char *data_input){
         
         //parsing dos ficheiros
         parse_files_users_teste(files_path, cat_users, cat_invalids);
+        printf("User Validation and Parsing Sucessfull\n");
         parse_files_flights_teste(files_path, cat_flights, stats, cat_invalids);
+        printf("Flights Validation and Parsing Sucessfull\n");
         parse_files_passengers_teste(files_path, stats, cat_passengers, cat_users, cat_flights, cat_invalids);
+        printf("Passengers Validation and Parsing Sucessfull\n");
         parse_files_reservations_test(files_path, stats, cat_reservations, cat_users, cat_invalids);
+        printf("Reservations Validation and Parsing Sucessfull\n");
 
         //print_memory_usage();
 

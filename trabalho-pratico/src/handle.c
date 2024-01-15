@@ -58,8 +58,8 @@ void handleQuery(char *query, char *line, char *path, CATALOGO_USER *cat_users, 
                else query1 (cat_reservations, cat_users, cat_flights, cat_passengers, line, 0, path, stats);
                break;
           case 2:
-               if (strcmp(query, "2F") == 0) query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, stats, cat_invalids);                        
-               else query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 0, path, stats, cat_invalids);    
+               if (strcmp(query, "2F") == 0) query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 1, path, stats, cat_invalids);                       
+               else query2(cat_reservations, cat_users, cat_flights, cat_passengers,line, 0, path, stats, cat_invalids);
                break;
           case 3:
                if (strcmp(query, "3F") == 0) query3(cat_reservations,line, 1, path, stats);                        

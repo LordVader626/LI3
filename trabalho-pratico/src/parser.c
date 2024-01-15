@@ -46,7 +46,6 @@ void parse_files_users_teste(char *path, CATALOGO_USER *catusers, CATALOGO_INVAL
         }
         free(temp);
     }
-    //printf("User Validation and Parsing Sucessfull\n");
     fclose(file);
     fclose(file_error); 
     free(line);

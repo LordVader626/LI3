@@ -4,6 +4,7 @@
 #include <glib.h>
 #include <ctype.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include "../inc/queries.h"
 #include "../inc/users.h"
@@ -361,22 +362,22 @@ gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata)
     char *id2 = get_airport_stat_id(astat2);
 
     if (id1[0] != id2[0]) {
-        gint bool = id1[0] - id2[0];
+        gint res = id1[0] - id2[0];
         free(id1);
         free(id2);
-        return bool;
+        return res;
     }
     if (id1[1] != id2[1]) {
-        gint bool = id1[1] - id2[1];
+        gint res = id1[1] - id2[1];
         free(id1);
         free(id2);
-        return bool;
+        return res;
     }
     if (id1[2] != id2[2]) {
-        gint bool = id1[2] - id2[2];
+        gint res = id1[2] - id2[2];
         free(id1);
         free(id2);
-        return bool;
+        return res;
     }
 
     free(id1);
@@ -485,3 +486,52 @@ gboolean remove_keys(gpointer key, gpointer value, gpointer user_data) {
 
     return FALSE;
 }
+
+int compare_flights_and_reservations(gconstpointer a, gconstpointer b) {
+    FLIGHT *flight_a = (FLIGHT*)a;
+    FLIGHT *flight_b = (FLIGHT*)b;
+    RESERVATION *reservation_a = (RESERVATION*)a;
+    RESERVATION *reservation_b = (RESERVATION*)b;
+
+    struct tm tm_a, tm_b;
+    char *id = getID_flight(flight_a);
+    char *id2 = getID_flight(flight_b);
+    if (id[0] == 'B') {
+        char *dateReservation = getBeginDate_reservation(reservation_a);
+        strptime(dateReservation, "%Y/%m/%d", &tm_a);
+        free(dateReservation);
+    } else{
+        char *dateFlight = getScheduleDepartureDate(flight_a);
+        removeHMS(dateFlight);
+        strptime(dateFlight, "%Y/%m/%d", &tm_a);
+        free(dateFlight);
+    }
+
+    if (id2[0] == 'B') {
+        char *dateReservation2 = getBeginDate_reservation(reservation_b);
+        strptime(dateReservation2, "%Y/%m/%d", &tm_b);
+        free(dateReservation2);
+    } else {
+        char *dateFlight2 = getScheduleDepartureDate(flight_b);
+        removeHMS(dateFlight2);
+        strptime(dateFlight2, "%Y/%m/%d", &tm_b);
+        free(dateFlight2);
+    }
+    
+    if (tm_a.tm_year == tm_b.tm_year) {
+        if (tm_a.tm_mon == tm_b.tm_mon) {
+            if (tm_b.tm_mday == tm_a.tm_mday){
+                if(id[0] == 'B') return 1;
+                return -1; 
+            }
+            else {
+                return tm_b.tm_mday - tm_a.tm_mday;
+            } 
+           } else {
+            return tm_b.tm_mon - tm_a.tm_mon;
+        }
+    } else {
+        return tm_b.tm_year - tm_a.tm_year;
+    }
+}
+

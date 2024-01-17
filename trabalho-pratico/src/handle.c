@@ -81,10 +81,10 @@ void handleQuery(char *query, char *line, char *path, CATALOGO_USER *cat_users, 
                if (strcmp(query, "7F") == 0) query7(line, 1,path, stats);                      
                else query7(line, 0,path, stats);    
                break;
-          //case 8:
-               //    if (strcmp(query, "8F")) query8(catalogo,line, 1);                        
-               //  else query8(catalogo, 0);
-               //break;
+          case 8:
+               if (strcmp(query, "8F")) query8(line, 1,path, stats, cat_reservations);                        
+               else query8(line, 1,path, stats, cat_reservations);
+               break;
           //case 9:
                //   if (strcmp(query, "9F"))  query9(line, 1, path, cat_users);                        
                // else query9(line, 1, path, cat_users);

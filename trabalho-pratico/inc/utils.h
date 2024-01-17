@@ -27,7 +27,9 @@ gboolean remove_keys(gpointer key, gpointer value, gpointer user_data);
 
 void insertionSort_garray(GArray *garray, int value);
 int compare_flights_and_reservations(gconstpointer a, gconstpointer b);
-bool is_flight(gpointer data);
-bool is_reservation(gpointer data);
+int diasDentro(char* start1, char* end1, char* start2, char* end2);
+int compareDatas (char * data1 , char * data2);
+
+
 
 #endif

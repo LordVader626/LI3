@@ -15,6 +15,7 @@ void query4(char *lina, int f, char *path, STATS *stats);
 void query5(char *linha, int f, char *path, STATS *stats);
 void query6(char *linha, int f, char *path, STATS *stats);
 void query7(char *linha, int f, char *path, STATS *stats);
+void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations);
 void query9(char *linha, int f, char *path, STATS *stats);
 
 

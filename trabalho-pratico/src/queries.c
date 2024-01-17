@@ -637,72 +637,6 @@ void query6(char *linha, int f, char *path, STATS *stats){
     fclose(file);
 }
 
-
-/*
-    Função que responde a query 7
-*/
-/*void query7(char *linha, int f, char *path, GHashTable *airport_stats){
-
-    FILE *file = fopen(path, "w");
-    if (file == NULL) {
-        perror("Error opening file");
-        fclose(file);
-        return;
-    }
-
-    //top N
-    int n = atoi(strsep(&linha,"\n"));
-
-    GList *air_stats = g_hash_table_get_values(airport_stats);
-    //Sort perante a mediana
-    air_stats = g_list_sort(air_stats,compareMediana);
-
-    int i = 1;
-    int median;
-    
-    if (f == 1) {
-        //printf enquanto i<= TOPN
-        while (i<=n && i<20)
-        {
-            AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
-
-            char *statID = get_airport_stat_id(airport_stat);
-            if(i!=1) fprintf(file,"\n");
-            fprintf(file, "--- %d ---\n", i);
-            fprintf(file, "name: %s\n", statID);
-            int *aux = get_airport_stat_atrasosVoos(airport_stat);
-            int len = get_airport_stat_nVoos(airport_stat);
-            int index = len/2;
-            if(len % 2 == 0) median = (aux[index] + aux[index-1])/2;
-            else median = aux[index];
-            fprintf(file, "median: %d\n", median);
-            i++;
-            free(statID);
-        }
-    }
-    else {
-        //printf enquanto i<= TOPN
-        while (i<=n && i<20)
-        {
-            AIRPORT_STAT *airport_stat = (AIRPORT_STAT*) g_list_nth_data(air_stats,i-1);
-            
-            char *statID = get_airport_stat_id(airport_stat);
-            int *aux = get_airport_stat_atrasosVoos(airport_stat);
-            int len = get_airport_stat_nVoos(airport_stat);
-            int index = len/2;
-
-            if(len % 2 == 0) median = (aux[index] + aux[index-1])/2;
-            else median = aux[index];
-            if (median != -1) fprintf(file, "%s;%d\n", statID,median);
-            i++;
-            
-            free(statID);
-        }
-    }
-    g_list_free(air_stats);
-    fclose(file);
-}*/
-
 void query7(char *linha, int f, char *path, STATS *stats){
 
     FILE *file = fopen(path, "w");
@@ -764,6 +698,54 @@ void query7(char *linha, int f, char *path, STATS *stats){
 
     g_list_free(air_stats);
     fclose(file);
+}
+
+void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations){
+    FILE *file = fopen(path, "w");
+
+    if (file == NULL) {
+        perror("Error opening file");
+        fclose(file);
+        return;
+    }
+
+    char *hotel = malloc(15);
+    char *data_inicio = malloc(11);
+    char *data_final = malloc(11);
+    int receita = 0;
+
+    sscanf(linha, "%s %s %s", hotel, data_inicio, data_final);
+
+    printf("%s %s\n", data_inicio, data_final);
+
+    HOTEL_STAT *hotel_stat = get_stat_hotel(stats, hotel);
+
+    GList *hotel_reservation = get_hotel_stat_reservasHotel(hotel_stat);
+
+    while(hotel_reservation != NULL){
+        RESERVATION *r = (RESERVATION *)hotel_reservation->data;
+
+        char *begin_date = getBeginDate_reservation(r);
+        char *end_date = getEndDate_reservation(r);
+
+        int days = diasDentro(data_inicio, data_final, begin_date, end_date);
+        if(days > 0){
+            //printf("begindate - %s | end_date - %s  | combDate_begin - %s cmpdateend -%s overlaped by %d\n", begin_date, end_date, data_inicio, data_final, days_overlap);
+            double price_per_night = getPricePerNight_reservation(r);
+            receita += (price_per_night * days);
+        }
+
+        free(begin_date);
+        free(end_date);
+
+        hotel_reservation = g_list_next(hotel_reservation);
+    }
+
+    fprintf(file, "%d\n", receita);
+    free(hotel);
+    free(data_final);
+    free(data_inicio);
+    
 }
 
 /*void query9(char *linha, int f, char *path, CATALOGO_USER *cat_users) {

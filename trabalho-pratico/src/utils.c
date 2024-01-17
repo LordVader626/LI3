@@ -535,3 +535,75 @@ int compare_flights_and_reservations(gconstpointer a, gconstpointer b) {
     }
 }
 
+int diasDentro2(char* comp_date_begin, char* comp_date_end, char* date_begin, char* date_end) {
+    int cdbYear, cdbMonth, cdbDay;
+    int cdeYear, cdeMonth, cdeDay;
+    int dbYear, dbMonth, dbDay;
+    int deYear, deMonth, deDay;
+    int days = 0;
+
+    sscanf(comp_date_begin, "%4d/%2d/%2d", &cdbYear, &cdbMonth, &cdbDay);
+    sscanf(comp_date_end, "%4d/%2d/%2d", &cdeYear, &cdeMonth, &cdeDay);
+    sscanf(date_begin, "%4d/%2d/%2d", &dbYear, &dbMonth, &dbDay);
+    sscanf(date_end, "%4d/%2d/%2d", &deYear, &deMonth, &deDay);
+
+    if (cdbYear == dbYear && cdbMonth == dbMonth) {
+        // Ambas as datas dentro do intervalo
+        if (dbDay >= cdbDay && deDay <= cdeDay) {
+            days = deDay - dbDay + 1;
+        }
+        // Apenas date_begin fora do intervalo
+        else if (dbDay < cdbDay && deDay <= cdeDay) {
+            days = deDay - cdbDay + 1;
+        }
+        // Apenas date_end fora do intervalo
+        else if (dbDay >= cdbDay && deDay > cdeDay) {
+            days = cdeDay - dbDay + 1;
+        }
+        // Ambas datas fora do intervalo
+        else if (dbDay < cdbDay && deDay > cdeDay) {
+            days = cdeDay - cdbDay + 1;
+        }
+    }
+
+    return days;
+}
+
+int compareDatas (char * data1 , char * data2){
+    int ano1, mes1, dia1;
+    int ano2, mes2, dia2;
+
+    sscanf(data1, "%4d/%2d/%2d", &ano1, &mes1, &dia1);
+    sscanf(data2, "%4d/%2d/%2d", &ano2, &mes2, &dia2);
+
+    if (ano1 > ano2 || (ano1 == ano2 && mes1 > mes2) || (ano1 == ano2 && mes1 == mes2 && dia1 > dia2)) return -1;
+
+    return 1;
+
+}
+
+int diasDentro(char* comp_date_begin, char* comp_date_end, char* date_begin, char* date_end) {
+    int cdbYear, cdbMonth, cdbDay;
+    int cdeYear, cdeMonth, cdeDay;
+    int dbYear, dbMonth, dbDay;
+    int deYear, deMonth, deDay;
+    int days = 0;
+
+    sscanf(comp_date_begin, "%4d/%2d/%2d", &cdbYear, &cdbMonth, &cdbDay);
+    sscanf(comp_date_end, "%4d/%2d/%2d", &cdeYear, &cdeMonth, &cdeDay);
+    sscanf(date_begin, "%4d/%2d/%2d", &dbYear, &dbMonth, &dbDay);
+    sscanf(date_end, "%4d/%2d/%2d", &deYear, &deMonth, &deDay);
+
+
+    if (compareDatas(comp_date_begin,date_end) == -1 || compareDatas(date_begin,comp_date_end) == -1) return 0;
+
+    if (compareDatas(comp_date_begin,date_begin) == -1) {
+        if (compareDatas(date_end,comp_date_end) == 1) days = deDay - cdbDay ;
+        else days = cdeDay - cdbDay + 1;
+        
+    } 
+    else  if (compareDatas(date_end,comp_date_end) == 1) days = deDay - dbDay ;
+            else days = cdeDay - dbDay + 1; 
+
+    return days;
+}

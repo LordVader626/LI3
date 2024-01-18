@@ -517,22 +517,48 @@ int compare_flights_and_reservations(gconstpointer a, gconstpointer b) {
         strptime(dateFlight2, "%Y/%m/%d", &tm_b);
         free(dateFlight2);
     }
+    //free(id2);
     
     if (tm_a.tm_year == tm_b.tm_year) {
         if (tm_a.tm_mon == tm_b.tm_mon) {
             if (tm_b.tm_mday == tm_a.tm_mday){
-                if(id[0] == 'B') return 1;
-                return -1; 
+                if(id[0] == 'B') {
+                    
+                    free(id);
+                    free(id2);
+                    return 1;
+                }
+                int a = atoi(id);
+                int b = atoi(id2);
+
+                if(id[0] == '0' && id2[0] == '0'){
+                    free(id);
+                    free(id2);
+                    //return -1;
+                    return a-b; 
+                }
+                
+                free(id);
+                free(id2);
+                return -1;
             }
             else {
+                free(id);
+                free(id2);
                 return tm_b.tm_mday - tm_a.tm_mday;
             } 
            } else {
+            free(id);
+            free(id2);
             return tm_b.tm_mon - tm_a.tm_mon;
         }
     } else {
+        free(id);
+        free(id2);
         return tm_b.tm_year - tm_a.tm_year;
     }
+    free(id);
+    free(id2);
 }
 
 int diasDentro2(char* comp_date_begin, char* comp_date_end, char* date_begin, char* date_end) {

@@ -280,18 +280,7 @@ int reservation_validation(RESERVATION *r){
         valido = 1;
         goto cleanup;
     }
-
-        // Para valores falsos, “f ”, “false”, “0”, e “” (string vazia); Para valores verdadeiros, “t”, “true”, e “1”.
-    /*for (int i = 0; breakfast[i]; i++) {
-        breakfast[i] = tolower(breakfast[i]);
-    }
-    if (!(strcmp(breakfast, "f") == 0 || strcmp(breakfast, "false") == 0 || strcmp(breakfast, "") == 0 ||
-          strcmp(breakfast, "0") == 0 || strcmp(breakfast, "t") == 0 || strcmp(breakfast, "true") == 0 ||
-          breakfast[0] == '0')) {
-        valido = 1;
-        goto cleanup;
-    }*/
-
+    
     if(strlen(beginDate) != 10) {valido = 1;goto cleanup;}
     else if (sscanf(beginDate, "%d/%d/%d", &beginYear, &beginMonth, &beginDay) != 3) {valido = 1;goto cleanup;}
     else if (!(beginYear >= 0 && beginYear <= 9999) || !(beginMonth >= 0 && beginMonth <= 12) || !(beginDay >= 0 && beginDay <= 31)) {valido = 1;goto cleanup;}

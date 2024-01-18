@@ -66,7 +66,6 @@ void create_hotel_stats(RESERVATION *r, STATS *stats)
 {
 	char *hotelID = getHotelID_reservation(r);	
 	
-	//HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats, hotelID);
 	HOTEL_STAT *hstat = get_stat_hotel(stats, hotelID);
 
     double rating = getRating_reservation(r);
@@ -79,7 +78,6 @@ void create_hotel_stats(RESERVATION *r, STATS *stats)
             hotel_stat->somaRatings = rating;
 			hotel_stat->avgscore = rating;
             hotel_stat->reservasHotel = g_list_prepend(NULL,r);
-			//g_hash_table_insert(hotel_stats, hotelID, hotel_stat);
 			addHotelStat(stats, hotel_stat, hotelID);
 		}
 		else{

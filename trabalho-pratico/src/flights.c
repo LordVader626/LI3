@@ -112,9 +112,6 @@ void kill_flight(void *flight){
 // getters
 
 char *getID_flight(FLIGHT *f){
-    /*char *str_id = malloc(11);
-    sprintf(str_id, "%012d", f->id);
-    return str_id;*/
     return strdup(f->id);
 }
 

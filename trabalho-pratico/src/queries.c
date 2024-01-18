@@ -174,7 +174,6 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
     
 }
 
-
 /*
     Função que responde a query2 (em desenvolvimento)
 */
@@ -196,14 +195,16 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
             char *accountStatus = getAccountStatus(u);
             if(strcasecmp(accountStatus, "active") == 0){
-                //USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
+
                 USER_STAT *userStat = get_stat_user(stats, id);
 
                 if(userStat != NULL){
 
                     GList *listaVoos = get_user_stat_listaVoos(userStat);
 
-                    listaVoos = g_list_sort(listaVoos, compare_flights);
+                    //listaVoos = g_list_sort(listaVoos, compare_flights);
+                    listaVoos = g_list_sort(listaVoos, compare_flights_and_reservations);
+
                     GList *current = listaVoos;
                     if (f == 0) {
                         while (current != NULL) {
@@ -214,7 +215,11 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                             fprintf(file, "%s;%s\n", id_flight, data);
                             free(data);
                             free(id_flight);
+                            GList *nodeToFree = current;
+
                             current = g_list_next(current);
+
+                            g_list_free_1(nodeToFree);
                         }
                     }
                     else {
@@ -229,7 +234,11 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                             fprintf(file, "date: %s\n", data);
                             free(data);
                             free(id_flight);
+                            GList *nodeToFree = current;
+
                             current = g_list_next(current);
+
+                            g_list_free_1(nodeToFree);
                             i++;
                         }
                     }
@@ -247,9 +256,10 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
                 if(userStat != NULL){
                     GList *listaReservas = get_user_stat_listaReservas(userStat);
+                    //listaReservas = g_list_sort(listaReservas, compare_reservations);
+                    listaReservas = g_list_sort(listaReservas, compare_flights_and_reservations);
 
                     GList *current = listaReservas;
-                    listaReservas = g_list_sort(listaReservas, compare_reservations);
                     if (f == 0) {
                         while (current != NULL){
                             RESERVATION *reserva = (RESERVATION*)current->data;
@@ -259,7 +269,11 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
                             free(idReserva);
                             free(beginDate);
+                            GList *nodeToFree = current;
+
                             current = g_list_next(current);
+
+                            g_list_free_1(nodeToFree);
                         }
                     } else {
                         guint i = 1;
@@ -274,7 +288,11 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 
                             free(idReserva);
                             free(beginDate);
+                            GList *nodeToFree = current;
+
                             current = g_list_next(current);
+
+                            g_list_free_1(nodeToFree);
                             i++;
                         }
                     }
@@ -349,8 +367,12 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
                         free(id_flight);
                         free(data_flight);
                     }
+                    free(tryd);
+                    GList *nodeToFree = current;
 
                     current = g_list_next(current);
+
+                    g_list_free_1(nodeToFree);;
                 }
             }
         }
@@ -716,7 +738,7 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
 
     sscanf(linha, "%s %s %s", hotel, data_inicio, data_final);
 
-    printf("%s %s\n", data_inicio, data_final);
+    //printf("%s %s\n", data_inicio, data_final);
 
     HOTEL_STAT *hotel_stat = get_stat_hotel(stats, hotel);
 
@@ -730,7 +752,6 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
 
         int days = diasDentro(data_inicio, data_final, begin_date, end_date);
         if(days > 0){
-            //printf("begindate - %s | end_date - %s  | combDate_begin - %s cmpdateend -%s overlaped by %d\n", begin_date, end_date, data_inicio, data_final, days_overlap);
             double price_per_night = getPricePerNight_reservation(r);
             receita += (price_per_night * days);
         }
@@ -738,14 +759,25 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
         free(begin_date);
         free(end_date);
 
+        GList *nodeToFree = hotel_reservation;
+
         hotel_reservation = g_list_next(hotel_reservation);
+
+        g_list_free_1(nodeToFree);
     }
 
-    fprintf(file, "%d\n", receita);
+    if (f == 1){
+        fprintf(file, "--- 1 ---\n");
+        fprintf(file, "receita: %d", receita);
+    }
+
+    else{
+        fprintf(file, "%d\n", receita);
+    }
     free(hotel);
     free(data_final);
     free(data_inicio);
-    
+    fclose(file);
 }
 
 /*void query9(char *linha, int f, char *path, CATALOGO_USER *cat_users) {
@@ -768,7 +800,6 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
 
     fprintf(file, "Prefix to match: %s\n", linha);
 
-    // Iterate through users and filter by the prefix and active status
     for (GList *iter = users; iter != NULL; iter = g_list_next(iter)) {
         USER *user = (USER *)iter->data;
         fprintf(file, "Processing user: %s\n", getName(user)); // Debug print

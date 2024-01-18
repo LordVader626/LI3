@@ -73,7 +73,6 @@ void create_user_stat_flights(PASSENGER *p, STATS *s, CATALOGO_USER *cat_users, 
 	char *username = getID_passenger(p);
 	USER *u = getUser(cat_users, username);
 
-	//USER_STAT *ustat = g_hash_table_lookup(user_stats, username);
 	USER_STAT *ustat = get_stat_user(s, username);
 
 	char *account_status = getAccountStatus(u);
@@ -93,7 +92,6 @@ void create_user_stat_flights(PASSENGER *p, STATS *s, CATALOGO_USER *cat_users, 
 			user_stat->listaReservas = NULL;
 			user_stat->listaVoos = g_list_prepend(NULL, f);
 			user_stat->total_gasto = 0;
-			//g_hash_table_insert(user_stats, username, user_stat);
 			addUserStat(s, user_stat, username);
 		}
 		else{
@@ -108,10 +106,10 @@ void create_user_stat_flights(PASSENGER *p, STATS *s, CATALOGO_USER *cat_users, 
 	free(account_status);
 }
 
-
 void create_user_stat_reservations(RESERVATION *r, STATS *stats, CATALOGO_USER *cat_users)
 {
     char *username = getUserID_reservartion(r);
+
 	USER *u = getUser(cat_users, username);
 
 	USER_STAT *ustat = get_stat_user(stats, username);
@@ -122,6 +120,7 @@ void create_user_stat_reservations(RESERVATION *r, STATS *stats, CATALOGO_USER *
     {
         if (ustat == NULL)
         {
+			
             USER_STAT *user_stat = malloc(sizeof(USER_STAT));
             user_stat->username = username;
             user_stat->numReservas = 1;
@@ -133,9 +132,12 @@ void create_user_stat_reservations(RESERVATION *r, STATS *stats, CATALOGO_USER *
 			addUserStat(stats, user_stat, username);
         }
         else
-        {
+        {			
             ustat->numReservas += 1;
             ustat->listaReservas = g_list_prepend(ustat->listaReservas, r);
+				//		if(strcmp(username, "FrancDomingues523") == 0){
+				//traverseGList(ustat->listaReservas);
+			//}
             ustat->total_gasto += get_Total_Price(r);
             free(username);
         }

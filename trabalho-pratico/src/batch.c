@@ -50,7 +50,6 @@ void batch(char *files_path, char *data_input){
 
         //print_memory_usage();
 
-        //return;
         //apenas necessários para o parsing
         destroy_stats_needed(stats);
 

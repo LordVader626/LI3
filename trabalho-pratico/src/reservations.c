@@ -33,8 +33,7 @@ struct reservation{
 
 
 int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids){
-//int start_reservation_process(char *line, CATALOGO_USER *cat_users, CATALOGO_RESERVATIONS *cat_reservas, STATS *stats, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed){
-
+    
     RESERVATION *r = create_Reservation(line);
 
     char *userID = getUserID_reservartion(r);

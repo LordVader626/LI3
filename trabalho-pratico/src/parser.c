@@ -54,7 +54,6 @@ void parse_files_users_teste(char *path, CATALOGO_USER *catusers, CATALOGO_INVAL
 
 void parse_files_flights_teste(char *path, CATALOGO_FLIGHTS *cat_flights,STATS *stats, CATALOGO_INVALID *cat_invalids){
 
-    // ou usar func em utils
     char *path_flights = malloc(sizeof(char) * 70);
     strcpy(path_flights, path);
     strcat(path_flights, "/flights.csv");
@@ -99,7 +98,6 @@ void parse_files_flights_teste(char *path, CATALOGO_FLIGHTS *cat_flights,STATS *
     free(path_flights);
 }
 
-//void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed) {
 void parse_files_passengers_teste(char *path, STATS *stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids) {
   
     char *path_passengers = malloc(sizeof(char) * 70);
@@ -125,7 +123,6 @@ void parse_files_passengers_teste(char *path, STATS *stats, CATALOGO_PASSENGER *
     while ((getline(&line, &len, file)) != -1) {
 
         char *temp = strdup(line);
-        //printf("%s\n", line);
         int status = start_passenger_process(line, cat_passenger, cat_invalids, stats, cat_flights, cat_users);
 
         if (status != 0){
@@ -142,7 +139,6 @@ void parse_files_passengers_teste(char *path, STATS *stats, CATALOGO_PASSENGER *
 }
 
 void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids) {
-//void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed) {
 
     char *line = NULL;
     size_t len = 0;

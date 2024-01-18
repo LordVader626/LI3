@@ -17,11 +17,6 @@
 
 #define linesPerPage 8
 
-//cada nodo vai conter 8 linhas
-struct pages{
-    GList *lines[linesPerPage];
-};
-
 void showLoading(WINDOW *menuWin) {
     werase(menuWin);
     box(menuWin, 0, 0);
@@ -129,7 +124,6 @@ void load(WINDOW *menuWin, char *second_word, char *full_query, char *queryType,
     wclear(menuWin);
     showLoading(menuWin);
 
-    // Initialize your data structures
     CATALOGO_USER *cat_users = create_Catalogo_User();
     CATALOGO_FLIGHTS *cat_flights = create_Catalogo_flights();
     CATALOGO_PASSENGER *cat_passengers = create_catalogo_Passenger();
@@ -174,7 +168,7 @@ void load(WINDOW *menuWin, char *second_word, char *full_query, char *queryType,
     wrefresh(menuWin);
 
     wrefresh(menuWin);
-    getch();  // Wait for user input
+    getch();
 }
 
 
@@ -189,7 +183,6 @@ void runQuery(WINDOW *menuWin, char *dataset) {
     noecho();
 
     char *token = strtok(query, " ");
-    //STATS *stats = create_stats();
 
     if (token != NULL) {
         char *second_word = strtok(NULL, " ");
@@ -199,7 +192,6 @@ void runQuery(WINDOW *menuWin, char *dataset) {
             if (resto != NULL) {
                 char *full_query = malloc(strlen(second_word) + strlen(resto) + 1);
 
-                //criar as strings necessárias para a execução das queries
                 strcpy(full_query, second_word);
                 strcat(full_query, " ");
                 strcat(full_query, resto);
@@ -207,8 +199,6 @@ void runQuery(WINDOW *menuWin, char *dataset) {
                 wrefresh(menuWin);
 
                 load(menuWin, second_word, full_query, token, dataset);
-
-                //free(full_query);
             }
 
             else{
@@ -216,9 +206,8 @@ void runQuery(WINDOW *menuWin, char *dataset) {
             }
         }
     } else {
-        // Invalid query format
         werase(menuWin);
-        wprintw(menuWin, "Invalid query format");
+        wprintw(menuWin, "Invalid format");
         wrefresh(menuWin);
         wgetch(menuWin);
     }
@@ -377,7 +366,7 @@ void mainMenu(WINDOW *menuWin, char *dataset) {
                         break;
                     case 1:
                         if (showHelp(menuWin))
-                            break; // Go back to the main menu
+                            break;
                         break;
                     case 2:
                         endwin(); 

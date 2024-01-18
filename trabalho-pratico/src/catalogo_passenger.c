@@ -24,11 +24,6 @@ GArray *get_catalogo_passengers(CATALOGO_PASSENGER *catp)
 	return catp->catalogo_passengers;
 }
 
-/*PASSENGER * getPassenger(CATALOGO_PASSENGER *catp, char *id){
-
-    return (CATALOGO_PASSENGER*) g_hash_table_lookup(catp->catalogo_passengers,id);
-}*/
-
 void addPassenger (CATALOGO_PASSENGER *catp, PASSENGER *p){
     g_array_append_val(catp->catalogo_passengers, p);
 }

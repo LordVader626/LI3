@@ -74,26 +74,22 @@ void create_airport_stat_flight(FLIGHT *f, STATS *s) {
     char *airportID = getFlightOrigin(f); 
     
     AIRPORT_STAT *astat = get_stat_airport(s, airportID);
-    
+
     if (astat == NULL) {
         AIRPORT_STAT *airport_stat = malloc(sizeof(AIRPORT_STAT));
         
         airport_stat->airportid = airportID;
         for(int i = 0; i<3;i++) airport_stat->nPassageirosAno[i] = 0;
-        //airport_stat->atrasosVoos = (int *)malloc(200 * sizeof(int));
         airport_stat->atrasosVoos = g_array_new(FALSE, FALSE, sizeof(int));
-        //airport_stat->atrasosVoos[0] = atraso;
         g_array_append_val(airport_stat->atrasosVoos, atraso);
         airport_stat->nVoos = 1;
         airport_stat->listaVoos= NULL;
         airport_stat->listaVoos = g_list_append(airport_stat->listaVoos, f);
 
-        //g_hash_table_insert(airport_stats, airportID, airport_stat);
         addAirportStat(s, airport_stat, airportID);
 
     } else {
         astat->listaVoos = g_list_append(astat->listaVoos,f);
-        //insertion_Sort(astat->atrasosVoos,astat->nVoos,atraso);
         insertionSort_garray(astat->atrasosVoos, atraso);
         astat->nVoos += 1;
         free(airportID);

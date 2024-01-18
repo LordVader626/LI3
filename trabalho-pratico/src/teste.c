@@ -93,7 +93,7 @@ void start_stats_needed(STATS *stats, char *data_input) {
     fclose(input);
 }*/
 
-        //QUERY 1 SO SACAR O 1 INPUT
+        //QUERY 1 SO O 1 INPUT
         //QUERY 2 UTILIZADOR NECESSARIO SO INTERESSA 1 CAMPO
         //QUERY 3 IMPORTA HOTEL ID (DAS RESERVAS)
         //QUERY 4 IMPORTA HOTEL ID (DAS RESERVAS)

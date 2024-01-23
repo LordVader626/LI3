@@ -528,14 +528,12 @@ int compare_flights_and_reservations(gconstpointer a, gconstpointer b) {
                     free(id2);
                     return 1;
                 }
-                int a = atoi(id);
-                int b = atoi(id2);
 
                 if(id[0] == '0' && id2[0] == '0'){
                     free(id);
                     free(id2);
                     //return -1;
-                    return a-b; 
+                    return compare_flightswithHours(a, b); 
                 }
                 
                 free(id);

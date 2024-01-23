@@ -10,7 +10,7 @@
 #include "../inc/catalogo_invalids.h"
 #include "../inc/utils.h"
 #include "../inc/handle.h"
-#include "../inc/teste.h"
+#include "../inc/stats_needed.h"
 #include <sys/resource.h>
 
 

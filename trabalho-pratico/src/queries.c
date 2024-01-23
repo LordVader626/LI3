@@ -768,7 +768,7 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
 
     if (f == 1){
         fprintf(file, "--- 1 ---\n");
-        fprintf(file, "receita: %d", receita);
+        fprintf(file, "revenue: %d", receita);
     }
 
     else{
@@ -779,47 +779,3 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
     free(data_inicio);
     fclose(file);
 }
-
-/*void query9(char *linha, int f, char *path, CATALOGO_USER *cat_users) {
-    FILE *file = fopen(path, "w");
-
-    if (file == NULL) {
-        perror("Error opening file");
-        return;
-    }
-
-    GHashTable *user_table = get_Catalogo_User(cat_users);
-    if (user_table == NULL) {
-        fprintf(file, "User catalog is empty or invalid.\n");
-        fclose(file);
-        return;
-    }
-
-    GList *users = g_hash_table_get_values(user_table);
-    GList *sorted_users = NULL;
-
-    fprintf(file, "Prefix to match: %s\n", linha);
-
-    for (GList *iter = users; iter != NULL; iter = g_list_next(iter)) {
-        USER *user = (USER *)iter->data;
-        fprintf(file, "Processing user: %s\n", getName(user)); // Debug print
-
-        if (user != NULL && strcasecmp(getAccountStatus(user), "active") == 0 && g_str_has_prefix(getName(user), linha)) {
-            sorted_users = g_list_insert_sorted_with_data(
-                sorted_users, user, (GCompareDataFunc)g_strcmp0, NULL);
-            fprintf(file, "Match found: %s\n", getName(user)); // Debug print
-        }
-    }
-
-    // Print the sorted user list to the file
-    fprintf(file, "Users matching prefix and sorted:\n");
-    for (GList *iter = sorted_users; iter != NULL; iter = g_list_next(iter)) {
-        USER *user = (USER *)iter->data;
-        fprintf(file, "Name: %s, Identifier: %s\n", getName(user), getID(user));
-    }
-
-    g_list_free(users);
-    g_list_free(sorted_users);
-
-    fclose(file);
-}*/

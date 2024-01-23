@@ -15,7 +15,7 @@
 #include "../inc/handle.h"
 #include "../inc/interativo.h"
 
-#define linesPerPage 8
+#define linesPerPage 12
 
 void showLoading(WINDOW *menuWin) {
     werase(menuWin);

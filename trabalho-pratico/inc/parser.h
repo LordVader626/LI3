@@ -10,11 +10,18 @@
 
 #include "../inc/stats.h"
 
+/**
+ * @brief funções para o parsing dos dados
+ * 
+ * @param path caminho para o ficheiro
+ * @param cat_x catalogo
+ * @param stats catalogo de estatisticas
+ * 
+ */
+
 void parse_files_users_teste(char *path, CATALOGO_USER *catusers, CATALOGO_INVALID *cat_invalids);
 void parse_files_flights_teste(char *path, CATALOGO_FLIGHTS *cat_flights,STATS *stats, CATALOGO_INVALID *cat_invalids);
-//void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed);
 void parse_files_passengers_teste(char *path, STATS*stats, CATALOGO_PASSENGER *cat_passenger, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_INVALID *cat_invalids);
-//void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids, GHashTable *stats_needed);
 void parse_files_reservations_test(char *path, STATS *stats, CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_INVALID *cat_invalids);
 
 #endif

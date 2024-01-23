@@ -4,7 +4,7 @@
 #include <sys/types.h>
 
 #include "../inc/tests.h"
-#include "../../inc/teste.h"
+#include "../../inc/stats_needed.h"
 #include "../../inc/stats.h"
 
 void execute_tests(char *data_input, char *test_path){

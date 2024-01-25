@@ -18,7 +18,7 @@ void print_memory_usage() {
     struct rusage usage;
 
     if (getrusage(RUSAGE_SELF, &usage) == 0) {
-        long megabytes = usage.ru_maxrss / 1024; // Convert from KB to MB
+        long megabytes = usage.ru_maxrss / 1024; //  KB to MB
         printf("Memoria Usada: %ld megabytes\n", megabytes);
     } 
 }

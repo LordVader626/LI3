@@ -17,7 +17,6 @@
 #include "../inc/hotel_stats.h"
 #include "../inc/airport_stats.h"
 #include "../inc/validation.h"
-int macacolider = 1;
 
 /*
     Função que responde a query 1
@@ -31,7 +30,6 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
     }
     
     if(strncmp(linha, "Book", 4) == 0) {
-        //  ./main-program /home/rui/Desktop/dataset/data_clean /home/rui/Desktop/dataset/inputTest.txt
         RESERVATION* res = getReservation(cat_reservations, linha);
 
         if (res == NULL) {
@@ -175,7 +173,7 @@ void query1(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
 }
 
 /*
-    Função que responde a query2 (em desenvolvimento)
+    Função que responde a query2 
 */
 void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, CATALOGO_FLIGHTS *cat_flights, CATALOGO_PASSENGER *cat_passengers ,char* linha, int f,char *path, STATS *stats, CATALOGO_INVALID *cat_invalids){
     char *aux = strdup(linha);
@@ -251,7 +249,6 @@ void query2(CATALOGO_RESERVATIONS *cat_reservations, CATALOGO_USER *cat_users, C
             char *accountStatus = getAccountStatus(u);
 
             if(strcasecmp(accountStatus, "active") == 0){
-                //USER_STAT *userStat = g_hash_table_lookup(user_stats, id);
                 USER_STAT *userStat = get_stat_user(stats, id);
 
                 if(userStat != NULL){
@@ -398,7 +395,6 @@ void query3(CATALOGO_RESERVATIONS *reservations,char* linha, int f,char *path, S
         return;
     }
 
-    //HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
     HOTEL_STAT *hstat = get_stat_hotel(stats, aux);
 
     if(hstat != NULL){
@@ -428,7 +424,6 @@ void query4(char *linha, int f, char *path, STATS *stats){
         fclose(file);
         return;
     }
-    //HOTEL_STAT *hstat = g_hash_table_lookup(hotel_stats,aux);
     HOTEL_STAT *hstat = get_stat_hotel(stats, aux);
 
     if(hstat != NULL){
@@ -520,7 +515,6 @@ void query5(char *linha, int f, char *path, STATS *stats){
     enddate[19] = '\0';   
 
     //pega nos stats do aeroporto
-    //AIRPORT_STAT *astat = g_hash_table_lookup(airport_stats,airportID);
     AIRPORT_STAT *astat = get_stat_airport(stats, airportID);
 
     //sort na lista perante data incluindo hora
@@ -619,7 +613,6 @@ void query6(char *linha, int f, char *path, STATS *stats){
     // top N
     int n = atoi(strsep(&linha,"\n"));
 
-    //GList *air_stats = g_hash_table_get_values(airport_stats);
     GList *air_stats = get_airport_stats_values(stats);
     //Sort por numero de passageiros
     air_stats = g_list_sort_with_data(air_stats,compareNPassageirosAno, ano);
@@ -672,7 +665,6 @@ void query7(char *linha, int f, char *path, STATS *stats){
     //top N
     int n = atoi(strsep(&linha,"\n"));
 
-    //GList *air_stats = g_hash_table_get_values(airport_stats);
     GList *air_stats = get_airport_stats_values(stats);
     air_stats = g_list_sort(air_stats, compareMediana);
 
@@ -738,8 +730,6 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
 
     sscanf(linha, "%s %s %s", hotel, data_inicio, data_final);
 
-    //printf("%s %s\n", data_inicio, data_final);
-
     HOTEL_STAT *hotel_stat = get_stat_hotel(stats, hotel);
 
     GList *hotel_reservation = get_hotel_stat_reservasHotel(hotel_stat);
@@ -777,5 +767,61 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
     free(hotel);
     free(data_final);
     free(data_inicio);
+    fclose(file);
+}
+
+void query9(CATALOGO_USER *cat_users, char *linha, int f, char *path) {
+    FILE *file = fopen(path, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    remove_quotes(linha);
+
+    GHashTable *users = get_Catalogo_User(cat_users);
+    GList *list = NULL;
+
+    GHashTableIter iter;
+    gpointer key, value;
+    g_hash_table_iter_init(&iter, users);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        if (value == NULL) continue;
+
+        USER *u = (USER *)value;
+        char *name = getName(u);
+        char *ativo = getAccountStatus(u);
+
+        if (isPrefix(linha, name) && strcasecmp(ativo, "active") == 0) {
+            
+            char *keyCopy = strdup((char *)key);
+            list = g_list_append(list, keyCopy);
+        }
+        free(ativo);
+        free(name);
+    }
+    list = g_list_sort_with_data(list, (GCompareDataFunc)compareUsers, cat_users);
+    int i = 1;
+    for (GList *l = list; l != NULL; l = l->next) {
+        char *username = (char *)(l->data);
+        USER *u = getUser(cat_users, username);
+        if (u != NULL) {
+            char *name = getName(u);
+            if(f == 1){
+                if (i != 1) fprintf(file,"\n");
+                fprintf(file, "--- %d ---\n", i);
+                fprintf(file, "id: %s\n", username);
+                fprintf(file, "name: %s\n", name);
+                i++;
+            }
+            else{
+                fprintf(file, "%s;%s\n", username, name);
+            }
+            free(name);
+        }
+        free(username);
+    }
+
+    g_list_free(list);
     fclose(file);
 }

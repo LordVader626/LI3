@@ -32,13 +32,6 @@ int get_Nights (RESERVATION *res) {
     sscanf(enddate,"%d/%d/%d", &year2, &month2, &day2);
     sscanf(begindate, "%d/%d/%d", &year1, &month1, &day1);
 
-    /*char *aux = strsep(&enddate, "/");
-    aux = strsep(&begindate, "/");
-    aux = strsep(&enddate, "/");
-    aux = strsep(&begindate, "/");*/
-    
-    //int noites = atoi(strsep(&enddate,"/n")) - atoi(strsep(&begindate,"/n"));
-
     int noites = day2 - day1;
 
     free(begindate);
@@ -325,27 +318,6 @@ int compare_dates(char * data1 , char * data2) {
     return 1;
 }
 
-/*gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata) {
-    AIRPORT_STAT *astat1 = (AIRPORT_STAT*)a;
-    AIRPORT_STAT *astat2 = (AIRPORT_STAT*)b;
-    char *ano = (char*) userdata;
-
-    int npassageiros1 = get_airport_stat_nPassageirosAno(astat1)[2023-atoi(ano)];
-    int npassageiros2 = get_airport_stat_nPassageirosAno(astat2)[2023-atoi(ano)];
-
-    if (npassageiros1 != npassageiros2) {
-        return npassageiros2 - npassageiros1;
-    }
-
-    char * id1 = get_airport_stat_id(astat1);
-    char * id2 = get_airport_stat_id(astat2);
-    if(id1[0]!= id2[0]) return id2[0]-id1[0];
-    if(id1[1]!= id2[1]) return id2[1]-id1[1];
-    if(id1[2]!= id2[2]) return id2[2]-id1[2];
-
-    return 0;
-}*/
-
 gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata) {
     AIRPORT_STAT *astat1 = (AIRPORT_STAT*)a;
     AIRPORT_STAT *astat2 = (AIRPORT_STAT*)b;
@@ -384,42 +356,6 @@ gint compareNPassageirosAno(gconstpointer a, gconstpointer b, gpointer userdata)
     free(id2);
     return 0;
 }
-
-/*gint compareMediana(gconstpointer a, gconstpointer b){
-    AIRPORT_STAT *astat1 = (AIRPORT_STAT*)a;
-    AIRPORT_STAT *astat2 = (AIRPORT_STAT*)b;
-
-    int *aux1 = get_airport_stat_atrasosVoos(astat1);
-    int *aux2 = get_airport_stat_atrasosVoos(astat2);
-
-    int len1 = get_airport_stat_nVoos(astat1);
-    int len2 = get_airport_stat_nVoos(astat2);
-    int mediana1,mediana2;
-    int index1 = len1/2;
-    int index2 = len2/2;
-
-    if(aux1[0] == -1) return 1;
-    if(aux2[0] == -1) return -1;
-
-    if(len1 % 2 == 0) mediana1 = (aux1[index1] + aux1[index1-1])/2;
-    else mediana1 = aux1[index1];
-    if(len2 % 2 == 0) mediana2 = (aux2[index2] + aux2[index2-1])/2;
-    else mediana2 = aux2[index2];
-
-    if (mediana1 != mediana2) {
-        return mediana2 - mediana1;
-    }
-
-    char *id1 = get_airport_stat_id(astat1);
-    char *id2 = get_airport_stat_id(astat2);
-
-    int idComparison = strcmp(id1, id2);
-
-    free(id1);
-    free(id2);
-
-    return idComparison;
-}*/
 
 gint compareMediana(gconstpointer a, gconstpointer b) {
     AIRPORT_STAT *astat1 = (AIRPORT_STAT *)a;
@@ -517,7 +453,6 @@ int compare_flights_and_reservations(gconstpointer a, gconstpointer b) {
         strptime(dateFlight2, "%Y/%m/%d", &tm_b);
         free(dateFlight2);
     }
-    //free(id2);
     
     if (tm_a.tm_year == tm_b.tm_year) {
         if (tm_a.tm_mon == tm_b.tm_mon) {
@@ -630,4 +565,98 @@ int diasDentro(char* comp_date_begin, char* comp_date_end, char* date_begin, cha
             else days = cdeDay - dbDay + 1; 
 
     return days;
+}
+
+void removeAcento(char *str) {
+    const char *accents = "áéíóúÁÉÍÓÚâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙ";
+    const char *no_accents = "aeiouAEIOUaeiouAEIOUaeiouAEIOU";
+
+    for (int i = 0; str[i] != '\0'; ++i) {
+        for (int j = 0; accents[j] != '\0'; ++j) {
+            if (str[i] == accents[j]) {
+                str[i] = no_accents[j];
+                break;
+            }
+        }
+    }
+}
+
+int contemAcento(const char *str) {
+    const char *accents = "áéíóúÁÉÍÓÚâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙ";
+    while (*str) {
+        for (int i = 0; accents[i] != '\0'; ++i) {
+            if (*str == accents[i]) {
+                return 1; // Encontrou
+            }
+        }
+        str++;
+    }
+    return 0;
+}
+
+bool isPrefix(char *prefix, char *word) {
+
+    while (*prefix) {
+        if (*word == '\0' || *prefix != *word) {
+            return false;
+        }
+        prefix++;
+        word++;
+    }
+
+    return true;
+}
+
+int contemHifen(const char *str) {
+    return strchr(str, '-') != NULL;
+}
+
+void removeHifen(char *str) {
+    while (*str != '\0') {
+        if (*str == '-') {
+            *str = ' ';
+        }
+        str++;
+    }
+}
+
+void remove_quotes(char *stat) {
+    size_t length = strlen(stat);
+
+    if (length >= 2 && stat[0] == '"' && stat[length - 1] == '"') {
+        for (size_t i = 0; i < length - 1; i++) {
+            stat[i] = stat[i + 1];
+        }
+        stat[length - 2] = '\0';
+    }
+}
+
+int compareUsers(gconstpointer a, gconstpointer b, gpointer user_data) {
+    CATALOGO_USER *cat_users = (CATALOGO_USER *)user_data;
+
+    char *key1 = (char *)a;
+    char *key2 = (char *)b;
+
+    USER *u1 = getUser(cat_users, key1);
+    USER *u2 = getUser(cat_users, key2);
+
+    char *nomeA = getName(u1);
+    char *nomeB = getName(u2);
+
+    int nameComp = strcasecmp(nomeA, nomeB);
+
+    free(nomeA);
+    free(nomeB);
+
+    if (nameComp == 0) {
+        char *id1 = getID(u1);
+        char *id2 = getID(u2);
+        
+        int idComp = strcasecmp(id1, id2);
+        free(id1);
+        free(id2);
+        return idComp;
+    } else {
+        return nameComp;
+    }
 }

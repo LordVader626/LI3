@@ -30,7 +30,6 @@ int start_passenger_process(char *line,CATALOGO_PASSENGER *cat_passenger, CATALO
     if(!cointains_invalid_user(cat_invalids, userID) && !cointains_invalid_flight(cat_invalids, flightID) && strcmp("",p->flight_id) != 0){
         addPassenger(cat_passenger, p);
         
-        //printf("%s\n", getFlightDestination(f));
         if(contains_stat(stats, p->user_id))
             create_user_stat_flights(p, stats, cat_users, cat_flights);
         create_airport_stat_passenger(p, stats, cat_flights);

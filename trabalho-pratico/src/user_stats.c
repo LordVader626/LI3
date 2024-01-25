@@ -128,16 +128,13 @@ void create_user_stat_reservations(RESERVATION *r, STATS *stats, CATALOGO_USER *
             user_stat->listaVoos = NULL;
             user_stat->listaReservas = g_list_prepend(NULL, r);
             user_stat->total_gasto = get_Total_Price(r);
-            //g_hash_table_insert(user_stats, user_stat->username, user_stat);
 			addUserStat(stats, user_stat, username);
         }
         else
         {			
             ustat->numReservas += 1;
             ustat->listaReservas = g_list_prepend(ustat->listaReservas, r);
-				//		if(strcmp(username, "FrancDomingues523") == 0){
-				//traverseGList(ustat->listaReservas);
-			//}
+
             ustat->total_gasto += get_Total_Price(r);
             free(username);
         }

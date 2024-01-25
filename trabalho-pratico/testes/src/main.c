@@ -11,7 +11,7 @@ void print_memory_usage() {
     struct rusage usage;
 
     if (getrusage(RUSAGE_SELF, &usage) == 0) {
-        long megabytes = usage.ru_maxrss / 1024; // Convert from KB to MB
+        long megabytes = usage.ru_maxrss / 1024;
         printf("Memoria Usada: %ld megabytes\n", megabytes);
     } 
 }
@@ -37,7 +37,6 @@ int main(int argc, char **argv)
 
     end_time = clock();
 
-    // Calculate the time taken
     cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
 
     printf("CPU time used: %f seconds\n", cpu_time_used);

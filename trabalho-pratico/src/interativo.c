@@ -28,7 +28,7 @@ int nLines(char *path) {
     FILE *file = fopen(path, "r");
     
     if (file == NULL) {
-        perror("Error opening file");
+        perror("Error");
         return -1;
     }
 

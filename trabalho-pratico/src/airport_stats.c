@@ -104,7 +104,6 @@ void create_airport_stat_passenger(PASSENGER *p, STATS *stats, CATALOGO_FLIGHTS 
     char *airportIDorigin = getFlightOrigin(f);
     
     int ano = get_Ano_Voo(f);
-    //AIRPORT_STAT *astato = g_hash_table_lookup(airport_stats, airportIDorigin);
     AIRPORT_STAT *astato = get_stat_airport(stats, airportIDorigin);
 
     size_t n = 2023 - ano;
@@ -115,9 +114,7 @@ void create_airport_stat_passenger(PASSENGER *p, STATS *stats, CATALOGO_FLIGHTS 
 
     char * aIDdest = getFlightDestination(f);
 
-    //AIRPORT_STAT *astatd = g_hash_table_lookup(airport_stats, aIDdest);
     AIRPORT_STAT *astatd = get_stat_airport(stats, aIDdest);
-
 
     if(astatd == NULL) {
         AIRPORT_STAT *airport_statd = malloc(sizeof(AIRPORT_STAT));
@@ -125,14 +122,11 @@ void create_airport_stat_passenger(PASSENGER *p, STATS *stats, CATALOGO_FLIGHTS 
         airport_statd->airportid = aIDdest;
         for(int i = 0; i<3;i++) airport_statd->nPassageirosAno[i] = 0;
         airport_statd->nPassageirosAno[n] = 1;
-        //airport_statd->atrasosVoos = (int *)malloc(200 * sizeof(int));
         airport_statd->atrasosVoos = g_array_new(FALSE, FALSE, sizeof(int));
-        //airport_statd->atrasosVoos[0] = -1;
         int insert = -1;
         g_array_append_val(airport_statd->atrasosVoos, insert);
         airport_statd->nVoos = 0;
         airport_statd->listaVoos = NULL;
-        //g_hash_table_insert(airport_stats, aIDdest, airport_statd);
         addAirportStat(stats, airport_statd, aIDdest);
     } else {
         astatd->nPassageirosAno[n] +=1;

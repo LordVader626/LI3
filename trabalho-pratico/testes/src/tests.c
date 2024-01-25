@@ -46,8 +46,7 @@ void execute_tests(char *data_input, char *test_path){
             if (strcmp(results_line, tests_line)){
                 if (first_error == 0){
                     printf("\n");
-                    printf("Erro no ficheiro %s\n", path_executed_queries);
-                    printf("Erro na linha %d\n", a);
+                    printf("Erro no ficheiro %s na linha %d\n", path_executed_queries, a);
                     printf("Esperado: %s", tests_line);
                     printf("Obtido: %s", results_line);
                     first_error = 1;

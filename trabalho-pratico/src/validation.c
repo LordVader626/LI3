@@ -94,17 +94,12 @@ int user_validation(USER *u) {
     char *address = getAddress(u);
 
     if (strlen(id) < 1) {valido = 1; goto cleanup;}
-    //printf("%s\n", id);
     if (strlen(name) < 1) {valido = 1; goto cleanup;}
-    //printf("%s\n", name);
     if (strlen(phone_number) < 1) {valido = 1; goto cleanup;}
-    //printf("%s\n", phone_number);
     if (strlen(sex) < 1) {valido = 1; goto cleanup;}
-    //printf("%s\n", sex);
     if (strlen(passport) < 1) {valido = 1; goto cleanup;}
     if (strlen(pay_method) < 1) {valido = 1; goto cleanup;}
     if (strlen(address) < 1) {valido = 1; goto cleanup;}
-    //printf("%s\n", address);
     if (strlen(country_code) != 2) {valido = 1; goto cleanup;};
     if (!(strcasecmp(account_status, "active") == 0 || strcasecmp(account_status, "inactive") == 0)) {valido = 1; goto cleanup;}
     if (strlen(birth_date) != 10) {valido = 1; goto cleanup;}

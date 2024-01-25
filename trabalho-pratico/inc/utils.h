@@ -165,6 +165,28 @@ int diasDentro(char* start1, char* end1, char* start2, char* end2);
 */
 int compareDatas (char * data1 , char * data2);
 
+/**
+ * @brief função para remover as aspas
+ * 
+ * @param stat string em que se vai remover as aspas
+*/
+void remove_quotes(char *stat);
 
+/**
+ * @brief verifica se uma string é prefixo
+ * 
+ * @param prefix prefixo
+ * @param word string que vai ser verificada
+*/
+bool isPrefix(char *prefix, char *word);
 
+/**
+ * @brief função de comparação de usernames/nomes
+ * 
+ * @param a identificador de utilizador
+ * @param b identificador de utilizador
+ * @param user_data utilizadores
+ * 
+*/
+int compareUsers(gconstpointer a, gconstpointer b, gpointer user_data);
 #endif

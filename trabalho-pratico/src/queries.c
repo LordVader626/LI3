@@ -758,7 +758,7 @@ void query8(char *linha, int f, char *path, STATS *stats, CATALOGO_RESERVATIONS 
 
     if (f == 1){
         fprintf(file, "--- 1 ---\n");
-        fprintf(file, "revenue: %d", receita);
+        fprintf(file, "revenue: %d\n", receita);
     }
 
     else{
